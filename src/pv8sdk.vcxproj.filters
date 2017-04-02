@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="engine.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="texturedata.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="colorchip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="displaychip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="spritechip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="apibridge.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gameconsole.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cartridgechip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="display.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pv8sdk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="texturedata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="colordata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="colorchip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chips.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="displaychip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="spritechip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="apibridge.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gameconsole.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="controller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cartridge.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="display.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="func.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cartridgechip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
