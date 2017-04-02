@@ -2,6 +2,7 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE', which is part of this source code package.
 
+#include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,6 +23,7 @@ typedef struct sdlDisplay {
 static void sdlDisplay_Destroy(SdlDisplay self);
 static void sdlDisplay_Init(SdlDisplay self);
 static void sdlDisplay_Dispose(SdlDisplay self);
+static void sdlDisplay_Render(SdlDisplay self, int pixelsLen, colorData pixels[]);
 
 SdlDisplay sdlDisplay_Create(int winWidth, int winHeight, int dispWidth, int dispHeight)
 {
@@ -33,6 +35,7 @@ SdlDisplay sdlDisplay_Create(int winWidth, int winHeight, int dispWidth, int dis
 
     self->base.destroy = sdlDisplay_Destroy;
     self->base.init = sdlDisplay_Init;
+    self->base.render = sdlDisplay_Render;
 
     self->winWidth = winWidth;
     self->winHeight = winHeight;
@@ -74,4 +77,22 @@ static void sdlDisplay_Dispose(SdlDisplay self)
         SDL_DestroyWindow(self->window);
         self->window = NULL;
     }
+}
+
+static void sdlDisplay_Render(SdlDisplay self, int pixelsLen, colorData pixels[])
+{
+    SDL_Rect pixel;
+    pixel.x = 0;
+    pixel.y = 0;
+    pixel.h = 1;
+    pixel.w = 1;
+    for (int i = 0; i < pixelsLen; i++)
+    {
+        colorData current = pixels[i];
+        SDL_SetRenderDrawColor(self->renderer, current.r, current.g, current.b, 255);
+        pixel.x = i % self->dispWidth;
+        pixel.y = i / self->dispWidth;
+        SDL_RenderFillRect(self->renderer, &pixel);
+    }
+    SDL_RenderPresent(self->renderer);
 }

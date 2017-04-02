@@ -5,13 +5,13 @@
 #ifndef _colorchip_h_
 #define _colorchip_h_
 
-#include "colordata.h"
+#include "types.h"
 
 typedef struct colorChip *ColorChip;
 
 ColorChip colorChip_Create();
 
-ColorData colorChip_GetColorAt(ColorChip self, int idx);
+colorData colorChip_GetColorAt(ColorChip self, int idx);
 
 void colorChip_SetColorAt(ColorChip self, int idx, colorData value);
 

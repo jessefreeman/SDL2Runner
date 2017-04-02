@@ -7,7 +7,7 @@
 #include <stdbool.h>
 #include "util.h"
 #include "chip.h"
-#include "colordata.h"
+#include "types.h"
 #include "cartridgechip.h"
 #include "colorchip.h"
 
@@ -44,12 +44,12 @@ static void colorChip_Destroy(ColorChip self)
     free(self);
 }
 
-ColorData colorChip_GetColorAt(ColorChip self, int idx)
+colorData colorChip_GetColorAt(ColorChip self, int idx)
 {
     assert(self);
     return idx > 0 && idx < self->colorsLen && self->colors != NULL
-        ? &self->colors[idx]
-        : NULL;
+        ? self->colors[idx]
+        : (colorData){ 255, 0, 255 };
 }
 
 void colorChip_SetColorAt(ColorChip self, int idx, colorData value)

@@ -8,12 +8,15 @@
 #include "util.h"
 #include "chips.h"
 #include "engine.h"
+#include "display.h"
 #include "gameconsole.h"
 
 typedef struct gameConsole {
     PixelVisionEngine engine;
     Display display;
 } gameConsole;
+
+static void gameConsole_RenderToDisplay(GameConsole self, DisplayChip displayChip, ColorChip colorChip);
 
 GameConsole gameConsole_Create()
 {
@@ -66,17 +69,52 @@ void gameConsole_InsertDisplay(GameConsole self, Display display)
     self->display = display;
 }
 
-void gameConsole_Run(GameConsole self)
+void gameConsole_Run(GameConsole self, GetElapsedTime getElapsedTime)
 {
     assert(self);
     pixelVisionEngine_Init(self->engine);
-    if (self->display != NULL) display_Init(self->display);
+    display_Init(self->display);
     DisplayChip displayChip = (DisplayChip)pixelVisionEngine_GetChip(self->engine, nameof(DisplayChip));
+    ColorChip colorChip = (ColorChip)pixelVisionEngine_GetChip(self->engine, nameof(ColorChip));
     while (true)
     {
-        // TODO: input?
-        pixelVisionEngine_Update(self->engine, 0.0f); // TODO: time
+        float timeDelta = func_Invoke(getElapsedTime);
+        pixelVisionEngine_Update(self->engine, timeDelta); // TODO: time
         pixelVisionEngine_Draw(self->engine);
-        //display_Render(self->display, )
+        gameConsole_RenderToDisplay(self, displayChip, colorChip);
     }
+}
+
+static void gameConsole_RenderToDisplay(GameConsole self, DisplayChip displayChip, ColorChip colorChip)
+{
+    // should this be moved to display?
+    int pixelsLen = displayChip_GetPixelCount(displayChip);
+    colorData *pixels = (colorData *)calloc(pixelsLen, sizeof(colorData));
+    for (int i = 0; i < pixelsLen; i++)
+    {
+        int colorRef = displayChip_GetPixelAt(displayChip, i);
+        if (colorRef < 0)
+        {
+            pixels[i].r = 255;
+            pixels[i].g = 0;
+            pixels[i].b = 255;
+        }
+        else
+        {
+            colorData color = colorChip_GetColorAt(colorChip, colorRef);
+            // magenta transparent for now
+            if (color.r != 255 || color.g != 0 || color.b != 255)
+            {
+                pixels[i] = color;
+            }
+            else
+            {
+                pixels[i].r = 0;
+                pixels[i].g = 0;
+                pixels[i].b = 0;
+            }
+        }
+    }
+    display_Render(self->display, pixelsLen, pixels);
+    free(pixels);
 }

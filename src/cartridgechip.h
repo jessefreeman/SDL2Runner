@@ -5,7 +5,7 @@
 #ifndef _cartridgechip_h_
 #define _cartridgechip_h_
 
-#include "colordata.h"
+#include "types.h"
 
 typedef struct cartridgeChip *CartridgeChip;
 

@@ -61,9 +61,6 @@
     <ClInclude Include="texturedata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="colordata.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="colorchip.h">
       <Filter>Header Files</Filter>
     </ClInclude>

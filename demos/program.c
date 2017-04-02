@@ -27,7 +27,7 @@ int main(int argc, char **argv)
     // Insert chips.
     // These are standard chips that should be always inserted.
     gameConsole_InsertChip(console, (Chip)colorChip_Create());
-    gameConsole_InsertChip(console, (Chip)displayChip_Create());
+    gameConsole_InsertChip(console, (Chip)displayChip_Create(DISPLAY_WIDTH, DISPLAY_HEIGHT));
     gameConsole_InsertChip(console, (Chip)spriteChip_Create());
     // This console will use a cartridge to load content so the cartidge chip is needed.
     gameConsole_InsertChip(console, (Chip)cartridgeChip_Create());
@@ -48,8 +48,13 @@ int main(int argc, char **argv)
     // Insert cartridge.
     gameConsole_InsertCartridge(console, (Cartridge)cartridge);
 
+    // We need to provide a function to resolve time delta (for now)
+    GetElapsedTime getElapsedTime = func_Create(sdl, sdl_GetElapsedTime);
+    
     // Run the game.
-    gameConsole_Run(console);
+    gameConsole_Run(console, getElapsedTime);
+
+    func_Destroy(getElapsedTime);
 
     // Note, any resource inserted into the console delegates the responsibility
     // of resource cleanup to the console. i.e. no need to Destroy a chips or devices

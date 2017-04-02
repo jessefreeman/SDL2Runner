@@ -19,3 +19,10 @@ void display_Init(Display self)
     if (self->init == NULL) return;
     self->init(self);
 }
+
+void display_Render(Display self, int pixelsLen, colorData pixels[])
+{
+    assert(self);
+    if (self->render == NULL) return;
+    self->render(self, pixelsLen, pixels);
+}

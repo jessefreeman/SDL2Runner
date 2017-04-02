@@ -149,7 +149,6 @@
     <ClInclude Include="chip.h" />
     <ClInclude Include="chips.h" />
     <ClInclude Include="colorchip.h" />
-    <ClInclude Include="colordata.h" />
     <ClInclude Include="controller.h" />
     <ClInclude Include="display.h" />
     <ClInclude Include="displaychip.h" />

@@ -9,5 +9,11 @@ typedef void *Obj;
 
 typedef unsigned char byte;
 
+typedef struct colorData {
+    byte r;
+    byte g;
+    byte b;
+} colorData;
+
 #endif
 

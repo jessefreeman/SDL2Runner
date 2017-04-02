@@ -16,5 +16,7 @@ SdlDisplay sdl_CreateDisplay(Sdl self,
     int windowWidth, int windowHeight,
     int displayWidth, int displayheight);
 
+float sdl_GetElapsedTime(Sdl self);
+
 #endif
 

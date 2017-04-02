@@ -10,6 +10,7 @@
 typedef struct display {
     void(*destroy)(Obj);
     void(*init)(Obj);
+    void(*render)(Obj,int,colorData*);
 } display;
 
 typedef struct display *Display;
@@ -17,5 +18,7 @@ typedef struct display *Display;
 void display_Destroy(Display self);
 
 void display_Init(Display self);
+
+void display_Render(Display self, int pixelsLen, colorData pixels[]);
 
 #endif

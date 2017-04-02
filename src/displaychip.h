@@ -7,6 +7,10 @@
 
 typedef struct displayChip *DisplayChip;
 
-DisplayChip displayChip_Create();
+DisplayChip displayChip_Create(int width, int height);
+
+int displayChip_GetPixelCount(DisplayChip self);
+
+int displayChip_GetPixelAt(DisplayChip self, int idx);
 
 #endif

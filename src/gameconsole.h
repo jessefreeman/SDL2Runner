@@ -6,6 +6,7 @@
 #define _gameconsole_h_
 
 #include "chip.h"
+#include "func.h"
 #include "cartridge.h"
 #include "controller.h"
 #include "display.h"
@@ -24,7 +25,9 @@ void gameConsole_InsertController(GameConsole self, Controller controller);
 
 void gameConsole_InsertDisplay(GameConsole self, Display display);
 
-void gameConsole_Run(GameConsole self);
+typedef Func(float) GetElapsedTime;
+
+void gameConsole_Run(GameConsole self, GetElapsedTime getElapsedTime);
 
 #endif
 
