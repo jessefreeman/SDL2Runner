@@ -6,12 +6,18 @@
 #define _cartridge_h_
 
 #include "types.h"
+#include "cartridge.h"
 
 typedef struct cartridge {
-    void(*action)(Obj);
+    void(*destroy)(Obj);
+    const char *(*getScript)(Obj, int *);
 } cartridge;
 
 typedef struct cartridge *Cartridge;
+
+void cartridge_Destroy(Cartridge self);
+
+const char *cartridge_GetScript(Cartridge self, int *scriptLen);
 
 #endif
 

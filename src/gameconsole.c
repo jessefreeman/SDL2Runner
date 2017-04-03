@@ -14,6 +14,7 @@
 typedef struct gameConsole {
     PixelVisionEngine engine;
     Display display;
+    Cartridge cartridge;
 } gameConsole;
 
 static void gameConsole_RenderToDisplay(GameConsole self, DisplayChip displayChip, ColorChip colorChip);
@@ -40,6 +41,7 @@ void gameConsole_Destroy(GameConsole self)
 {
     assert(self);
     if (self->display != NULL) display_Destroy(self->display);
+    if (self->cartridge != NULL) cartridge_Destroy(self->cartridge);
     pixelVisionEngine_Destroy(self->engine);
     memset(self, 0, sizeof(gameConsole));
     free(self);
@@ -54,7 +56,10 @@ void gameConsole_InsertChip(GameConsole self, Chip chip)
 
 void gameConsole_InsertCartridge(GameConsole self, Cartridge cartridge)
 {
-
+    assert(self);
+    assert(cartridge);
+    if (self->cartridge != NULL) cartridge_Destroy(self->cartridge);
+    self->cartridge = cartridge;
 }
 
 void gameConsole_InsertController(GameConsole self, Controller controller)
@@ -72,16 +77,27 @@ void gameConsole_InsertDisplay(GameConsole self, Display display)
 void gameConsole_Run(GameConsole self, GetElapsedTime getElapsedTime)
 {
     assert(self);
-    pixelVisionEngine_Init(self->engine);
+    
     display_Init(self->display);
+    if (self->cartridge != NULL)
+    {
+        CartridgeChip cartridgeChip = pixelVisionEngine_GetChip(self->engine, nameof(CartridgeChip));
+        cartridgeChip_InsertCartridge(cartridgeChip, self->cartridge);
+    }
+
+    pixelVisionEngine_Init(self->engine);
+
     DisplayChip displayChip = (DisplayChip)pixelVisionEngine_GetChip(self->engine, nameof(DisplayChip));
     ColorChip colorChip = (ColorChip)pixelVisionEngine_GetChip(self->engine, nameof(ColorChip));
+
     while (true)
     {
-        float timeDelta = func_Invoke(getElapsedTime);
-        pixelVisionEngine_Update(self->engine, timeDelta); // TODO: time
+        float timeDelta = func_Invoke(getElapsedTime); // TODO: this time is screwy, fix
+        pixelVisionEngine_Update(self->engine, timeDelta); 
         pixelVisionEngine_Draw(self->engine);
         gameConsole_RenderToDisplay(self, displayChip, colorChip);
+
+        // TODO: need a way to ext
     }
 }
 

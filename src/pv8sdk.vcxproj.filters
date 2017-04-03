@@ -44,6 +44,12 @@
     <ClCompile Include="display.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="fontchip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cartridge.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine.h">
@@ -95,6 +101,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cartridgechip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fontchip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

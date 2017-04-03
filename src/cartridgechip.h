@@ -6,11 +6,16 @@
 #define _cartridgechip_h_
 
 #include "types.h"
+#include "cartridge.h"
 
 typedef struct cartridgeChip *CartridgeChip;
 
 CartridgeChip cartridgeChip_Create();
 
+void cartridgeChip_InsertCartridge(CartridgeChip self, Cartridge cartridge);
+
 colorData *cartridgeChip_ReadColors(CartridgeChip self, int *colorsLen);
+
+const char *cartridgeChip_GetScript(CartridgeChip self, int *scriptLen);
 
 #endif

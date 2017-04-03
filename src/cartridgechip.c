@@ -6,10 +6,12 @@
 #include <stdlib.h>
 #include "util.h"
 #include "chip.h"
+#include "cartridge.h"
 #include "cartridgechip.h"
 
 typedef struct cartridgeChip {
     chip base; // must be first
+    Cartridge cartridge;
 } cartridgeChip;
 
 static void cartridgeChip_Destroy(CartridgeChip self);
@@ -35,10 +37,27 @@ static void cartridgeChip_Destroy(CartridgeChip self)
     free(self);
 }
 
+void cartridgeChip_InsertCartridge(CartridgeChip self, Cartridge cartridge)
+{
+    assert(self);
+    assert(cartridge);
+    self->cartridge = cartridge;
+}
+
 colorData *cartridgeChip_ReadColors(CartridgeChip self, int *colorsLen)
 {
     assert(self);
     assert(colorsLen);
     *colorsLen = 0;
     return NULL;
+}
+
+const char *cartridgeChip_GetScript(CartridgeChip self, int *scriptLen)
+{
+    assert(self);
+    *scriptLen = 0;
+    if (self->cartridge == NULL)
+        return NULL;
+
+    return cartridge_GetScript(self->cartridge, scriptLen);
 }

@@ -17,7 +17,7 @@ void demosCartridge_AddSprites(DemosCartridge self, const char *fileName);
 
 void demosCartridge_AddFont(DemosCartridge self, const char *fileName, const char *fontName);
 
-void demosCartridge_AddCode(DemosCartridge self, const char *fileName);
+void demosCartridge_SetScript(DemosCartridge self, const char *fileName);
 
 #endif
 

@@ -2,9 +2,11 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE', which is part of this source code package.
 
+#include <stdlib.h>
 #include "pv8sdk.h"
 #include "pv8sdk.lua.h"
 #include "pv8sdk.sdl2.h"
+#include "util.h"
 #include "demoscartridge.h"
 
 #define WINDOW_WIDTH    1024
@@ -19,7 +21,7 @@ int main(int argc, char **argv)
     demosCartridge_AddColors(cartridge, ".\\resources\\colors.png");
     demosCartridge_AddSprites(cartridge, ".\\resources\\sprites.png");
     demosCartridge_AddFont(cartridge, ".\\resources\\large-font.png", "large-font");
-    demosCartridge_AddCode(cartridge, ".\\resources\\DrawSpriteDemo.lua");
+    demosCartridge_SetScript(cartridge, ".\\resources\\DrawSpriteDemo.lua");
 
     // Build the game console.
     GameConsole console = gameConsole_Create();

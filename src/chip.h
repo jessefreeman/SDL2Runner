@@ -13,7 +13,7 @@ typedef Func1(const char *, Obj) GetChip;
 typedef struct chip {
     char name[64];
     void(*destroy)(Obj);
-    void(*init)(Obj, GetChip getService);
+    void(*init)(Obj, GetChip);
     void(*update)(Obj, float);
     void(*draw)(Obj);
 } chip;

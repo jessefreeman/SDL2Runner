@@ -6,11 +6,11 @@
 #define _apibridge_h_
 
 #include <stdbool.h>
-#include "engine.h"
+#include "chip.h"
 
 typedef struct apiBridge *ApiBridge;
 
-ApiBridge apiBridge_Create(PixelVisionEngine engine);
+ApiBridge apiBridge_Create(GetChip getChip);
 
 void apiBridge_Destroy(ApiBridge self);
 
@@ -47,6 +47,7 @@ void apiBridge_DrawSprite(ApiBridge self,
 
 void apiBridge_DrawSprites(ApiBridge self,
     int ids[],
+    int idsLen,
     int x,
     int y,
     int width,

@@ -54,3 +54,15 @@ int displayChip_GetPixelAt(DisplayChip self, int idx)
     assert(self);
     return textureData_GetPixelAt(self->texture, idx);
 }
+
+void displayChip_Clear(DisplayChip self)
+{
+    assert(self);
+    textureData_Clear(self->texture);
+}
+
+void displayChip_Draw(DisplayChip self, TextureData pixelData, int x, int y)
+{
+    assert(self);
+    textureData_CopyToAtPos(pixelData, self->texture, x, y);
+}

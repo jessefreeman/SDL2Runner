@@ -12,18 +12,20 @@ typedef struct apiBridge {
     ColorChip colorChip;
     DisplayChip displayChip;
     SpriteChip spriteChip;
+    FontChip fontChip;
 } apiBridge;
 
-ApiBridge apiBridge_Create(PixelVisionEngine engine)
+ApiBridge apiBridge_Create(GetChip getChip)
 {
     ApiBridge self = NULL;
 
     self = (ApiBridge)calloc(1, sizeof(apiBridge));
     if (self == NULL) return NULL;
 
-    self->colorChip = (ColorChip)pixelVisionEngine_GetChip(engine, nameof(ColorChip));
-    self->displayChip = (DisplayChip)pixelVisionEngine_GetChip(engine, nameof(DisplayChip));
-    self->spriteChip = (SpriteChip)pixelVisionEngine_GetChip(engine, nameof(SpriteChip));
+    self->colorChip = (ColorChip)func_Invoke(getChip, nameof(ColorChip));
+    self->displayChip = (DisplayChip)func_Invoke(getChip, nameof(DisplayChip));
+    self->spriteChip = (SpriteChip)func_Invoke(getChip, nameof(SpriteChip));
+    self->fontChip = (FontChip)func_Invoke(getChip, nameof(FontChip));
 
     return self;
 }
@@ -83,6 +85,7 @@ void apiBridge_DrawSprite(ApiBridge self,
 
 void apiBridge_DrawSprites(ApiBridge self,
     int ids[],
+    int idsLen,
     int x,
     int y,
     int width,

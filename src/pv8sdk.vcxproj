@@ -131,12 +131,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="apibridge.c" />
+    <ClCompile Include="cartridge.c" />
     <ClCompile Include="cartridgechip.c" />
     <ClCompile Include="chip.c" />
     <ClCompile Include="colorchip.c" />
     <ClCompile Include="display.c" />
     <ClCompile Include="displaychip.c" />
     <ClCompile Include="engine.c" />
+    <ClCompile Include="fontchip.c" />
     <ClCompile Include="gameconsole.c" />
     <ClCompile Include="spritechip.c" />
     <ClCompile Include="texturedata.c" />
@@ -153,6 +155,7 @@
     <ClInclude Include="display.h" />
     <ClInclude Include="displaychip.h" />
     <ClInclude Include="engine.h" />
+    <ClInclude Include="fontchip.h" />
     <ClInclude Include="func.h" />
     <ClInclude Include="gameconsole.h" />
     <ClInclude Include="pv8sdk.h" />
