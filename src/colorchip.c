@@ -59,6 +59,23 @@ void colorChip_SetColorAt(ColorChip self, int idx, colorData value)
     self->colors[idx] = value;
 }
 
+int colorChip_FindColorRef(ColorChip self, colorData color)
+{
+    assert(self);
+    if (self->colors == NULL)
+        return -1;
+
+    int result = -1;
+    
+    for (int i = 0; i < self->colorsLen && result < 0; i++)
+        if (self->colors[i].r == color.r &&
+            self->colors[i].g == color.g &&
+            self->colors[i].b == color.b)
+            result = i;
+
+    return result;
+}
+
 static void colorChip_Init(ColorChip self, GetChip getChip)
 {
     assert(self);
@@ -69,7 +86,7 @@ static void colorChip_Init(ColorChip self, GetChip getChip)
         return;
 
     colorChip_Dispose(self);
-    self->colors = cartridgeChip_ReadColors(cartridgeChip, &self->colorsLen);
+    self->colors = cartridgeChip_GetColors(cartridgeChip, &self->colorsLen);
 }
 
 static void colorChip_Dispose(ColorChip self)

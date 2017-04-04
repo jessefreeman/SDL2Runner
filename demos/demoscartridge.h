@@ -11,9 +11,9 @@ DemosCartridge demosCartridge_Create();
 
 void demosCartridge_Destroy(DemosCartridge self);
 
-void demosCartridge_AddColors(DemosCartridge self, const char *fileName);
+void demosCartridge_SetColors(DemosCartridge self, const char *fileName);
 
-void demosCartridge_AddSprites(DemosCartridge self, const char *fileName);
+void demosCartridge_SetSprites(DemosCartridge self, const char *fileName);
 
 void demosCartridge_AddFont(DemosCartridge self, const char *fileName, const char *fontName);
 

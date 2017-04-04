@@ -81,6 +81,15 @@ void apiBridge_DrawSprite(ApiBridge self,
     int colorOffset)
 {
     assert(self);
+    assert(self->spriteChip);
+    assert(self->displayChip);
+
+    TextureData pixelData = spriteChip_GetSprite(self->spriteChip, id);
+    if (pixelData != NULL)
+    {
+        // TODO: implement all the features of draw api
+        displayChip_Draw(self->displayChip, pixelData, x, y);
+    }
 }
 
 void apiBridge_DrawSprites(ApiBridge self,
@@ -95,6 +104,17 @@ void apiBridge_DrawSprites(ApiBridge self,
     int colorOffset)
 {
     assert(self);
+    int spriteWidth = spriteChip_GetSpriteWidth(self->spriteChip);
+    for (int i = 0; i < idsLen; i++)
+    {
+        TextureData pixelData = spriteChip_GetSprite(self->spriteChip, ids[i]);
+        if (pixelData != NULL)
+        {
+            int newX = (i % width) * spriteWidth + x;
+            int newY = (i / width) * spriteWidth + y;
+            displayChip_Draw(self->displayChip, pixelData, newX, newY);
+        }
+    }
 }
 
 void apiBridge_DrawScreenBuffer(ApiBridge self,
@@ -106,6 +126,8 @@ void apiBridge_DrawScreenBuffer(ApiBridge self,
     int offsetY)
 {
     assert(self);
+    // just clear for now
+    displayChip_Clear(self->displayChip);
 }
 
 // Deprecated

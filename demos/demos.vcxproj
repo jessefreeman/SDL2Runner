@@ -168,9 +168,11 @@ xcopy /Y "$(SolutionDir)libs\sdl2\lib\$(PlatformTarget)\SDL2.dll" "$(OutDir)"</C
   <ItemGroup>
     <ClCompile Include="demoscartridge.c" />
     <ClCompile Include="program.c" />
+    <ClCompile Include="stb_image.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="demoscartridge.h" />
+    <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

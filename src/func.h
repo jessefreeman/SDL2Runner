@@ -2,6 +2,8 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE', which is part of this source code package.
 
+// As a side note, this is a 'func'y (get it?) experiement of mine and probably doesn't belong here.
+
 #ifndef _func_h_
 #define _func_h_
 

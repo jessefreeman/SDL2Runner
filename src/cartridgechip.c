@@ -44,12 +44,20 @@ void cartridgeChip_InsertCartridge(CartridgeChip self, Cartridge cartridge)
     self->cartridge = cartridge;
 }
 
-colorData *cartridgeChip_ReadColors(CartridgeChip self, int *colorsLen)
+colorData *cartridgeChip_GetColors(CartridgeChip self, int *colorsLen)
 {
     assert(self);
     assert(colorsLen);
-    *colorsLen = 0;
-    return NULL;
+    return cartridge_GetColors(self->cartridge, colorsLen);
+}
+
+TextureData *cartridgeChip_GetSprites(CartridgeChip self,
+    int spriteWidth, int spriteHeight, GetColorRef getColorRef, int *spritesLen)
+{
+    assert(self);
+    assert(spritesLen);
+    return cartridge_GetSprites(self->cartridge,
+        spriteWidth, spriteHeight, getColorRef, spritesLen);
 }
 
 const char *cartridgeChip_GetScript(CartridgeChip self, int *scriptLen)

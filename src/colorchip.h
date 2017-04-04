@@ -15,4 +15,6 @@ colorData colorChip_GetColorAt(ColorChip self, int idx);
 
 void colorChip_SetColorAt(ColorChip self, int idx, colorData value);
 
+int colorChip_FindColorRef(ColorChip self, colorData color);
+
 #endif

@@ -242,7 +242,9 @@ static void drawSprites(lua_State *L)
 
 static void drawScreenBuffer(lua_State *L)
 {
-    printf(nameof(drawScreenBuffer)"\n");
+    // TODO: howabout these optional args? derp!
+    apiBridge_DrawScreenBuffer(instance->api,
+        0, 0, -1, -1, 0, 0);
 }
 
 // Deprecated

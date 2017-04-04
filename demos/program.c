@@ -13,13 +13,15 @@
 #define WINDOW_HEIGHT   720
 #define DISPLAY_WIDTH   256
 #define DISPLAY_HEIGHT  240
+#define SPRITE_WIDTH    8
+#define SPRITE_HEIGHT   8
 
 int main(int argc, char **argv)
 {
     // Build the cartridge.
     DemosCartridge cartridge = demosCartridge_Create();
-    demosCartridge_AddColors(cartridge, ".\\resources\\colors.png");
-    demosCartridge_AddSprites(cartridge, ".\\resources\\sprites.png");
+    demosCartridge_SetColors(cartridge, ".\\resources\\colors.png");
+    demosCartridge_SetSprites(cartridge, ".\\resources\\sprites.png");
     demosCartridge_AddFont(cartridge, ".\\resources\\large-font.png", "large-font");
     demosCartridge_SetScript(cartridge, ".\\resources\\DrawSpriteDemo.lua");
 
@@ -30,7 +32,7 @@ int main(int argc, char **argv)
     // These are standard chips that should be always inserted.
     gameConsole_InsertChip(console, (Chip)colorChip_Create());
     gameConsole_InsertChip(console, (Chip)displayChip_Create(DISPLAY_WIDTH, DISPLAY_HEIGHT));
-    gameConsole_InsertChip(console, (Chip)spriteChip_Create());
+    gameConsole_InsertChip(console, (Chip)spriteChip_Create(SPRITE_WIDTH, SPRITE_HEIGHT));
     // This console will use a cartridge to load content so the cartidge chip is needed.
     gameConsole_InsertChip(console, (Chip)cartridgeChip_Create());
     // This console will use Lua for code so the Lua game chip is needed.

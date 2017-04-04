@@ -14,7 +14,10 @@ CartridgeChip cartridgeChip_Create();
 
 void cartridgeChip_InsertCartridge(CartridgeChip self, Cartridge cartridge);
 
-colorData *cartridgeChip_ReadColors(CartridgeChip self, int *colorsLen);
+colorData *cartridgeChip_GetColors(CartridgeChip self, int *colorsLen);
+
+TextureData *cartridgeChip_GetSprites(CartridgeChip self,
+    int spriteWidth, int spriteHeight, GetColorRef getColorRef, int *spritesLen);
 
 const char *cartridgeChip_GetScript(CartridgeChip self, int *scriptLen);
 
