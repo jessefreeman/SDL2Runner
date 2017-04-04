@@ -7,14 +7,17 @@
 #include "util.h"
 #include "chip.h"
 #include "texturedata.h"
+#include "colorchip.h"
 #include "displaychip.h"
 
 typedef struct displayChip {
     chip base; // must be first
     TextureData texture;
+    ColorChip colorChip;
 } displayChip;
 
 static void displayChip_Destroy(DisplayChip self);
+static void displayChip_Init(DisplayChip self, GetChip getChip);
 
 DisplayChip displayChip_Create(int width, int height)
 {
@@ -26,6 +29,7 @@ DisplayChip displayChip_Create(int width, int height)
 
     strncpy(self->base.name, nameof(DisplayChip), sizeof(self->base.name) - 1);
     self->base.destroy = displayChip_Destroy;
+    self->base.init = displayChip_Init;
     self->texture = textureData_Create(width, height);
     if (self->texture == NULL)
     {
@@ -43,6 +47,12 @@ static void displayChip_Destroy(DisplayChip self)
     free(self);
 }
 
+static void displayChip_Init(DisplayChip self, GetChip getChip)
+{
+    assert(self);
+    self->colorChip = (ColorChip)func_Invoke(getChip, nameof(ColorChip));
+}
+
 int displayChip_GetPixelCount(DisplayChip self)
 {
     assert(self);
@@ -58,7 +68,12 @@ int displayChip_GetPixelAt(DisplayChip self, int idx)
 void displayChip_Clear(DisplayChip self)
 {
     assert(self);
-    textureData_Clear(self->texture);
+
+    int backgroundColor = self->colorChip != NULL
+        ? colorChip_GetBackgroundColor(self->colorChip)
+        : -1;
+
+    textureData_Clear(self->texture, backgroundColor);
 }
 
 void displayChip_Draw(DisplayChip self, TextureData pixelData, int x, int y)

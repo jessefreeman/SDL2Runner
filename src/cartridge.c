@@ -12,28 +12,30 @@ void cartridge_Destroy(Cartridge self)
     self->destroy(self);
 }
 
-colorData *cartridge_GetColors(Cartridge self, int *colorsLen)
+colorData *cartridge_GetColorData(Cartridge self, int *len)
 {
     assert(self);
-    *colorsLen = 0;
-    if (self->getScript == NULL) return NULL;
-    return self->getColors(self, colorsLen);
+    assert(len);
+    *len = 0;
+    if (self->getColorsData == NULL) return NULL;
+    return self->getColorsData(self, len);
 }
 
-TextureData *cartridge_GetSprites(Cartridge self, 
-    int spriteWidth, int spriteHeight, GetColorRef getColorRef, int *spritesLen)
+colorData *cartridge_GetSpritesData(Cartridge self, int *width, int *height)
 {
     assert(self);
-    *spritesLen = 0;
-    if (self->getScript == NULL) return NULL;
-    TextureData *result = self->getSprites(self, spriteWidth, spriteHeight, getColorRef, spritesLen);
-    return result;
+    assert(width);
+    assert(height);
+    *width = 0;
+    *height = 0;
+    if (self->getSpritesData == NULL) return NULL;
+    return self->getSpritesData(self, width, height);
 }
 
-const char *cartridge_GetScript(Cartridge self, int *scriptLen)
+char *cartridge_GetScriptData(Cartridge self, int *len)
 {
     assert(self);
-    *scriptLen = 0;
-    if (self->getScript == NULL) return NULL;
-    return self->getScript(self, scriptLen);
+    *len = 0;
+    if (self->getScriptData == NULL) return NULL;
+    return self->getScriptData(self, len);
 }

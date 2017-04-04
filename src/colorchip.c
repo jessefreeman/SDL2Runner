@@ -14,6 +14,7 @@
 typedef struct colorChip {
     chip base; // must be first
     int colorsLen;
+    int backgroundColor;
     colorData *colors;
 } colorChip;
 
@@ -74,6 +75,18 @@ int colorChip_FindColorRef(ColorChip self, colorData color)
             result = i;
 
     return result;
+}
+
+void colorChip_SetBackgroundColor(ColorChip self, int id)
+{
+    assert(self);
+    self->backgroundColor = id;
+}
+
+int colorChip_GetBackgroundColor(ColorChip self)
+{
+    assert(self);
+    return self->backgroundColor;
 }
 
 static void colorChip_Init(ColorChip self, GetChip getChip)

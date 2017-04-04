@@ -20,10 +20,10 @@ int main(int argc, char **argv)
 {
     // Build the cartridge.
     DemosCartridge cartridge = demosCartridge_Create();
-    demosCartridge_SetColors(cartridge, ".\\resources\\colors.png");
-    demosCartridge_SetSprites(cartridge, ".\\resources\\sprites.png");
-    demosCartridge_AddFont(cartridge, ".\\resources\\large-font.png", "large-font");
-    demosCartridge_SetScript(cartridge, ".\\resources\\DrawSpriteDemo.lua");
+    demosCartridge_SetColorsFile(cartridge, ".\\resources\\colors.png");
+    demosCartridge_SetSpritesFile(cartridge, ".\\resources\\sprites.png");
+    demosCartridge_AddFontFile(cartridge, ".\\resources\\large-font.png", "large-font");
+    demosCartridge_SetScriptFile(cartridge, ".\\resources\\DrawSpriteDemo.lua");
 
     // Build the game console.
     GameConsole console = gameConsole_Create();

@@ -11,7 +11,7 @@ TextureData textureData_Create(int width, int height);
 
 void textureData_Destroy(TextureData self);
 
-void textureData_Clear(TextureData self);
+void textureData_Clear(TextureData self, int color);
 
 int textureData_GetPixelAt(TextureData self, int idx);
 

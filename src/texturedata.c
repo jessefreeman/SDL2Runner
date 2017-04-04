@@ -34,7 +34,7 @@ TextureData textureData_Create(int width, int height)
         return NULL;
     }
 
-    textureData_Clear(self);
+    textureData_Clear(self, -1);
     return self;
 }
 
@@ -50,11 +50,11 @@ void textureData_Destroy(TextureData self)
     free(self);
 }
 
-void textureData_Clear(TextureData self)
+void textureData_Clear(TextureData self, int color)
 {
     assert(self);
     for (int idx = 0; idx < self->pixelsLength; idx++)
-        self->pixels[idx] = -1;
+        self->pixels[idx] = color;
 }
 
 int textureData_GetPixelAt(TextureData self, int idx)

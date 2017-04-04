@@ -48,7 +48,7 @@ colorData *cartridgeChip_GetColors(CartridgeChip self, int *colorsLen)
 {
     assert(self);
     assert(colorsLen);
-    return cartridge_GetColors(self->cartridge, colorsLen);
+    return cartridge_GetColorData(self->cartridge, colorsLen);
 }
 
 TextureData *cartridgeChip_GetSprites(CartridgeChip self,
@@ -56,8 +56,37 @@ TextureData *cartridgeChip_GetSprites(CartridgeChip self,
 {
     assert(self);
     assert(spritesLen);
-    return cartridge_GetSprites(self->cartridge,
-        spriteWidth, spriteHeight, getColorRef, spritesLen);
+    *spritesLen = 0;
+    int imgWidth = 0;
+    int imgHeight = 0;
+    colorData *colors = cartridge_GetSpritesData(self->cartridge, &imgWidth, &imgHeight);
+    if (colors == NULL)
+        return NULL;
+
+    int cols = imgWidth / spriteWidth;
+    int rows = imgHeight / spriteHeight;
+    int numSprites = cols * rows;
+
+    TextureData *sprites = (TextureData *)calloc(numSprites, sizeof(TextureData));
+    int spriteIdx = 0;
+    for (int r = 0; r < rows; r++)
+        for (int c = 0; c < cols; c++)
+        {
+            sprites[spriteIdx] = textureData_Create(spriteWidth, spriteHeight);
+            int tIdx = 0;
+            for (int y = (r * spriteHeight); y < (r * spriteHeight) + spriteHeight; y++)
+                for (int x = (c * spriteWidth); x < (c * spriteWidth) + spriteWidth; x++)
+                {
+                    int cIdx = (y * imgWidth) + x;
+                    int c = func_Invoke(getColorRef, colors[cIdx]);
+                    textureData_SetPixelAt(sprites[spriteIdx], tIdx, c);
+                    tIdx++;
+                }
+            spriteIdx++;
+        }
+
+    *spritesLen = numSprites;
+    return sprites;
 }
 
 const char *cartridgeChip_GetScript(CartridgeChip self, int *scriptLen)
@@ -67,5 +96,5 @@ const char *cartridgeChip_GetScript(CartridgeChip self, int *scriptLen)
     if (self->cartridge == NULL)
         return NULL;
 
-    return cartridge_GetScript(self->cartridge, scriptLen);
+    return cartridge_GetScriptData(self->cartridge, scriptLen);
 }

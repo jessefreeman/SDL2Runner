@@ -11,13 +11,13 @@ DemosCartridge demosCartridge_Create();
 
 void demosCartridge_Destroy(DemosCartridge self);
 
-void demosCartridge_SetColors(DemosCartridge self, const char *fileName);
+void demosCartridge_SetColorsFile(DemosCartridge self, const char *fileName);
 
-void demosCartridge_SetSprites(DemosCartridge self, const char *fileName);
+void demosCartridge_SetSpritesFile(DemosCartridge self, const char *fileName);
 
-void demosCartridge_AddFont(DemosCartridge self, const char *fileName, const char *fontName);
+void demosCartridge_AddFontFile(DemosCartridge self, const char *fileName, const char *fontName);
 
-void demosCartridge_SetScript(DemosCartridge self, const char *fileName);
+void demosCartridge_SetScriptFile(DemosCartridge self, const char *fileName);
 
 #endif
 

@@ -14,21 +14,20 @@ typedef Func1(colorData, int) GetColorRef;
 
 typedef struct cartridge {
     void(*destroy)(Obj);
-    colorData *(*getColors)(Obj, int *);
-    TextureData *(*getSprites)(Obj, int, int, GetColorRef, int *);
-    const char *(*getScript)(Obj, int *);
+    colorData *(*getColorsData)(Obj, int *);
+    TextureData *(*getSpritesData)(Obj, int *, int *);
+    char *(*getScriptData)(Obj, int *);
 } cartridge;
 
 typedef struct cartridge *Cartridge;
 
 void cartridge_Destroy(Cartridge self);
 
-colorData *cartridge_GetColors(Cartridge self, int *scriptLen);
+colorData *cartridge_GetColorData(Cartridge self, int *len);
 
-TextureData *cartridge_GetSprites(Cartridge self, 
-    int spriteWidth, int spriteHeight, GetColorRef getColorRef, int *spritesLen);
+colorData *cartridge_GetSpritesData(Cartridge self, int *width, int *height);
 
-const char *cartridge_GetScript(Cartridge self, int *scriptLen);
+char *cartridge_GetScriptData(Cartridge self, int *scriptLen);
 
 #endif
 

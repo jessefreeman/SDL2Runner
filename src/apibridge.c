@@ -41,6 +41,7 @@ void apiBridge_ChangeBackgroundColor(ApiBridge self,
     int id)
 {
     assert(self);
+    colorChip_SetBackgroundColor(self->colorChip, id);
 }
 
 // Deprecated

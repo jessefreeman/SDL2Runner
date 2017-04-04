@@ -17,4 +17,8 @@ void colorChip_SetColorAt(ColorChip self, int idx, colorData value);
 
 int colorChip_FindColorRef(ColorChip self, colorData color);
 
+void colorChip_SetBackgroundColor(ColorChip self, int id);
+
+int colorChip_GetBackgroundColor(ColorChip self);
+
 #endif
