@@ -57,9 +57,13 @@ static void sdlDisplay_Init(SDLDisplayDevice self)
 {
     assert(self);
     sdlDisplay_Dispose(self);
-    int result = SDL_CreateWindowAndRenderer(self->winWidth, self->winHeight, 0, &self->window, &self->renderer);
-    if (result < 0) // TODO: deal with this
-        return;
+    self->window = SDL_CreateWindow("PV8",
+        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+        self->winWidth, self->winHeight,
+        SDL_WINDOW_SHOWN|SDL_WINDOW_RESIZABLE);
+    
+    self->renderer = SDL_CreateRenderer(self->window, 
+        -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
 
     SDL_RenderSetLogicalSize(self->renderer, self->dispWidth, self->dispHeight);
 }
@@ -81,18 +85,16 @@ static void sdlDisplay_Dispose(SDLDisplayDevice self)
 
 static void sdlDisplay_Render(SDLDisplayDevice self, int pixelsLen, colorData pixels[])
 {
-    SDL_Rect pixel;
-    pixel.x = 0;
-    pixel.y = 0;
-    pixel.h = 1;
-    pixel.w = 1;
+    int x = 0;
+    int y = 0;
+    SDL_RenderClear(self->renderer);
     for (int i = 0; i < pixelsLen; i++)
     {
         colorData current = pixels[i];
         SDL_SetRenderDrawColor(self->renderer, current.r, current.g, current.b, 255);
-        pixel.x = i % self->dispWidth;
-        pixel.y = i / self->dispWidth;
-        SDL_RenderFillRect(self->renderer, &pixel);
+        x = i % self->dispWidth;
+        y = i / self->dispWidth;
+        SDL_RenderDrawPoint(self->renderer, x, y);
     }
     SDL_RenderPresent(self->renderer);
 }

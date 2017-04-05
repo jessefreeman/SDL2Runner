@@ -7,6 +7,7 @@
 
 #include "SDL_main.h"
 #include "sdldisplaydevice.h"
+#include "gameconsole.h"
 
 typedef struct sdl *SDL;
 
@@ -16,7 +17,7 @@ SDLDisplayDevice sdl_CreateDisplay(SDL self,
     int windowWidth, int windowHeight,
     int displayWidth, int displayheight);
 
-float sdl_GetElapsedTime(SDL self);
+void sdl_RunGame(SDL self, GameConsole console);
 
 #endif
 

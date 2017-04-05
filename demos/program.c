@@ -61,13 +61,11 @@ int main(int argc, char **argv)
     // Insert controller.
     // gameConsole_InsertController(console, (Controller)sdl2Controller_Create());
 
-    // We need to provide a function to resolve time delta (for now)
-    GetElapsedTime getElapsedTime = func_Create(sdl, sdl_GetElapsedTime);
-    
     // Run the game.
-    gameConsole_Run(console, getElapsedTime);
+    gameConsole_PowerOn(console);
+    sdl_RunGame(sdl, console);
+    gameConsole_PowerOff(console);
 
-    func_Destroy(getElapsedTime);
 
     // Note, any resource inserted into the console delegates the responsibility
     // of resource cleanup to the console. i.e. no need to Destroy a chips or devices

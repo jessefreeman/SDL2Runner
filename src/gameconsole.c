@@ -14,9 +14,11 @@
 typedef struct gameConsole {
     PixelVisionEngine engine;
     DisplayDevice display;
+    DisplayChip displayChip;
+    ColorChip colorChip;
 } gameConsole;
 
-static void gameConsole_RenderToDisplay(GameConsole self, DisplayChip displayChip, ColorChip colorChip);
+static void gameConsole_RenderToDisplay(GameConsole self);
 
 GameConsole gameConsole_Create()
 {
@@ -64,36 +66,40 @@ void gameConsole_InsertDisplayDevice(GameConsole self, DisplayDevice display)
     self->display = display;
 }
 
-void gameConsole_Run(GameConsole self, GetElapsedTime getElapsedTime)
+void gameConsole_PowerOn(GameConsole self)
 {
     assert(self);
-    
     displayDevice_Init(self->display);
-
     pixelVisionEngine_Init(self->engine);
-
-    DisplayChip displayChip = (DisplayChip)pixelVisionEngine_GetChip(self->engine, nameof(DisplayChip));
-    ColorChip colorChip = (ColorChip)pixelVisionEngine_GetChip(self->engine, nameof(ColorChip));
-
-    while (true)
-    {
-        float timeDelta = func_Invoke(getElapsedTime); // TODO: this time is screwy, fix
-        pixelVisionEngine_Update(self->engine, timeDelta); 
-        pixelVisionEngine_Draw(self->engine);
-        gameConsole_RenderToDisplay(self, displayChip, colorChip);
-
-        // TODO: need a way to ext
-    }
+    self->displayChip = (DisplayChip)pixelVisionEngine_GetChip(self->engine, nameof(DisplayChip));
+    self->colorChip = (ColorChip)pixelVisionEngine_GetChip(self->engine, nameof(ColorChip));
 }
 
-static void gameConsole_RenderToDisplay(GameConsole self, DisplayChip displayChip, ColorChip colorChip)
+void gameConsole_Tick(GameConsole self, float timeDelta)
+{
+    assert(self);
+    pixelVisionEngine_Update(self->engine, timeDelta);
+}
+
+void gameConsole_Render(GameConsole self)
+{
+    assert(self);
+    pixelVisionEngine_Draw(self->engine);
+    gameConsole_RenderToDisplay(self);
+}
+
+void gameConsole_PowerOff(GameConsole self)
+{
+}
+
+static void gameConsole_RenderToDisplay(GameConsole self)
 {
     // should this be moved to display?
-    int pixelsLen = displayChip_GetPixelCount(displayChip);
+    int pixelsLen = displayChip_GetPixelCount(self->displayChip);
     colorData *pixels = (colorData *)calloc(pixelsLen, sizeof(colorData));
     for (int i = 0; i < pixelsLen; i++)
     {
-        int colorRef = displayChip_GetPixelAt(displayChip, i);
+        int colorRef = displayChip_GetPixelAt(self->displayChip, i);
         if (colorRef < 0)
         {
             pixels[i].r = 255;
@@ -102,7 +108,7 @@ static void gameConsole_RenderToDisplay(GameConsole self, DisplayChip displayChi
         }
         else
         {
-            colorData color = colorChip_GetColorAt(colorChip, colorRef);
+            colorData color = colorChip_GetColorAt(self->colorChip, colorRef);
             // magenta transparent for now
             if (color.r != 255 || color.g != 0 || color.b != 255)
             {

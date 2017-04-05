@@ -3,6 +3,7 @@
 // file 'LICENSE', which is part of this source code package.
 
 #include <assert.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <sdl.h>
 #include "pv8sdk.sdl2.h"
@@ -39,31 +40,31 @@ SDLDisplayDevice sdl_CreateDisplay(SDL self,
     return sdlDisplay_Create(windowWidth, windowHeight, displayWidth, displayheight);
 }
 
-float sdl_GetElapsedTime(SDL self)
+void sdl_RunGame(SDL self, GameConsole console)
 {
-    // TODO: this is a temporary, ugly hack that needs to be cleaned up.
-
-    static Uint32 oldTime = 0;
-    static Uint32 currentTime = -1;
-    
-    if (currentTime < 0)
-        currentTime = SDL_GetTicks();
-
-    oldTime = currentTime;
-    currentTime = SDL_GetTicks();
-    float delta = (currentTime - oldTime) / 1000.0f;
-
+    const float fps = 1.0f;
     SDL_Event event;
-    while (SDL_PollEvent(&event))
+    Uint64 oldTime = 0;
+    Uint64 newTime = SDL_GetTicks();
+    float deltaTime = 0.0f;
+    int end = false;
+    while (!end)
     {
-        //handleInput(&event);
-        if (event.type == SDL_QUIT)
+        while (SDL_PollEvent(&event))
         {
-            // TODO: clean this up
-            exit(EXIT_SUCCESS);
-            break;
+            //handleInput(&event);
+            if (event.type == SDL_QUIT)
+            {
+                end = true;
+                break;
+            }
         }
-    }
 
-    return delta;
+        newTime = SDL_GetTicks();
+        deltaTime = (float)(newTime - oldTime)/1000.0f;
+        oldTime = newTime;
+        gameConsole_Tick(console, deltaTime);
+
+        gameConsole_Render(console);
+    }
 }
