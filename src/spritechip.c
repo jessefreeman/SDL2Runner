@@ -87,21 +87,6 @@ static void spriteChip_Init(SpriteChip self, GetChip getChip)
 {
     assert(self);
     assert(getChip);
-    //spriteChip_Dispose(self);
-
-    //CartridgeChip cartridgeChip = (CartridgeChip)func_Invoke(getChip, nameof(CartridgeChip));
-    //if (cartridgeChip == NULL)
-    //    return;
-
-    //// need colors for color refs from cartridge
-    //ColorChip colorChip = (ColorChip)func_Invoke(getChip, nameof(ColorChip));
-    //if (colorChip == NULL)
-    //    return;
-
-    //GetColorRef getColorRef = func_Create(colorChip, colorChip_FindColorRef);
-    //self->sprites = cartridgeChip_GetSprites(cartridgeChip, 
-    //    self->spriteWidth, self->spriteHeight, getColorRef, &self->spritesLen);
-    //func_Destroy(getColorRef);
 }
 
 static void spriteChip_Dispose(SpriteChip self)
@@ -125,8 +110,7 @@ TextureData spriteChip_GetSprite(SpriteChip self, int id)
 {
     assert(self);
     assert(id >= 0);
-    if (self->sprites == NULL || id >= self->spritesLen)
-        return NULL;
+    if (self->sprites == NULL || id >= self->spritesLen) return NULL;
     return self->sprites[id];
 }
 
