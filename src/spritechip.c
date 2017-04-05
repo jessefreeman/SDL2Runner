@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include "util.h"
 #include "chip.h"
-#include "cartridgechip.h"
 #include "spritechip.h"
 #include "colorchip.h"
 
@@ -22,10 +21,11 @@ static void spriteChip_Destroy(SpriteChip self);
 static void spriteChip_Init(SpriteChip self, GetChip getChip);
 static void spriteChip_Dispose(SpriteChip self);
 
-SpriteChip spriteChip_Create(int spriteWidth, int spriteHeight)
+SpriteChip spriteChip_Create(int spriteWidth, int spriteHeight, TextureData spriteSheet)
 {
     assert(spriteWidth > 0); 
     assert(spriteHeight > 0);
+    assert(spriteSheet);
 
     SpriteChip self = NULL;
 
@@ -39,6 +39,38 @@ SpriteChip spriteChip_Create(int spriteWidth, int spriteHeight)
 
     self->spriteWidth = spriteWidth;
     self->spriteHeight = spriteHeight;
+
+    int textureWidth = textureData_GetWidth(spriteSheet);
+    int cols = textureWidth / spriteWidth;
+    
+    int textureHeight = textureData_GetHeight(spriteSheet);
+    int rows = textureHeight / spriteHeight;
+
+    self->spritesLen = rows * cols;
+    self->sprites = (TextureData *)calloc(self->spritesLen, sizeof(TextureData));
+    if (self->sprites == NULL)
+    {
+        free(self);
+        return NULL;
+    }
+
+    int spriteIdx = 0;
+    for (int r = 0; r < rows; r++)
+        for (int c = 0; c < cols; c++)
+        {
+            self->sprites[spriteIdx] = textureData_Create(spriteWidth, spriteHeight);
+            int tIdx = 0;
+            for (int y = (r * spriteHeight); y < (r * spriteHeight) + spriteHeight; y++)
+                for (int x = (c * spriteWidth); x < (c * spriteWidth) + spriteWidth; x++)
+                {
+                    int cIdx = (y * textureWidth) + x;
+                    int val = textureData_GetPixelAt(spriteSheet, cIdx);
+                    textureData_SetPixelAt(self->sprites[spriteIdx], tIdx, val);
+                    tIdx++;
+                }
+            spriteIdx++;
+        }
+
 
     return self;
 }
@@ -55,21 +87,21 @@ static void spriteChip_Init(SpriteChip self, GetChip getChip)
 {
     assert(self);
     assert(getChip);
-    spriteChip_Dispose(self);
+    //spriteChip_Dispose(self);
 
-    CartridgeChip cartridgeChip = (CartridgeChip)func_Invoke(getChip, nameof(CartridgeChip));
-    if (cartridgeChip == NULL)
-        return;
+    //CartridgeChip cartridgeChip = (CartridgeChip)func_Invoke(getChip, nameof(CartridgeChip));
+    //if (cartridgeChip == NULL)
+    //    return;
 
-    // need colors for color refs from cartridge
-    ColorChip colorChip = (ColorChip)func_Invoke(getChip, nameof(ColorChip));
-    if (colorChip == NULL)
-        return;
+    //// need colors for color refs from cartridge
+    //ColorChip colorChip = (ColorChip)func_Invoke(getChip, nameof(ColorChip));
+    //if (colorChip == NULL)
+    //    return;
 
-    GetColorRef getColorRef = func_Create(colorChip, colorChip_FindColorRef);
-    self->sprites = cartridgeChip_GetSprites(cartridgeChip, 
-        self->spriteWidth, self->spriteHeight, getColorRef, &self->spritesLen);
-    func_Destroy(getColorRef);
+    //GetColorRef getColorRef = func_Create(colorChip, colorChip_FindColorRef);
+    //self->sprites = cartridgeChip_GetSprites(cartridgeChip, 
+    //    self->spriteWidth, self->spriteHeight, getColorRef, &self->spritesLen);
+    //func_Destroy(getColorRef);
 }
 
 static void spriteChip_Dispose(SpriteChip self)

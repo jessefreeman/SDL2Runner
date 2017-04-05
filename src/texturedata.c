@@ -107,3 +107,15 @@ void textureData_CopyToAtPos(TextureData self, TextureData target, int x, int y)
         targetIdx++;
     }
 }
+
+int textureData_GetWidth(TextureData self) 
+{
+    assert(self);
+    return self->width;
+}
+
+int textureData_GetHeight(TextureData self)
+{
+    assert(self);
+    return self->height;
+}

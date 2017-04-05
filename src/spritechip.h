@@ -9,7 +9,7 @@
 
 typedef struct spriteChip *SpriteChip;
 
-SpriteChip spriteChip_Create(int spriteWidth, int spriteHeight);
+SpriteChip spriteChip_Create(int spriteWidth, int spriteHeight, TextureData spriteSheet);
 
 TextureData spriteChip_GetSprite(SpriteChip self, int id);
 

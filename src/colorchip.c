@@ -8,7 +8,6 @@
 #include "util.h"
 #include "chip.h"
 #include "types.h"
-#include "cartridgechip.h"
 #include "colorchip.h"
 
 typedef struct colorChip {
@@ -22,7 +21,7 @@ static void colorChip_Destroy(ColorChip self);
 static void colorChip_Init(ColorChip self, GetChip getChip);
 static void colorChip_Dispose(ColorChip self);
 
-ColorChip colorChip_Create()
+ColorChip colorChip_Create(colorData colors[], int len)
 {
     ColorChip self = NULL;
 
@@ -34,6 +33,15 @@ ColorChip colorChip_Create()
     self->base.destroy = colorChip_Destroy;
     self->base.init = colorChip_Init;
 
+    self->colors = (colorData *)calloc(len, sizeof(colorData));
+    if (self->colors == NULL)
+    {
+        free(self);
+        return NULL;
+    }
+    memcpy(self->colors, colors, len * sizeof(colorData));
+    self->colorsLen = len;
+
     return self;
 }
 
@@ -43,6 +51,22 @@ static void colorChip_Destroy(ColorChip self)
     colorChip_Dispose(self);
     memset(self, 0, sizeof(colorChip));
     free(self);
+}
+
+static void colorChip_Init(ColorChip self, GetChip getChip)
+{
+    assert(self);
+    assert(getChip);
+}
+
+static void colorChip_Dispose(ColorChip self)
+{
+    assert(self);
+    if (self->colors == NULL) return;
+    memset(self->colors, 0, self->colorsLen * sizeof(colorData));
+    free(self->colors);
+    self->colorsLen = 0;
+    self->colors = NULL;
 }
 
 colorData colorChip_GetColorAt(ColorChip self, int idx)
@@ -89,25 +113,18 @@ int colorChip_GetBackgroundColor(ColorChip self)
     return self->backgroundColor;
 }
 
-static void colorChip_Init(ColorChip self, GetChip getChip)
+TextureData colorChip_MapPixelDataToTexture(ColorChip self, 
+    int width, int height, colorData pixels[], TextureData textureData)
 {
     assert(self);
-    assert(getChip);
-
-    CartridgeChip cartridgeChip = (CartridgeChip)func_Invoke(getChip, nameof(CartridgeChip));
-    if (cartridgeChip == NULL)
-        return;
-
-    colorChip_Dispose(self);
-    self->colors = cartridgeChip_GetColors(cartridgeChip, &self->colorsLen);
-}
-
-static void colorChip_Dispose(ColorChip self)
-{
-    assert(self);
-    if (self->colors == NULL) return;
-    memset(self->colors, 0, self->colorsLen * sizeof(colorData));
-    free(self->colors);
-    self->colorsLen = 0;
-    self->colors = NULL;
+    assert(pixels);
+    assert(textureData);
+    for (int y = 0; y < height; y++)
+        for (int x = 0; x < width; x++)
+        {
+            int idx = coordsToIdx(x, y, width);
+            colorData color = pixels[idx];
+            textureData_SetPixelAt(textureData, idx, colorChip_FindColorRef(self, color));
+        }
+    return textureData;
 }

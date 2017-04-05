@@ -9,7 +9,6 @@
 #include "colorchip.h"
 #include "displaychip.h"
 #include "spritechip.h"
-#include "cartridgechip.h"
 #include "fontchip.h"
 
 #endif 

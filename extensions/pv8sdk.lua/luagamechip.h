@@ -7,6 +7,6 @@
 
 typedef struct luaGameChip *LuaGameChip;
 
-LuaGameChip luaGameChip_Create();
+LuaGameChip luaGameChip_Create(const char *script, int len);
 
 #endif

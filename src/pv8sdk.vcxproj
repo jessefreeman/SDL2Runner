@@ -131,8 +131,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="apibridge.c" />
-    <ClCompile Include="cartridge.c" />
-    <ClCompile Include="cartridgechip.c" />
     <ClCompile Include="chip.c" />
     <ClCompile Include="colorchip.c" />
     <ClCompile Include="display.c" />
@@ -146,8 +144,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="apibridge.h" />
-    <ClInclude Include="cartridge.h" />
-    <ClInclude Include="cartridgechip.h" />
     <ClInclude Include="chip.h" />
     <ClInclude Include="chips.h" />
     <ClInclude Include="colorchip.h" />

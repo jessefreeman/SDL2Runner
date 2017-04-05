@@ -38,16 +38,10 @@
     <ClCompile Include="util.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cartridgechip.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="display.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="fontchip.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="cartridge.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -88,9 +82,6 @@
     <ClInclude Include="controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="cartridge.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="display.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -98,9 +89,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="types.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cartridgechip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="fontchip.h">

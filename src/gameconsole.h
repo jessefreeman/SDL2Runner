@@ -7,7 +7,6 @@
 
 #include "chip.h"
 #include "func.h"
-#include "cartridge.h"
 #include "controller.h"
 #include "display.h"
 
@@ -18,8 +17,6 @@ GameConsole gameConsole_Create();
 void gameConsole_Destroy(GameConsole self);
 
 void gameConsole_InsertChip(GameConsole self, Chip chip);
-
-void gameConsole_InsertCartridge(GameConsole self, Cartridge cartridge);
 
 void gameConsole_InsertController(GameConsole self, Controller controller);
 

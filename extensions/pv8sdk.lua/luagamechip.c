@@ -10,7 +10,6 @@
 #include "util.h"
 #include "chip.h"
 #include "apibridge.h"
-#include "cartridgechip.h"
 #include "luagamechip.h"
 
 typedef struct luaGameChip {
@@ -60,7 +59,7 @@ static const luaL_Reg _methods[] = {
 };
 
 
-LuaGameChip luaGameChip_Create()
+LuaGameChip luaGameChip_Create(const char *script, int len)
 {
     // TODO: fix this crap fest
     assert(instance == NULL);
@@ -75,6 +74,15 @@ LuaGameChip luaGameChip_Create()
     self->base.init = luaGameChip_Init;
     self->base.update = luaGameChip_Update;
     self->base.draw = luaGameChip_Draw;
+    self->script = (char *)calloc(len, sizeof(char));
+    if (self->script == NULL)
+    {
+        free(self);
+        return NULL;
+    }
+    memcpy(self->script, script, len * sizeof(char));
+    self->scriptLen = len;
+
 
     instance = self;
     return self;
@@ -95,14 +103,8 @@ static void luaGameChip_Init(LuaGameChip self, GetChip getChip)
     assert(self);
     assert(getChip);
     luaGameChip_Dispose(self);
-
     self->api = apiBridge_Create(getChip);
 
-    CartridgeChip cartridgeChip = (CartridgeChip)func_Invoke(getChip, nameof(CartridgeChip));
-    if (cartridgeChip == NULL)
-        return;
-
-    self->script = cartridgeChip_GetScript(cartridgeChip, &self->scriptLen);    
     self->L = luaL_newstate();
     luaL_openlibs(self->L);
     luaGameChip_LoadApiBridge(self);
@@ -121,12 +123,6 @@ static void luaGameChip_Dispose(LuaGameChip self)
     {
         apiBridge_Destroy(self->api);
         self->api;
-    }
-    if (self->script != NULL)
-    {
-        free(self->script);
-        self->scriptLen = 0;
-        self->script = NULL;
     }
     if (self->L != NULL)
     {
@@ -191,18 +187,15 @@ static void changeBackgroundColor(lua_State* L)
 // Deprecated
 static void rebuildScreenBuffer(lua_State *L)
 {
-    printf(nameof(rebuildScreenBuffer)"\n");
 }
 
 // Deprecated
 static void drawFontToBuffer(lua_State *L)
 {
-    printf(nameof(drawFontToBuffer)"\n");
 }
 
 static void drawTileText(lua_State *L)
 {
-    printf(nameof(drawTileText)"\n");
 }
 
 static void drawSprite(lua_State *L)
@@ -250,10 +243,8 @@ static void drawScreenBuffer(lua_State *L)
 // Deprecated
 static void drawFont(lua_State *L)
 {
-    printf(nameof(drawFont)"\n");
 }
 
 static void drawSpriteText(lua_State *L)
 {
-    printf(nameof(drawSpriteText)"\n");
 }

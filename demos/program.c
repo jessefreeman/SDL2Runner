@@ -7,7 +7,7 @@
 #include "pv8sdk.lua.h"
 #include "pv8sdk.sdl2.h"
 #include "util.h"
-#include "demoscartridge.h"
+#include "importutil.h"
 
 #define WINDOW_WIDTH    1024
 #define WINDOW_HEIGHT   720
@@ -18,25 +18,37 @@
 
 int main(int argc, char **argv)
 {
-    // Build the cartridge.
-    DemosCartridge cartridge = demosCartridge_Create();
-    demosCartridge_SetColorsFile(cartridge, ".\\resources\\colors.png");
-    demosCartridge_SetSpritesFile(cartridge, ".\\resources\\sprites.png");
-    demosCartridge_AddFontFile(cartridge, ".\\resources\\large-font.png", "large-font");
-    demosCartridge_SetScriptFile(cartridge, ".\\resources\\DrawSpriteDemo.lua");
-
     // Build the game console.
     GameConsole console = gameConsole_Create();
 
-    // Insert chips.
-    // These are standard chips that should be always inserted.
-    gameConsole_InsertChip(console, (Chip)colorChip_Create());
+    // Create DisplayChip.
     gameConsole_InsertChip(console, (Chip)displayChip_Create(DISPLAY_WIDTH, DISPLAY_HEIGHT));
-    gameConsole_InsertChip(console, (Chip)spriteChip_Create(SPRITE_WIDTH, SPRITE_HEIGHT));
-    // This console will use a cartridge to load content so the cartidge chip is needed.
-    gameConsole_InsertChip(console, (Chip)cartridgeChip_Create());
-    // This console will use Lua for code so the Lua game chip is needed.
-    gameConsole_InsertChip(console, (Chip)luaGameChip_Create());
+
+    // Create ColorChip.
+    int width = 0;
+    int height = 0;
+    colorData *colors = importImageFromFile(".\\resources\\colors.png", &width, &height);
+    ColorChip colorChip = colorChip_Create(colors, width * height);
+    free(colors);
+    gameConsole_InsertChip(console, (Chip)colorChip);
+
+    // Create SpriteChip.
+    width = 0;
+    height = 0;
+    colorData *spritePixels = importImageFromFile(".\\resources\\sprites.png", &width, &height);
+    TextureData *spriteSheet = textureData_Create(width, height);
+    spriteSheet = colorChip_MapPixelDataToTexture(colorChip, width, height, spritePixels, spriteSheet);
+    SpriteChip spriteChip = spriteChip_Create(SPRITE_WIDTH, SPRITE_HEIGHT, spriteSheet);
+    textureData_Destroy(spriteSheet);
+    free(spritePixels);
+    gameConsole_InsertChip(console, (Chip)spriteChip);
+
+    // Create LuaGameChip
+    int len = 0;
+    char *gameCode = importTextFromFile(".\\resources\\DrawSpriteDemo.lua", &len);
+    LuaGameChip gameChip = luaGameChip_Create(gameCode, len);
+    free(gameCode);
+    gameConsole_InsertChip(console, (Chip)gameChip);
 
     Sdl sdl = sdl_GetInstance();
 
@@ -48,9 +60,6 @@ int main(int argc, char **argv)
 
     // Insert controller.
     // gameConsole_InsertController(console, (Controller)sdl2Controller_Create());
-
-    // Insert cartridge.
-    gameConsole_InsertCartridge(console, (Cartridge)cartridge);
 
     // We need to provide a function to resolve time delta (for now)
     GetElapsedTime getElapsedTime = func_Create(sdl, sdl_GetElapsedTime);

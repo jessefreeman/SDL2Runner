@@ -23,4 +23,8 @@ void textureData_CopyTo(TextureData self, TextureData target);
 
 void textureData_CopyToAtPos(TextureData self, TextureData target, int x, int y);
 
+int textureData_GetWidth(TextureData self);
+
+int textureData_GetHeight(TextureData self);
+
 #endif
