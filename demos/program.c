@@ -36,7 +36,7 @@ int main(int argc, char **argv)
     width = 0;
     height = 0;
     colorData *spritePixels = importImageFromFile(".\\resources\\sprites.png", &width, &height);
-    TextureData *spriteSheet = textureData_Create(width, height);
+    TextureData spriteSheet = textureData_Create(width, height);
     spriteSheet = colorChip_MapPixelDataToTexture(colorChip, width, height, spritePixels, spriteSheet);
     SpriteChip spriteChip = spriteChip_Create(SPRITE_WIDTH, SPRITE_HEIGHT, spriteSheet);
     textureData_Destroy(spriteSheet);
@@ -50,11 +50,11 @@ int main(int argc, char **argv)
     free(gameCode);
     gameConsole_InsertChip(console, (Chip)gameChip);
 
-    Sdl sdl = sdl_GetInstance();
+    SDL sdl = sdl_GetInstance();
 
-    // Insert display.
-    gameConsole_InsertDisplay(console, 
-        (Display)sdl_CreateDisplay(sdl,
+    // Insert DisplayDevice.
+    gameConsole_InsertDisplayDevice(console, 
+        (DisplayDevice)sdl_CreateDisplay(sdl,
             WINDOW_WIDTH, WINDOW_HEIGHT, 
             DISPLAY_WIDTH, DISPLAY_HEIGHT));
 

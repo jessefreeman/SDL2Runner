@@ -6,17 +6,17 @@
 #define _pv8sdk_sdl2_h_
 
 #include "SDL_main.h"
-#include "sdldisplay.h"
+#include "sdldisplaydevice.h"
 
-typedef struct sdl *Sdl;
+typedef struct sdl *SDL;
 
-Sdl sdl_GetInstance();
+SDL sdl_GetInstance();
 
-SdlDisplay sdl_CreateDisplay(Sdl self,
+SDLDisplayDevice sdl_CreateDisplay(SDL self,
     int windowWidth, int windowHeight,
     int displayWidth, int displayheight);
 
-float sdl_GetElapsedTime(Sdl self);
+float sdl_GetElapsedTime(SDL self);
 
 #endif
 

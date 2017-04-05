@@ -2,13 +2,13 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE', which is part of this source code package.
 
-#ifndef _controller_h_
-#define _controller_h_
+#ifndef _controllerdevice_h_
+#define _controllerdevice_h_
 
-typedef struct controller {
+typedef struct controllerDevice {
     void(*action)(Obj);
-} controller;
+} controllerDevice;
 
-typedef struct controller *Controller;
+typedef struct controllerDevice *ControllerDevice;
 
 #endif

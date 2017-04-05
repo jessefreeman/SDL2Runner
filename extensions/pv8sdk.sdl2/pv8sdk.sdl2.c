@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <sdl.h>
 #include "pv8sdk.sdl2.h"
+#include "sdldisplaydevice.h"
 
 struct sdl {
     char pass;
@@ -13,9 +14,9 @@ struct sdl {
 
 static struct sdl sdlRef;
 
-static Sdl sdl = NULL;
+static SDL sdl = NULL;
 
-Sdl sdl_GetInstance()
+SDL sdl_GetInstance()
 {
     if (sdl == NULL)
     {
@@ -28,9 +29,9 @@ Sdl sdl_GetInstance()
     return sdl;
 }
 
-extern SdlDisplay sdlDisplay_Create(int winWidth, int winHeight, int dispWidth, int dispHeight);
+extern SDLDisplayDevice sdlDisplay_Create(int winWidth, int winHeight, int dispWidth, int dispHeight);
 
-SdlDisplay sdl_CreateDisplay(Sdl self,
+SDLDisplayDevice sdl_CreateDisplay(SDL self,
     int windowWidth, int windowHeight,
     int displayWidth, int displayheight)
 {
@@ -38,7 +39,7 @@ SdlDisplay sdl_CreateDisplay(Sdl self,
     return sdlDisplay_Create(windowWidth, windowHeight, displayWidth, displayheight);
 }
 
-float sdl_GetElapsedTime(Sdl self)
+float sdl_GetElapsedTime(SDL self)
 {
     // TODO: this is a temporary, ugly hack that needs to be cleaned up.
 

@@ -7,11 +7,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <SDL.h>
-#include "display.h"
-#include "sdldisplay.h"
+#include "displaydevice.h"
+#include "sdldisplaydevice.h"
 
-typedef struct sdlDisplay {
-    display base; // must be first
+typedef struct sdlDisplayDevice {
+    displayDevice base; // must be first
     int winWidth;
     int winHeight;
     int dispWidth;
@@ -20,16 +20,16 @@ typedef struct sdlDisplay {
     SDL_Renderer *renderer;
 } sdlDisplay;
 
-static void sdlDisplay_Destroy(SdlDisplay self);
-static void sdlDisplay_Init(SdlDisplay self);
-static void sdlDisplay_Dispose(SdlDisplay self);
-static void sdlDisplay_Render(SdlDisplay self, int pixelsLen, colorData pixels[]);
+static void sdlDisplay_Destroy(SDLDisplayDevice self);
+static void sdlDisplay_Init(SDLDisplayDevice self);
+static void sdlDisplay_Dispose(SDLDisplayDevice self);
+static void sdlDisplay_Render(SDLDisplayDevice self, int pixelsLen, colorData pixels[]);
 
-SdlDisplay sdlDisplay_Create(int winWidth, int winHeight, int dispWidth, int dispHeight)
+SDLDisplayDevice sdlDisplay_Create(int winWidth, int winHeight, int dispWidth, int dispHeight)
 {
-    SdlDisplay self = NULL;
+    SDLDisplayDevice self = NULL;
 
-    self = (SdlDisplay)calloc(1, sizeof(sdlDisplay));
+    self = (SDLDisplayDevice)calloc(1, sizeof(sdlDisplay));
     if (self == NULL)
         return NULL;
 
@@ -45,7 +45,7 @@ SdlDisplay sdlDisplay_Create(int winWidth, int winHeight, int dispWidth, int dis
     return self;
 }
 
-static void sdlDisplay_Destroy(SdlDisplay self)
+static void sdlDisplay_Destroy(SDLDisplayDevice self)
 {
     assert(self);
     sdlDisplay_Dispose(self);
@@ -53,7 +53,7 @@ static void sdlDisplay_Destroy(SdlDisplay self)
     free(self);
 }
 
-static void sdlDisplay_Init(SdlDisplay self)
+static void sdlDisplay_Init(SDLDisplayDevice self)
 {
     assert(self);
     sdlDisplay_Dispose(self);
@@ -64,7 +64,7 @@ static void sdlDisplay_Init(SdlDisplay self)
     SDL_RenderSetLogicalSize(self->renderer, self->dispWidth, self->dispHeight);
 }
 
-static void sdlDisplay_Dispose(SdlDisplay self)
+static void sdlDisplay_Dispose(SDLDisplayDevice self)
 {
     assert(self);
     if (self->renderer != NULL)
@@ -79,7 +79,7 @@ static void sdlDisplay_Dispose(SdlDisplay self)
     }
 }
 
-static void sdlDisplay_Render(SdlDisplay self, int pixelsLen, colorData pixels[])
+static void sdlDisplay_Render(SDLDisplayDevice self, int pixelsLen, colorData pixels[])
 {
     SDL_Rect pixel;
     pixel.x = 0;

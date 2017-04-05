@@ -8,12 +8,12 @@
 #include "util.h"
 #include "chips.h"
 #include "engine.h"
-#include "display.h"
+#include "displaydevice.h"
 #include "gameconsole.h"
 
 typedef struct gameConsole {
     PixelVisionEngine engine;
-    Display display;
+    DisplayDevice display;
 } gameConsole;
 
 static void gameConsole_RenderToDisplay(GameConsole self, DisplayChip displayChip, ColorChip colorChip);
@@ -39,7 +39,7 @@ GameConsole gameConsole_Create()
 void gameConsole_Destroy(GameConsole self)
 {
     assert(self);
-    if (self->display != NULL) display_Destroy(self->display);
+    if (self->display != NULL) displayDevice_Destroy(self->display);
     pixelVisionEngine_Destroy(self->engine);
     memset(self, 0, sizeof(gameConsole));
     free(self);
@@ -52,15 +52,15 @@ void gameConsole_InsertChip(GameConsole self, Chip chip)
     pixelVisionEngine_InsertChip(self->engine, chip);
 }
 
-void gameConsole_InsertController(GameConsole self, Controller controller)
+void gameConsole_InsertController(GameConsole self, ControllerDevice controller)
 {
 
 }
 
-void gameConsole_InsertDisplay(GameConsole self, Display display)
+void gameConsole_InsertDisplayDevice(GameConsole self, DisplayDevice display)
 {
     assert(self);
-    if (self->display != NULL) display_Destroy(self->display);
+    if (self->display != NULL) displayDevice_Destroy(self->display);
     self->display = display;
 }
 
@@ -68,7 +68,7 @@ void gameConsole_Run(GameConsole self, GetElapsedTime getElapsedTime)
 {
     assert(self);
     
-    display_Init(self->display);
+    displayDevice_Init(self->display);
 
     pixelVisionEngine_Init(self->engine);
 
@@ -116,6 +116,6 @@ static void gameConsole_RenderToDisplay(GameConsole self, DisplayChip displayChi
             }
         }
     }
-    display_Render(self->display, pixelsLen, pixels);
+    displayDevice_Render(self->display, pixelsLen, pixels);
     free(pixels);
 }

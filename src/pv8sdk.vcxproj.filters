@@ -38,10 +38,10 @@
     <ClCompile Include="util.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="display.c">
+    <ClCompile Include="fontchip.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="fontchip.c">
+    <ClCompile Include="displaydevice.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -79,12 +79,6 @@
     <ClInclude Include="gameconsole.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="controller.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="display.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="func.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -92,6 +86,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="fontchip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="displaydevice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="controllerdevice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

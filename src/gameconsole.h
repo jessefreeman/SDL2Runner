@@ -7,8 +7,8 @@
 
 #include "chip.h"
 #include "func.h"
-#include "controller.h"
-#include "display.h"
+#include "controllerdevice.h"
+#include "displaydevice.h"
 
 typedef struct gameConsole *GameConsole;
 
@@ -18,9 +18,9 @@ void gameConsole_Destroy(GameConsole self);
 
 void gameConsole_InsertChip(GameConsole self, Chip chip);
 
-void gameConsole_InsertController(GameConsole self, Controller controller);
+void gameConsole_InsertController(GameConsole self, ControllerDevice controller);
 
-void gameConsole_InsertDisplay(GameConsole self, Display display);
+void gameConsole_InsertDisplayDevice(GameConsole self, DisplayDevice display);
 
 typedef Func(float) GetElapsedTime;
 

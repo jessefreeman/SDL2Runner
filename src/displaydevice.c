@@ -4,23 +4,23 @@
 
 #include <assert.h>
 #include <stdlib.h>
-#include "display.h"
+#include "displaydevice.h"
 
-void display_Destroy(Display self)
+void displayDevice_Destroy(DisplayDevice self)
 {
     assert(self);
     if (self->destroy == NULL) return;
     self->destroy(self);
 }
 
-void display_Init(Display self)
+void displayDevice_Init(DisplayDevice self)
 {
     assert(self);
     if (self->init == NULL) return;
     self->init(self);
 }
 
-void display_Render(Display self, int pixelsLen, colorData pixels[])
+void displayDevice_Render(DisplayDevice self, int pixelsLen, colorData pixels[])
 {
     assert(self);
     if (self->render == NULL) return;

@@ -14,7 +14,7 @@
     <ClCompile Include="pv8sdk.sdl2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sdldisplay.c">
+    <ClCompile Include="sdldisplaydevice.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -22,7 +22,7 @@
     <ClInclude Include="pv8sdk.sdl2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sdldisplay.h">
+    <ClInclude Include="sdldisplaydevice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
