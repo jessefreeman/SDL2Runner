@@ -13,6 +13,7 @@ typedef struct apiBridge {
     DisplayChip displayChip;
     SpriteChip spriteChip;
     FontChip fontChip;
+    TilemapChip tilemapChip;
 } apiBridge;
 
 ApiBridge apiBridge_Create(GetChip getChip)
@@ -26,6 +27,7 @@ ApiBridge apiBridge_Create(GetChip getChip)
     self->displayChip = (DisplayChip)func_Invoke(getChip, nameof(DisplayChip));
     self->spriteChip = (SpriteChip)func_Invoke(getChip, nameof(SpriteChip));
     self->fontChip = (FontChip)func_Invoke(getChip, nameof(FontChip));
+    self->tilemapChip = (TilemapChip)func_Invoke(getChip, nameof(TilemapChip));
 
     return self;
 }
@@ -70,6 +72,13 @@ void apiBridge_DrawTileText(ApiBridge self,
     int colorOffset)
 {
     assert(self);
+    int total = strlen(text);
+    // TODO: dont alloc this.
+    int *spriteRefs = (int *)calloc(strlen(text), sizeof(int));
+    fontChip_ConvertTextToSprites(self->fontChip, text, fontName, spriteRefs);
+    for (int i = 0; i < total; i++)
+        apiBridge_DrawTile(self, spriteRefs[i], column + i, row, colorOffset);
+    free(spriteRefs);
 }
 
 void apiBridge_DrawSprite(ApiBridge self,
@@ -127,8 +136,21 @@ void apiBridge_DrawScreenBuffer(ApiBridge self,
     int offsetY)
 {
     assert(self);
-    // just clear for now
+    // TODO: these other parameters probably are supposed to do things :p
     displayChip_Clear(self->displayChip);
+    // TODO: this probably doesn't work like this, and needs more params. To come!
+    displayChip_DrawTilemap(self->displayChip);
+}
+
+void apiBridge_DrawTile(ApiBridge self,
+    int tileID, 
+    int column, 
+    int row, 
+    int colorOffset)
+{
+    assert(self);
+    tilemapChip_UpdateSpriteAt(self->tilemapChip, column, row, tileID);
+    tilemapChip_UpdatePaletteAt(self->tilemapChip, column, row, colorOffset);
 }
 
 // Deprecated

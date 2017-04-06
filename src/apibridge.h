@@ -64,6 +64,12 @@ void apiBridge_DrawScreenBuffer(ApiBridge self,
     int offsetX, 
     int offsetY);
 
+void apiBridge_DrawTile(ApiBridge self,
+    int tileID,
+    int column,
+    int row,
+    int colorOffset);
+
 // Deprecated
 void apiBridge_DrawFont(ApiBridge self,
     const char *text, 

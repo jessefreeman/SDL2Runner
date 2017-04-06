@@ -19,4 +19,6 @@ void displayChip_Clear(DisplayChip self);
 
 void displayChip_Draw(DisplayChip self, TextureData pixelData, int x, int y);
 
+void displayChip_DrawTilemap(DisplayChip self);
+
 #endif

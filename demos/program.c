@@ -61,6 +61,10 @@ int main(int argc, char **argv)
     spriteSheet = NULL;
     fontChip_AddFont(fontChip, "small-font", 96, mapBuffer);
 
+    // Create TilemapChip
+    TilemapChip tilemapChip = tilemapChip_Create(DISPLAY_WIDTH / SPRITE_WIDTH, DISPLAY_HEIGHT / SPRITE_HEIGHT);
+    gameConsole_InsertChip(console, (Chip)tilemapChip);
+
     // Create LuaGameChip
     
     int len = 0;

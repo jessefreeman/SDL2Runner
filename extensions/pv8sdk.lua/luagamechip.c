@@ -196,6 +196,12 @@ static void drawFontToBuffer(lua_State *L)
 
 static void drawTileText(lua_State *L)
 {
+    char *text = lua_tostring(L, -5);
+    int column = lua_tointeger(L, -4);
+    int row = lua_tointeger(L, -3);
+    char *fontName = lua_tostring(L, -2);
+    int colorOffset = lua_tointeger(L, -1);
+    apiBridge_DrawTileText(instance->api, text, column, row, fontName, colorOffset);
 }
 
 static void drawSprite(lua_State *L)

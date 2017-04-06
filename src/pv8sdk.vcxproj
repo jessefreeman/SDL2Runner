@@ -140,6 +140,7 @@
     <ClCompile Include="gameconsole.c" />
     <ClCompile Include="spritechip.c" />
     <ClCompile Include="texturedata.c" />
+    <ClCompile Include="tilemapchip.c" />
     <ClCompile Include="util.c" />
   </ItemGroup>
   <ItemGroup>
@@ -154,9 +155,11 @@
     <ClInclude Include="fontchip.h" />
     <ClInclude Include="func.h" />
     <ClInclude Include="gameconsole.h" />
+    <ClInclude Include="layer.h" />
     <ClInclude Include="pv8sdk.h" />
     <ClInclude Include="spritechip.h" />
     <ClInclude Include="texturedata.h" />
+    <ClInclude Include="tilemapchip.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>

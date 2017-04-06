@@ -2,15 +2,14 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE', which is part of this source code package.
 
-#ifndef _chips_h_
-#define _chips_h_
+#ifndef _layer_h_
+#define _layer_h_
 
-#include "chip.h"
-#include "colorchip.h"
-#include "displaychip.h"
-#include "spritechip.h"
-#include "fontchip.h"
-#include "tilemapchip.h"
+typedef enum {
+    Sprites,
+    Palettes,
+    Flags,
+    MaxLayers // should be last, also Invalid in main sdk
+} Layer;
 
-#endif 
-
+#endif

@@ -44,6 +44,9 @@
     <ClCompile Include="displaydevice.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tilemapchip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine.h">
@@ -92,6 +95,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="controllerdevice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tilemapchip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="layer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

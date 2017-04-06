@@ -11,6 +11,8 @@ typedef struct fontChip *FontChip;
 
 void fontChip_AddFont(FontChip self, const char *name, int mapLen, int *map);
 
+void fontChip_ConvertTextToSprites(FontChip self, const char *text, const char *fontName, int *spriteRefs);
+
 TextureData fontChip_ConvertTextToTexture(FontChip self, const char *text, const char *fontName, int letterSpacing);
 
 #endif
