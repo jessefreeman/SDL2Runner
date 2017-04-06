@@ -11,4 +11,6 @@ colorData *importImageFromFile(const char *filePath, int *width, int *height);
 
 char *importTextFromFile(const char *filePath, int *len);
 
+TextureData *importSpriteSheetFromFile(const char *filePath, ColorChip colorChip);
+
 #endif

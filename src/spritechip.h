@@ -17,4 +17,7 @@ int spriteChip_GetSpriteWidth(SpriteChip self);
 
 int spriteChip_GetSpriteHeight(SpriteChip self);
 
+// TODO: maybe not assume map is big enough?
+void spriteChip_AddSprites(SpriteChip self, TextureData spriteSheet, int *map);
+
 #endif

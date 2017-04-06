@@ -76,7 +76,7 @@ void apiBridge_DrawFont(ApiBridge self,
 void apiBridge_DrawSpriteText(ApiBridge self,
     const char *text, 
     int x, 
-    int Y, 
+    int y, 
     const char *fontName, 
     int colorOffset);
 

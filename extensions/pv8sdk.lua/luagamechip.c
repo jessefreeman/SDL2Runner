@@ -243,8 +243,21 @@ static void drawScreenBuffer(lua_State *L)
 // Deprecated
 static void drawFont(lua_State *L)
 {
+    char *text = lua_tostring(L, -5);
+    int x = lua_tointeger(L, -4);
+    int y = lua_tointeger(L, -3);
+    char *fontName = lua_tostring(L, -2);
+    int letterSpacing = lua_tointeger(L, -1);
+    // missing offset?
+    apiBridge_DrawFont(instance->api, text, x, y, fontName, letterSpacing, 0);
 }
 
 static void drawSpriteText(lua_State *L)
 {
+    char *text = lua_tostring(L, -5);
+    int x = lua_tointeger(L, -4);
+    int y = lua_tointeger(L, -3);
+    char *fontName = lua_tostring(L, -2);
+    int colorOffset = lua_tointeger(L, -1);
+    apiBridge_DrawSpriteText(instance->api, text, x, y, fontName, colorOffset);
 }

@@ -73,6 +73,7 @@ void gameConsole_PowerOn(GameConsole self)
     pixelVisionEngine_Init(self->engine);
     self->displayChip = (DisplayChip)pixelVisionEngine_GetChip(self->engine, nameof(DisplayChip));
     self->colorChip = (ColorChip)pixelVisionEngine_GetChip(self->engine, nameof(ColorChip));
+    gameConsole_RenderToDisplay(self, true);
 }
 
 void gameConsole_Tick(GameConsole self, float timeDelta)
@@ -85,18 +86,33 @@ void gameConsole_Render(GameConsole self)
 {
     assert(self);
     pixelVisionEngine_Draw(self->engine);
-    gameConsole_RenderToDisplay(self);
+    gameConsole_RenderToDisplay(self, false);
 }
 
 void gameConsole_PowerOff(GameConsole self)
 {
+    gameConsole_RenderToDisplay(self, true);
 }
 
-static void gameConsole_RenderToDisplay(GameConsole self)
+static void gameConsole_RenderToDisplay(GameConsole self, bool init)
 {
     // should this be moved to display?
-    int pixelsLen = displayChip_GetPixelCount(self->displayChip);
-    colorData *pixels = (colorData *)calloc(pixelsLen, sizeof(colorData));
+    static int pixelsLen = 0; 
+    static colorData *pixels = NULL; 
+    if (init)
+    {
+        if (pixels == NULL)
+        {
+            pixelsLen = displayChip_GetPixelCount(self->displayChip);
+            pixels = (colorData *)calloc(pixelsLen, sizeof(colorData));
+        }
+        else
+        {
+            free(pixels);
+            pixelsLen = 0;
+        }
+    }
+
     for (int i = 0; i < pixelsLen; i++)
     {
         int colorRef = displayChip_GetPixelAt(self->displayChip, i);
@@ -122,6 +138,6 @@ static void gameConsole_RenderToDisplay(GameConsole self)
             }
         }
     }
+
     displayDevice_Render(self->display, pixelsLen, pixels);
-    free(pixels);
 }

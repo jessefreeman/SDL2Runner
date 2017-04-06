@@ -141,14 +141,21 @@ void apiBridge_DrawFont(ApiBridge self,
     int offset)
 {
     assert(self);
+    apiBridge_DrawSpriteText(self, text, x, y, fontName, offset);
 }
 
 void apiBridge_DrawSpriteText(ApiBridge self,
     const char *text,
     int x,
-    int Y,
+    int y,
     const char *fontName,
     int colorOffset)
 {
     assert(self);
+    TextureData pixelData = fontChip_ConvertTextToTexture(self->fontChip, text, fontName, 0);
+    if (pixelData != NULL)
+    {
+        displayChip_Draw(self->displayChip, pixelData, x, y);
+        textureData_Destroy(pixelData);
+    }
 }

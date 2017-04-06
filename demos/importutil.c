@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include "stb_image.h"
 #include "types.h"
+#include "colorchip.h"
 #include "importutil.h"
 
 typedef struct pixel {
@@ -59,4 +60,16 @@ char *importTextFromFile(const char *filePath, int *len)
     fclose(fp);
     *len = fsize;
     return data;
+}
+
+TextureData *importSpriteSheetFromFile(const char *filePath, ColorChip colorChip)
+{
+    int width = 0;
+    int height = 0;
+    colorData *pixels = importImageFromFile(filePath, &width, &height);
+    TextureData spriteSheet = textureData_Create(width, height);
+    spriteSheet = colorChip_MapPixelDataToTexture(colorChip, width, height, pixels, spriteSheet);
+    free(pixels);
+    pixels = NULL;
+    return spriteSheet;
 }

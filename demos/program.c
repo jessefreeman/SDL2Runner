@@ -22,9 +22,11 @@ int main(int argc, char **argv)
     GameConsole console = gameConsole_Create();
 
     // Create DisplayChip.
+    
     gameConsole_InsertChip(console, (Chip)displayChip_Create(DISPLAY_WIDTH, DISPLAY_HEIGHT));
 
     // Create ColorChip.
+    
     int width = 0;
     int height = 0;
     colorData *colors = importImageFromFile(".\\resources\\colors.png", &width, &height);
@@ -33,39 +35,57 @@ int main(int argc, char **argv)
     gameConsole_InsertChip(console, (Chip)colorChip);
 
     // Create SpriteChip.
-    width = 0;
-    height = 0;
-    colorData *spritePixels = importImageFromFile(".\\resources\\sprites.png", &width, &height);
-    TextureData spriteSheet = textureData_Create(width, height);
-    spriteSheet = colorChip_MapPixelDataToTexture(colorChip, width, height, spritePixels, spriteSheet);
+    
+    TextureData spriteSheet = importSpriteSheetFromFile(".\\resources\\sprites.png", colorChip);
     SpriteChip spriteChip = spriteChip_Create(SPRITE_WIDTH, SPRITE_HEIGHT, spriteSheet);
     textureData_Destroy(spriteSheet);
-    free(spritePixels);
+    spriteSheet = NULL;
     gameConsole_InsertChip(console, (Chip)spriteChip);
 
+    // Create FontChip
+
+    FontChip fontChip = fontChip_Create();
+    gameConsole_InsertChip(console, (Chip)fontChip);
+
+    int mapBuffer[96] = { 0 };
+
+    spriteSheet = importSpriteSheetFromFile(".\\resources\\large-font.png", colorChip);
+    spriteChip_AddSprites(spriteChip, spriteSheet, mapBuffer);
+    textureData_Destroy(spriteSheet);
+    spriteSheet = NULL;
+    fontChip_AddFont(fontChip, "large-font", 96, mapBuffer);
+
+    spriteSheet = importSpriteSheetFromFile(".\\resources\\small-font.png", colorChip);
+    spriteChip_AddSprites(spriteChip, spriteSheet, mapBuffer);
+    textureData_Destroy(spriteSheet);
+    spriteSheet = NULL;
+    fontChip_AddFont(fontChip, "small-font", 96, mapBuffer);
+
     // Create LuaGameChip
+    
     int len = 0;
     char *gameCode = importTextFromFile(".\\resources\\DrawSpriteDemo.lua", &len);
     LuaGameChip gameChip = luaGameChip_Create(gameCode, len);
     free(gameCode);
     gameConsole_InsertChip(console, (Chip)gameChip);
 
+    // Insert DisplayDevice.
+
     SDL sdl = sdl_GetInstance();
 
-    // Insert DisplayDevice.
     gameConsole_InsertDisplayDevice(console, 
         (DisplayDevice)sdl_CreateDisplay(sdl,
             WINDOW_WIDTH, WINDOW_HEIGHT, 
             DISPLAY_WIDTH, DISPLAY_HEIGHT));
 
     // Insert controller.
+
     // gameConsole_InsertController(console, (Controller)sdl2Controller_Create());
 
     // Run the game.
     gameConsole_PowerOn(console);
     sdl_RunGame(sdl, console);
     gameConsole_PowerOff(console);
-
 
     // Note, any resource inserted into the console delegates the responsibility
     // of resource cleanup to the console. i.e. no need to Destroy a chips or devices

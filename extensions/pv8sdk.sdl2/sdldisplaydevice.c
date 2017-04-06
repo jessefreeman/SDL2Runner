@@ -62,6 +62,8 @@ static void sdlDisplay_Init(SDLDisplayDevice self)
         self->winWidth, self->winHeight,
         SDL_WINDOW_SHOWN|SDL_WINDOW_RESIZABLE);
     
+    //SDL_SetWindowFullscreen(self->window, SDL_WINDOW_FULLSCREEN);
+
     self->renderer = SDL_CreateRenderer(self->window, 
         -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
 
@@ -87,7 +89,7 @@ static void sdlDisplay_Render(SDLDisplayDevice self, int pixelsLen, colorData pi
 {
     int x = 0;
     int y = 0;
-    SDL_RenderClear(self->renderer);
+    //SDL_RenderClear(self->renderer);
     for (int i = 0; i < pixelsLen; i++)
     {
         colorData current = pixels[i];

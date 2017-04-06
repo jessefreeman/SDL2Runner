@@ -39,38 +39,9 @@ SpriteChip spriteChip_Create(int spriteWidth, int spriteHeight, TextureData spri
 
     self->spriteWidth = spriteWidth;
     self->spriteHeight = spriteHeight;
+    self->spritesLen = 0;
 
-    int textureWidth = textureData_GetWidth(spriteSheet);
-    int cols = textureWidth / spriteWidth;
-    
-    int textureHeight = textureData_GetHeight(spriteSheet);
-    int rows = textureHeight / spriteHeight;
-
-    self->spritesLen = rows * cols;
-    self->sprites = (TextureData *)calloc(self->spritesLen, sizeof(TextureData));
-    if (self->sprites == NULL)
-    {
-        free(self);
-        return NULL;
-    }
-
-    int spriteIdx = 0;
-    for (int r = 0; r < rows; r++)
-        for (int c = 0; c < cols; c++)
-        {
-            self->sprites[spriteIdx] = textureData_Create(spriteWidth, spriteHeight);
-            int tIdx = 0;
-            for (int y = (r * spriteHeight); y < (r * spriteHeight) + spriteHeight; y++)
-                for (int x = (c * spriteWidth); x < (c * spriteWidth) + spriteWidth; x++)
-                {
-                    int cIdx = (y * textureWidth) + x;
-                    int val = textureData_GetPixelAt(spriteSheet, cIdx);
-                    textureData_SetPixelAt(self->sprites[spriteIdx], tIdx, val);
-                    tIdx++;
-                }
-            spriteIdx++;
-        }
-
+    spriteChip_AddSprites(self, spriteSheet, NULL);
 
     return self;
 }
@@ -124,4 +95,57 @@ int spriteChip_GetSpriteHeight(SpriteChip self)
 {
     assert(self);
     return self->spriteHeight;
+}
+
+void spriteChip_AddSprites(SpriteChip self, TextureData spriteSheet, int *map)
+{
+    assert(self);
+    assert(spriteSheet);
+
+    int spriteWidth = self->spriteWidth;
+    int spriteHeight = self->spriteHeight;
+
+    int textureWidth = textureData_GetWidth(spriteSheet);
+    int cols = textureWidth / spriteWidth;
+
+    int textureHeight = textureData_GetHeight(spriteSheet);
+    int rows = textureHeight / spriteHeight;
+
+    int spriteIdx = self->spritesLen;
+    int newSpritesLen = self->spritesLen + (rows * cols);
+
+    TextureData newSprites = (TextureData *)calloc(newSpritesLen, sizeof(TextureData));
+    assert(newSprites);
+    if (self->sprites != NULL)
+    {
+        memcpy(newSprites, self->sprites, self->spritesLen * sizeof(TextureData *));
+        free(self->sprites);
+    }
+    self->spritesLen = newSpritesLen;
+    self->sprites = newSprites;
+
+    int i = 0;
+    for (int r = 0; r < rows; r++)
+    {
+        for (int c = 0; c < cols; c++)
+        {
+            self->sprites[spriteIdx] = textureData_Create(spriteWidth, spriteHeight);
+            int tIdx = 0;
+            for (int y = (r * spriteHeight); y < (r * spriteHeight) + spriteHeight; y++)
+            {
+                for (int x = (c * spriteWidth); x < (c * spriteWidth) + spriteWidth; x++)
+                {
+                    int cIdx = (y * textureWidth) + x;
+                    int val = textureData_GetPixelAt(spriteSheet, cIdx);
+                    textureData_SetPixelAt(self->sprites[spriteIdx], tIdx, val);
+                    tIdx++;
+                }
+            }
+            
+            if (map != NULL)
+                map[i++] = spriteIdx;
+
+            spriteIdx++;
+        }
+    }
 }
