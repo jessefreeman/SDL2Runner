@@ -6,11 +6,19 @@
 #define _colorchip_h_
 
 #include "types.h"
+#include "chip.h"
 #include "texturedata.h"
 
-typedef struct colorChip *ColorChip;
+typedef struct colorChip {
+    chip base; // must be first
+    int backgroundColor;
+    int colorsLen;
+    colorData colors[COLORID_MAX];
+} colorChip;
 
-ColorChip colorChip_Create(colorData colors[], int len);
+typedef colorChip *ColorChip;
+
+void colorChip_Init(ColorChip self, colorData colors[], int len);
 
 colorData colorChip_GetColor(ColorChip self, colorId id);
 

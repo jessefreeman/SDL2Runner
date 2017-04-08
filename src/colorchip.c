@@ -11,37 +11,13 @@
 #include "types.h"
 #include "colorchip.h"
 
-typedef struct colorChip {
-    chip base; // must be first
-    int backgroundColor;
-    int colorsLen;
-    colorData colors[COLORID_MAX];
-} colorChip;
-
-static void colorChip_Destroy(ColorChip self);
-
-ColorChip colorChip_Create(colorData colors[], int len)
-{
-    ColorChip self = NULL;
-
-    self = (ColorChip)calloc(1, sizeof(colorChip));
-    if (self == NULL)
-        return NULL;
-
-    strncpy(self->base.name, nameof(ColorChip), sizeof(self->base.name) - 1);
-    self->base.destroy = colorChip_Destroy;
-
-    self->colorsLen = len;
-    memcpy(self->colors, colors, min(len * sizeof(colorData), COLORID_MAX * sizeof(colorData)));
-
-    return self;
-}
-
-static void colorChip_Destroy(ColorChip self)
+void colorChip_Init(ColorChip self, colorData colors[], int len)
 {
     assert(self);
     memset(self, 0, sizeof(colorChip));
-    free(self);
+    strncpy(self->base.name, nameof(ColorChip), sizeof(self->base.name) - 1);
+    self->colorsLen = len;
+    memcpy(self->colors, colors, min(len * sizeof(colorData), COLORID_MAX * sizeof(colorData)));
 }
 
 colorData colorChip_GetColor(ColorChip self, colorId id)

@@ -30,13 +30,14 @@ int main(int argc, char **argv)
     int width = 0;
     int height = 0;
     colorData *colors = importImageFromFile(".\\resources\\colors.png", &width, &height);
-    ColorChip colorChip = colorChip_Create(colors, width * height);
+    colorChip colorChip;
+    colorChip_Init(&colorChip, colors, width * height);
     free(colors);
-    gameConsole_InsertChip(console, (Chip)colorChip);
+    gameConsole_InsertChip(console, (Chip)&colorChip);
 
     // Create SpriteChip.
     
-    TextureData spriteSheet = importSpriteSheetFromFile(".\\resources\\sprites.png", colorChip);
+    TextureData spriteSheet = importSpriteSheetFromFile(".\\resources\\sprites.png", &colorChip);
     SpriteChip spriteChip = spriteChip_Create(SPRITE_WIDTH, SPRITE_HEIGHT, spriteSheet);
     textureData_Destroy(spriteSheet);
     spriteSheet = NULL;
@@ -49,13 +50,13 @@ int main(int argc, char **argv)
 
     int mapBuffer[96] = { 0 };
 
-    spriteSheet = importSpriteSheetFromFile(".\\resources\\large-font.png", colorChip);
+    spriteSheet = importSpriteSheetFromFile(".\\resources\\large-font.png", &colorChip);
     spriteChip_AddSprites(spriteChip, spriteSheet, mapBuffer);
     textureData_Destroy(spriteSheet);
     spriteSheet = NULL;
     fontChip_AddFont(fontChip, "large-font", 96, mapBuffer);
 
-    spriteSheet = importSpriteSheetFromFile(".\\resources\\small-font.png", colorChip);
+    spriteSheet = importSpriteSheetFromFile(".\\resources\\small-font.png", &colorChip);
     spriteChip_AddSprites(spriteChip, spriteSheet, mapBuffer);
     textureData_Destroy(spriteSheet);
     spriteSheet = NULL;
