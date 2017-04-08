@@ -157,6 +157,7 @@
     <ClInclude Include="gameconsole.h" />
     <ClInclude Include="layer.h" />
     <ClInclude Include="pv8sdk.h" />
+    <ClInclude Include="pvconf.h" />
     <ClInclude Include="spritechip.h" />
     <ClInclude Include="texturedata.h" />
     <ClInclude Include="tilemapchip.h" />

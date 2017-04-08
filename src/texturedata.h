@@ -5,17 +5,19 @@
 #ifndef _texturedata_h_
 #define _texturedata_h_
 
+#include "pvconf.h"
+
 typedef struct textureData *TextureData;
 
 TextureData textureData_Create(int width, int height);
 
 void textureData_Destroy(TextureData self);
 
-void textureData_Clear(TextureData self, int color);
+void textureData_Clear(TextureData self, colorId id);
 
-int textureData_GetPixelAt(TextureData self, int idx);
+colorId textureData_GetPixel(TextureData self, int idx);
 
-void textureData_SetPixelAt(TextureData self, int idx, int value);
+void textureData_SetPixelAt(TextureData self, int idx, colorId id);
 
 int textureData_GetPixelCount(TextureData self);
 

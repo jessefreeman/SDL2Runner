@@ -91,7 +91,7 @@ int displayChip_GetPixelCount(DisplayChip self)
 int displayChip_GetPixelAt(DisplayChip self, int idx)
 {
     assert(self);
-    return textureData_GetPixelAt(self->texture, idx);
+    return textureData_GetPixel(self->texture, idx);
 }
 
 void displayChip_Clear(DisplayChip self)

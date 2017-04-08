@@ -136,8 +136,8 @@ void spriteChip_AddSprites(SpriteChip self, TextureData spriteSheet, int *map)
                 for (int x = (c * spriteWidth); x < (c * spriteWidth) + spriteWidth; x++)
                 {
                     int cIdx = (y * textureWidth) + x;
-                    int val = textureData_GetPixelAt(spriteSheet, cIdx);
-                    textureData_SetPixelAt(self->sprites[spriteIdx], tIdx, val);
+                    colorId id = textureData_GetPixel(spriteSheet, cIdx);
+                    textureData_SetPixelAt(self->sprites[spriteIdx], tIdx, id);
                     tIdx++;
                 }
             }

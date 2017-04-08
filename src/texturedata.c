@@ -12,7 +12,7 @@ typedef struct textureData {
     int height;
     int pixelsLength;
     size_t pixelsSize;
-    int *pixels;
+    colorId *pixels;
 } textureData;
 
 TextureData textureData_Create(int width, int height)
@@ -26,7 +26,7 @@ TextureData textureData_Create(int width, int height)
     self->width = width;
     self->height = height;
     self->pixelsLength = width * height;
-    self->pixelsSize = self->pixelsLength * sizeof(int);
+    self->pixelsSize = self->pixelsLength * sizeof(colorId);
     self->pixels = (int *)calloc(1, self->pixelsSize);
     if (self->pixels == NULL)
     {
@@ -43,21 +43,21 @@ void textureData_Destroy(TextureData self)
     assert(self);
     if (self->pixels != NULL)
     {
-        memset(self->pixels, 0, self->pixelsLength * sizeof(int));
+        memset(self->pixels, 0, self->pixelsLength * sizeof(colorId));
         free(self->pixels);
     }
     memset(self, 0, sizeof(textureData));
     free(self);
 }
 
-void textureData_Clear(TextureData self, int color)
+void textureData_Clear(TextureData self, colorId id)
 {
     assert(self);
     for (int idx = 0; idx < self->pixelsLength; idx++)
-        self->pixels[idx] = color;
+        self->pixels[idx] = id;
 }
 
-int textureData_GetPixelAt(TextureData self, int idx)
+colorId textureData_GetPixel(TextureData self, int idx)
 {
     assert(self);
     if (idx < 0 || idx >= self->pixelsLength || self->pixels == NULL)
@@ -65,12 +65,12 @@ int textureData_GetPixelAt(TextureData self, int idx)
     return self->pixels[idx];
 }
 
-void textureData_SetPixelAt(TextureData self, int idx, int value)
+void textureData_SetPixelAt(TextureData self, int idx, colorId id)
 {
     assert(self);
     if (idx < 0 || idx >= self->pixelsLength || self->pixels == NULL)
         return;
-    self->pixels[idx] = value;
+    self->pixels[idx] = id;
 }
 
 int textureData_GetPixelCount(TextureData self)
@@ -102,7 +102,7 @@ void textureData_CopyToAtPos(TextureData self, TextureData target, int x, int y)
             targetIdx = coordsToIdx(x, targetY, target->width);
         }
 
-        int val = textureData_GetPixelAt(self, selfIdx);
+        int val = textureData_GetPixel(self, selfIdx);
         textureData_SetPixelAt(target, targetIdx, val);
         targetIdx++;
     }
