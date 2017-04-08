@@ -82,7 +82,7 @@ void apiBridge_DrawTileText(ApiBridge self,
 }
 
 void apiBridge_DrawSprite(ApiBridge self,
-    int id,
+    spriteId id,
     int x,
     int y,
     bool flipH,
@@ -94,16 +94,16 @@ void apiBridge_DrawSprite(ApiBridge self,
     assert(self->spriteChip);
     assert(self->displayChip);
 
-    TextureData pixelData = spriteChip_GetSprite(self->spriteChip, id);
-    if (pixelData != NULL)
+    Sprite sprite = spriteChip_GetSprite(self->spriteChip, id);
+    if (sprite != NULL)
     {
         // TODO: implement all the features of draw api
-        displayChip_Draw(self->displayChip, pixelData, x, y);
+        displayChip_Draw(self->displayChip, sprite, x, y);
     }
 }
 
 void apiBridge_DrawSprites(ApiBridge self,
-    int ids[],
+    spriteId ids[],
     int idsLen,
     int x,
     int y,
@@ -117,12 +117,12 @@ void apiBridge_DrawSprites(ApiBridge self,
     int spriteWidth = spriteChip_GetSpriteWidth(self->spriteChip);
     for (int i = 0; i < idsLen; i++)
     {
-        TextureData pixelData = spriteChip_GetSprite(self->spriteChip, ids[i]);
-        if (pixelData != NULL)
+        Sprite sprite = spriteChip_GetSprite(self->spriteChip, ids[i]);
+        if (sprite != NULL)
         {
             int newX = (i % width) * spriteWidth + x;
             int newY = (i / width) * spriteWidth + y;
-            displayChip_Draw(self->displayChip, pixelData, newX, newY);
+            displayChip_Draw(self->displayChip, sprite, newX, newY);
         }
     }
 }
@@ -174,10 +174,11 @@ void apiBridge_DrawSpriteText(ApiBridge self,
     int colorOffset)
 {
     assert(self);
-    TextureData pixelData = fontChip_ConvertTextToTexture(self->fontChip, text, fontName, 0);
-    if (pixelData != NULL)
+    // TODO: working again
+    //TextureData pixelData = fontChip_ConvertTextToTexture(self->fontChip, text, fontName, 0);
+    /*if (pixelData != NULL)
     {
         displayChip_Draw(self->displayChip, pixelData, x, y);
         textureData_Destroy(pixelData);
-    }
+    }*/
 }

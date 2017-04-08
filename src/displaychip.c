@@ -105,10 +105,10 @@ void displayChip_Clear(DisplayChip self)
     textureData_Clear(self->texture, backgroundColor);
 }
 
-void displayChip_Draw(DisplayChip self, TextureData pixelData, int x, int y)
+void displayChip_Draw(DisplayChip self, Sprite sprite, int x, int y)
 {
     assert(self);
-    textureData_CopyToAtPos(pixelData, self->texture, x, y);
+    sprite_CopyToTextureAtPos(sprite, self->texture, x, y);
 }
 
 void displayChip_DrawTilemap(DisplayChip self)
@@ -124,8 +124,8 @@ void displayChip_DrawTilemap(DisplayChip self)
                 int ref = tilemapChip_GetSpriteRefAt(self->tilemapChip, c, r);
                 if (ref >= 0)
                 {
-                    TextureData sprite = spriteChip_GetSprite(self->spriteChip, ref);
-                    textureData_CopyToAtPos(sprite, self->tilemapBuffer, c * self->sizeX, r * self->sizeY);
+                    Sprite sprite = spriteChip_GetSprite(self->spriteChip, ref);
+                    sprite_CopyToTextureAtPos(sprite, self->tilemapBuffer, c * self->sizeX, r * self->sizeY);
                 }
             }
         }

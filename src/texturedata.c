@@ -27,7 +27,7 @@ TextureData textureData_Create(int width, int height)
     self->height = height;
     self->pixelsLength = width * height;
     self->pixelsSize = self->pixelsLength * sizeof(colorId);
-    self->pixels = (int *)calloc(1, self->pixelsSize);
+    self->pixels = (colorId *)calloc(1, self->pixelsSize);
     if (self->pixels == NULL)
     {
         free(self);

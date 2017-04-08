@@ -6,6 +6,8 @@
 #define _apibridge_h_
 
 #include <stdbool.h>
+#include "pvconf.h"
+#include "types.h"
 #include "chip.h"
 
 typedef struct apiBridge *ApiBridge;
@@ -37,7 +39,7 @@ void apiBridge_DrawTileText(ApiBridge self,
     int colorOffset);
 
 void apiBridge_DrawSprite(ApiBridge self,
-    int id,
+    spriteId id,
     int x,
     int y,
     bool flipH,
@@ -46,7 +48,7 @@ void apiBridge_DrawSprite(ApiBridge self,
     int colorOffset);
 
 void apiBridge_DrawSprites(ApiBridge self,
-    int ids[],
+    spriteId ids[],
     int idsLen,
     int x,
     int y,

@@ -16,7 +16,7 @@
 
 typedef struct font {
     char name[64];
-    int map[96];
+    spriteId map[96];
 } *Font;
 
 typedef struct fontChip {
@@ -57,7 +57,7 @@ static void fontChip_Init(FontChip self, GetChip getChip)
     self->spriteChip = (SpriteChip)func_Invoke(getChip, nameof(SpriteChip));
 }
 
-void fontChip_AddFont(FontChip self, const char *name, int mapLen, int *map)
+void fontChip_AddFont(FontChip self, const char *name, int mapLen, spriteId *map)
 {
     assert(self);
     Font slot = NULL;
@@ -104,15 +104,17 @@ TextureData fontChip_ConvertTextToTexture(FontChip self, const char *text, const
     int cHeight = spriteChip_GetSpriteHeight(self->spriteChip);
     int textureHeight = cHeight; // * totalLines;
 
-                                 // TODO: this can fail
-    TextureData outputTexture = textureData_Create(textureWidth, textureHeight, false);
+    // TODO: this can fail
+    TextureData outputTexture = textureData_Create(textureWidth, textureHeight);
 
     // TODO: should handle multiple lines
     for (int x = 0; x < strlen(text); x++)
     {
         int spriteIdx = font->map[text[x] - ' '];
-        TextureData cTexture = spriteChip_GetSprite(self->spriteChip, spriteIdx);
-        textureData_CopyToAtPos(cTexture, outputTexture, x * (cWidth + letterSpacing), 0);
+        Sprite sprite = spriteChip_GetSprite(self->spriteChip, spriteIdx);
+
+
+        //textureData_CopyToAtPos(cTexture, outputTexture, x * (cWidth + letterSpacing), 0);
     }
 
     return outputTexture;

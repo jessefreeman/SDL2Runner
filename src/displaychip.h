@@ -6,6 +6,7 @@
 #define _displaychip_h_
 
 #include "pvconf.h"
+#include "sprite.h"
 #include "texturedata.h"
 
 typedef struct displayChip *DisplayChip;
@@ -18,7 +19,7 @@ colorId displayChip_GetPixel(DisplayChip self, int idx);
 
 void displayChip_Clear(DisplayChip self);
 
-void displayChip_Draw(DisplayChip self, TextureData pixelData, int x, int y);
+void displayChip_Draw(DisplayChip self, Sprite sprite, int x, int y);
 
 void displayChip_DrawTilemap(DisplayChip self);
 

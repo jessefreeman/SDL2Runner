@@ -4,6 +4,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "stb_image.h"
 #include "types.h"
 #include "colorchip.h"
@@ -30,10 +31,10 @@ colorData *importImageFromFile(const char *filePath, int *width, int *height)
 
     int pixelsLen = x * y;
     int dataLen = pixelsLen * 4;
-    colorData *colors = calloc(pixelsLen, sizeof(colorData));
+    colorData *colors = (colorData *)calloc(pixelsLen, sizeof(colorData));
     for (int p = 0, i = 0; p < dataLen; p += 4, i++) // cause 4 pixels duh
     {
-        pixel *currentPixel = &data[p];
+        pixel *currentPixel = (pixel *)&data[p];
         colors[i] = currentPixel->a == 255
             ? currentPixel->color
             : (colorData) { 255, 0, 255 };
@@ -55,14 +56,14 @@ char *importTextFromFile(const char *filePath, int *len)
     fseek(fp, 0, SEEK_END);
     long fsize = ftell(fp);
     fseek(fp, 0, SEEK_SET);
-    char *data = calloc(1, fsize + 1);
+    char *data = (char *)calloc(1, fsize + 1);
     fread(data, fsize, 1, fp);
     fclose(fp);
     *len = fsize;
     return data;
 }
 
-TextureData *importSpriteSheetFromFile(const char *filePath, ColorChip colorChip)
+TextureData importSpriteSheetFromFile(const char *filePath, ColorChip colorChip)
 {
     int width = 0;
     int height = 0;

@@ -48,16 +48,16 @@ int main(int argc, char **argv)
     FontChip fontChip = fontChip_Create();
     gameConsole_InsertChip(console, (Chip)fontChip);
 
-    int mapBuffer[96] = { 0 };
+    spriteId mapBuffer[96] = { 0 };
 
     spriteSheet = importSpriteSheetFromFile(".\\resources\\large-font.png", &colorChip);
-    spriteChip_AddSprites(spriteChip, spriteSheet, mapBuffer);
+    spriteChip_AddSpritesFromTexture(spriteChip, spriteSheet, mapBuffer);
     textureData_Destroy(spriteSheet);
     spriteSheet = NULL;
     fontChip_AddFont(fontChip, "large-font", 96, mapBuffer);
 
     spriteSheet = importSpriteSheetFromFile(".\\resources\\small-font.png", &colorChip);
-    spriteChip_AddSprites(spriteChip, spriteSheet, mapBuffer);
+    spriteChip_AddSpritesFromTexture(spriteChip, spriteSheet, mapBuffer);
     textureData_Destroy(spriteSheet);
     spriteSheet = NULL;
     fontChip_AddFont(fontChip, "small-font", 96, mapBuffer);

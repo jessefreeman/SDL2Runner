@@ -18,7 +18,7 @@ typedef struct gameConsole {
     ColorChip colorChip;
 } gameConsole;
 
-static void gameConsole_RenderToDisplay(GameConsole self);
+static void gameConsole_RenderToDisplay(GameConsole self, bool init);
 
 GameConsole gameConsole_Create()
 {

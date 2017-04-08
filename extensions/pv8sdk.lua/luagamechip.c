@@ -7,6 +7,8 @@
 #include <lua.h>
 #include <lauxlib.h>
 #include <lualib.h>
+#include "pvconf.h"
+#include "types.h"
 #include "util.h"
 #include "chip.h"
 #include "apibridge.h"
@@ -16,7 +18,7 @@ typedef struct luaGameChip {
     chip base; // must be first
     ApiBridge api;
     int scriptLen;
-    const char *script;
+    char *script;
     lua_State *L;
 } luaGameChip;
 
@@ -196,10 +198,10 @@ static void drawFontToBuffer(lua_State *L)
 
 static void drawTileText(lua_State *L)
 {
-    char *text = lua_tostring(L, -5);
+    const char *text = lua_tostring(L, -5);
     int column = lua_tointeger(L, -4);
     int row = lua_tointeger(L, -3);
-    char *fontName = lua_tostring(L, -2);
+    const char *fontName = lua_tostring(L, -2);
     int colorOffset = lua_tointeger(L, -1);
     apiBridge_DrawTileText(instance->api, text, column, row, fontName, colorOffset);
 }
@@ -207,7 +209,7 @@ static void drawTileText(lua_State *L)
 static void drawSprite(lua_State *L)
 {
     assert(instance);
-    int id = lua_tointeger(L, -7);
+    spriteId id = (spriteId)lua_tointeger(L, -7);
     int x = lua_tointeger(L, -6);
     int y = lua_tointeger(L, -5);
     bool flipH = lua_toboolean(L, -4);
@@ -220,12 +222,13 @@ static void drawSprite(lua_State *L)
 static void drawSprites(lua_State *L)
 {
     int len = lua_rawlen(L, -8);
-    int *ids = (int *)calloc(len, sizeof(int));
+    // TODO: remove alloc
+    spriteId *ids = (spriteId *)calloc(len, sizeof(spriteId));
     lua_pushnil(L);
     int i = 0;
     while (lua_next(L, -9) != 0)
     {
-        ids[i] = lua_tointeger(L, -1);
+        ids[i] = (spriteId)lua_tointeger(L, -1);
         lua_pop(L, 1);
         i++;
     }
@@ -237,6 +240,7 @@ static void drawSprites(lua_State *L)
     bool aboveBG = lua_toboolean(L, -2);
     int colorOffset = lua_tointeger(L, -1);
     apiBridge_DrawSprites(instance->api, ids, len, x, y, width, flipH, flipV, aboveBG, colorOffset);
+    free(ids);
 }
 
 static void drawScreenBuffer(lua_State *L)
@@ -249,10 +253,10 @@ static void drawScreenBuffer(lua_State *L)
 // Deprecated
 static void drawFont(lua_State *L)
 {
-    char *text = lua_tostring(L, -5);
+    const char *text = lua_tostring(L, -5);
     int x = lua_tointeger(L, -4);
     int y = lua_tointeger(L, -3);
-    char *fontName = lua_tostring(L, -2);
+    const char *fontName = lua_tostring(L, -2);
     int letterSpacing = lua_tointeger(L, -1);
     // missing offset?
     apiBridge_DrawFont(instance->api, text, x, y, fontName, letterSpacing, 0);
@@ -260,10 +264,10 @@ static void drawFont(lua_State *L)
 
 static void drawSpriteText(lua_State *L)
 {
-    char *text = lua_tostring(L, -5);
+    const char *text = lua_tostring(L, -5);
     int x = lua_tointeger(L, -4);
     int y = lua_tointeger(L, -3);
-    char *fontName = lua_tostring(L, -2);
+    const char *fontName = lua_tostring(L, -2);
     int colorOffset = lua_tointeger(L, -1);
     apiBridge_DrawSpriteText(instance->api, text, x, y, fontName, colorOffset);
 }

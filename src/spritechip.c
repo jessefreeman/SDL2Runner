@@ -6,20 +6,22 @@
 #include <stdlib.h>
 #include "util.h"
 #include "chip.h"
-#include "spritechip.h"
+#include "sprite.h"
 #include "colorchip.h"
+#include "spritechip.h"
 
 typedef struct spriteChip {
     chip base; // must be first
     int spriteWidth;
     int spriteHeight;
-    int spritesLen;
-    TextureData *sprites;
+    int numSpritePages;
+    int spritesPerPage;
+    int maxSprites;
+    spriteId nextAvailableSpriteId;
+    sprites sprites;
 } spriteChip;
 
 static void spriteChip_Destroy(SpriteChip self);
-static void spriteChip_Init(SpriteChip self, GetChip getChip);
-static void spriteChip_Dispose(SpriteChip self);
 
 SpriteChip spriteChip_Create(int spriteWidth, int spriteHeight, TextureData spriteSheet)
 {
@@ -35,13 +37,15 @@ SpriteChip spriteChip_Create(int spriteWidth, int spriteHeight, TextureData spri
 
     strncpy(self->base.name, nameof(SpriteChip), sizeof(self->base.name) - 1);
     self->base.destroy = spriteChip_Destroy;
-    self->base.init = spriteChip_Init;
 
-    self->spriteWidth = spriteWidth;
-    self->spriteHeight = spriteHeight;
-    self->spritesLen = 0;
+    self->spriteWidth = clamp(spriteWidth, 1, MAX_SPRITE_WIDTH);
+    self->spriteHeight = clamp(spriteHeight, 1, MAX_SPRITE_HEIGHT);
+    self->numSpritePages = MAX_SPRITE_PAGES;
+    self->spritesPerPage = MAX_SPRITES_PER_PAGE;
+    self->maxSprites = MAX_SPRITES;
+    self->nextAvailableSpriteId = 0;
 
-    spriteChip_AddSprites(self, spriteSheet, NULL);
+    spriteChip_AddSpritesFromTexture(self, spriteSheet, NULL);
 
     return self;
 }
@@ -49,40 +53,14 @@ SpriteChip spriteChip_Create(int spriteWidth, int spriteHeight, TextureData spri
 static void spriteChip_Destroy(SpriteChip self)
 {
     assert(self);
-    spriteChip_Dispose(self);
     memset(self, 0, sizeof(spriteChip));
     free(self);
 }
 
-static void spriteChip_Init(SpriteChip self, GetChip getChip)
+Sprite spriteChip_GetSprite(SpriteChip self, spriteId id)
 {
     assert(self);
-    assert(getChip);
-}
-
-static void spriteChip_Dispose(SpriteChip self)
-{
-    assert(self);
-    if (self->sprites != NULL)
-    {
-        for (int idx = 0; idx < self->spritesLen; idx++)
-        {
-            if (self->sprites[idx] == NULL)
-                continue;
-
-            textureData_Destroy(self->sprites[idx]);
-            self->sprites[idx] = NULL;
-        }
-        self->spritesLen = 0;
-    }
-}
-
-TextureData spriteChip_GetSprite(SpriteChip self, int id)
-{
-    assert(self);
-    assert(id >= 0);
-    if (self->sprites == NULL || id >= self->spritesLen) return NULL;
-    return self->sprites[id];
+    return &self->sprites[clamp(id, 0, min(self->maxSprites, MAX_SPRITES) - 1)];
 }
 
 int spriteChip_GetSpriteWidth(SpriteChip self)
@@ -97,7 +75,7 @@ int spriteChip_GetSpriteHeight(SpriteChip self)
     return self->spriteHeight;
 }
 
-void spriteChip_AddSprites(SpriteChip self, TextureData spriteSheet, int *map)
+void spriteChip_AddSpritesFromTexture(SpriteChip self, TextureData spriteSheet, spriteId *map)
 {
     assert(self);
     assert(spriteSheet);
@@ -111,25 +89,15 @@ void spriteChip_AddSprites(SpriteChip self, TextureData spriteSheet, int *map)
     int textureHeight = textureData_GetHeight(spriteSheet);
     int rows = textureHeight / spriteHeight;
 
-    int spriteIdx = self->spritesLen;
-    int newSpritesLen = self->spritesLen + (rows * cols);
-
-    TextureData newSprites = (TextureData *)calloc(newSpritesLen, sizeof(TextureData));
-    assert(newSprites);
-    if (self->sprites != NULL)
-    {
-        memcpy(newSprites, self->sprites, self->spritesLen * sizeof(TextureData *));
-        free(self->sprites);
-    }
-    self->spritesLen = newSpritesLen;
-    self->sprites = newSprites;
+    spriteId spriteId = self->nextAvailableSpriteId;
 
     int i = 0;
     for (int r = 0; r < rows; r++)
     {
         for (int c = 0; c < cols; c++)
         {
-            self->sprites[spriteIdx] = textureData_Create(spriteWidth, spriteHeight);
+            sprite_Init(&self->sprites[spriteId], self->spriteWidth, self->spriteHeight, NULL);
+            
             int tIdx = 0;
             for (int y = (r * spriteHeight); y < (r * spriteHeight) + spriteHeight; y++)
             {
@@ -137,15 +105,17 @@ void spriteChip_AddSprites(SpriteChip self, TextureData spriteSheet, int *map)
                 {
                     int cIdx = (y * textureWidth) + x;
                     colorId id = textureData_GetPixel(spriteSheet, cIdx);
-                    textureData_SetPixelAt(self->sprites[spriteIdx], tIdx, id);
+                    sprite_SetPixel(&self->sprites[spriteId], tIdx, id);
                     tIdx++;
                 }
             }
             
             if (map != NULL)
-                map[i++] = spriteIdx;
+                map[i++] = spriteId;
 
-            spriteIdx++;
+            spriteId++;
         }
     }
+
+    self->nextAvailableSpriteId = spriteId;
 }
