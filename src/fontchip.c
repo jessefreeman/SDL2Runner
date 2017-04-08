@@ -8,6 +8,7 @@
 #include <string.h>
 #include "util.h"
 #include "chip.h"
+#include "sprite.h"
 #include "spritechip.h"
 #include "textureData.h"
 #include "fontchip.h"
@@ -112,9 +113,7 @@ TextureData fontChip_ConvertTextToTexture(FontChip self, const char *text, const
     {
         int spriteIdx = font->map[text[x] - ' '];
         Sprite sprite = spriteChip_GetSprite(self->spriteChip, spriteIdx);
-
-
-        //textureData_CopyToAtPos(cTexture, outputTexture, x * (cWidth + letterSpacing), 0);
+        sprite_CopyToTextureAtPos(sprite, outputTexture, x * (cWidth + letterSpacing), 0);
     }
 
     return outputTexture;

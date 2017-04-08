@@ -90,21 +90,17 @@ void textureData_CopyToAtPos(TextureData self, TextureData target, int x, int y)
 {
     assert(self);
     assert(target);
-    int targetY = y % target->height;
-    int targetIdx = coordsToIdx(x, targetY, target->width);
-    for (int selfIdx = 0, selfX = 0; selfIdx < self->pixelsLength; selfIdx++, selfX++)
+    for (int sy = 0; sy < self->height; sy++)
     {
-        if (selfX >= self->width)
+        for (int sx = 0; sx < self->width; sx++)
         {
-            targetY++;
-            targetY = targetY % target->height;
-            selfX = 0;
-            targetIdx = coordsToIdx(x, targetY, target->width);
+            int sIdx = coordsToIdx(sx, sy, self->width);
+            colorId colorId = textureData_GetPixel(self, sIdx);
+            int ty = (y + sy) % target->height;
+            int tx = x + sx;
+            int tIdx = coordsToIdx(tx, ty, target->width);
+            textureData_SetPixelAt(target, tIdx, colorId);
         }
-
-        int val = textureData_GetPixel(self, selfIdx);
-        textureData_SetPixelAt(target, targetIdx, val);
-        targetIdx++;
     }
 }
 

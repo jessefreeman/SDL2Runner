@@ -19,7 +19,9 @@ colorId displayChip_GetPixel(DisplayChip self, int idx);
 
 void displayChip_Clear(DisplayChip self);
 
-void displayChip_Draw(DisplayChip self, Sprite sprite, int x, int y);
+void displayChip_DrawSprite(DisplayChip self, Sprite sprite, int x, int y);
+
+void displayChip_DrawTexture(DisplayChip self, TextureData texture, int x, int y);
 
 void displayChip_DrawTilemap(DisplayChip self);
 

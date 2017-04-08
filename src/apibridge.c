@@ -98,7 +98,7 @@ void apiBridge_DrawSprite(ApiBridge self,
     if (sprite != NULL)
     {
         // TODO: implement all the features of draw api
-        displayChip_Draw(self->displayChip, sprite, x, y);
+        displayChip_DrawSprite(self->displayChip, sprite, x, y);
     }
 }
 
@@ -122,7 +122,7 @@ void apiBridge_DrawSprites(ApiBridge self,
         {
             int newX = (i % width) * spriteWidth + x;
             int newY = (i / width) * spriteWidth + y;
-            displayChip_Draw(self->displayChip, sprite, newX, newY);
+            displayChip_DrawSprite(self->displayChip, sprite, newX, newY);
         }
     }
 }
@@ -175,10 +175,10 @@ void apiBridge_DrawSpriteText(ApiBridge self,
 {
     assert(self);
     // TODO: working again
-    //TextureData pixelData = fontChip_ConvertTextToTexture(self->fontChip, text, fontName, 0);
-    /*if (pixelData != NULL)
+    TextureData pixelData = fontChip_ConvertTextToTexture(self->fontChip, text, fontName, 0);
+    if (pixelData != NULL)
     {
-        displayChip_Draw(self->displayChip, pixelData, x, y);
+        displayChip_DrawTexture(self->displayChip, pixelData, x, y);
         textureData_Destroy(pixelData);
-    }*/
+    }
 }

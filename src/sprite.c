@@ -31,20 +31,16 @@ void sprite_CopyToTextureAtPos(Sprite self, TextureData target, int x, int y)
     assert(target);
     int textureHeight = textureData_GetHeight(target);
     int textureWidth = textureData_GetWidth(target);
-
-    int targetY = y % textureHeight;
-    int targetIdx = coordsToIdx(x, targetY, textureWidth);
-    for (int selfIdx = 0, selfX = 0; selfIdx < self->maxPixels; selfIdx++, selfX++)
+    for (int sy = 0; sy < self->height; sy++)
     {
-        if (selfX >= self->width)
+        for (int sx = 0; sx < self->width; sx++)
         {
-            targetY++;
-            targetY = targetY % textureHeight;
-            selfX = 0;
-            targetIdx = coordsToIdx(x, targetY, textureWidth);
+            int sIdx = coordsToIdx(sx, sy, self->width);
+            colorId colorId = self->pixels[sIdx];
+            int ty = (y + sy) % textureHeight;
+            int tx = x + sx;
+            int tIdx = coordsToIdx(tx, ty, textureWidth);
+            textureData_SetPixelAt(target, tIdx, colorId);
         }
-        colorId colorId = self->pixels[selfIdx];
-        textureData_SetPixelAt(target, targetIdx, colorId);
-        targetIdx++;
     }
 }
