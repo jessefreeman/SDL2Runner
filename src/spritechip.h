@@ -7,14 +7,26 @@
 
 #include "pvconf.h"
 #include "types.h"
+#include "chip.h"
 #include "sprite.h"
 #include "texturedata.h"
 
 typedef sprite sprites[MAX_SPRITES];
 
-typedef struct spriteChip *SpriteChip;
+typedef struct spriteChip {
+    chip base; // must be first
+    int spriteWidth;
+    int spriteHeight;
+    int numSpritePages;
+    int spritesPerPage;
+    int maxSprites;
+    spriteId nextAvailableSpriteId;
+    sprites sprites;
+} spriteChip;
 
-SpriteChip spriteChip_Create(int spriteWidth, int spriteHeight, TextureData spriteSheet);
+typedef spriteChip *SpriteChip;
+
+void spriteChip_Init(SpriteChip self, int spriteWidth, int spriteHeight, TextureData spriteSheet);
 
 Sprite spriteChip_GetSprite(SpriteChip self, spriteId id);
 

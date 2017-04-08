@@ -10,34 +10,15 @@
 #include "colorchip.h"
 #include "spritechip.h"
 
-typedef struct spriteChip {
-    chip base; // must be first
-    int spriteWidth;
-    int spriteHeight;
-    int numSpritePages;
-    int spritesPerPage;
-    int maxSprites;
-    spriteId nextAvailableSpriteId;
-    sprites sprites;
-} spriteChip;
-
-static void spriteChip_Destroy(SpriteChip self);
-
-SpriteChip spriteChip_Create(int spriteWidth, int spriteHeight, TextureData spriteSheet)
+void spriteChip_Init(SpriteChip self, int spriteWidth, int spriteHeight, TextureData spriteSheet)
 {
+    assert(self);
     assert(spriteWidth > 0); 
     assert(spriteHeight > 0);
-    assert(spriteSheet);
 
-    SpriteChip self = NULL;
-
-    self = (SpriteChip)calloc(1, sizeof(spriteChip));
-    if (self == NULL)
-        return NULL;
-
+    memset(self, 0, sizeof(spriteChip));
     strncpy(self->base.name, nameof(SpriteChip), sizeof(self->base.name) - 1);
-    self->base.destroy = spriteChip_Destroy;
-
+    
     self->spriteWidth = clamp(spriteWidth, 1, MAX_SPRITE_WIDTH);
     self->spriteHeight = clamp(spriteHeight, 1, MAX_SPRITE_HEIGHT);
     self->numSpritePages = MAX_SPRITE_PAGES;
@@ -45,16 +26,8 @@ SpriteChip spriteChip_Create(int spriteWidth, int spriteHeight, TextureData spri
     self->maxSprites = MAX_SPRITES;
     self->nextAvailableSpriteId = 0;
 
+    if (spriteSheet == NULL) return;
     spriteChip_AddSpritesFromTexture(self, spriteSheet, NULL);
-
-    return self;
-}
-
-static void spriteChip_Destroy(SpriteChip self)
-{
-    assert(self);
-    memset(self, 0, sizeof(spriteChip));
-    free(self);
 }
 
 Sprite spriteChip_GetSprite(SpriteChip self, spriteId id)
@@ -114,6 +87,7 @@ void spriteChip_AddSpritesFromTexture(SpriteChip self, TextureData spriteSheet, 
                 map[i++] = spriteId;
 
             spriteId++;
+            // TODO: upper bounds check here
         }
     }
 

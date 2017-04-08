@@ -16,6 +16,9 @@
 #define SPRITE_WIDTH    8
 #define SPRITE_HEIGHT   8
 
+static colorChip pvColorChip;
+static spriteChip pvSpriteChip;
+
 int main(int argc, char **argv)
 {
     // Build the game console.
@@ -30,18 +33,19 @@ int main(int argc, char **argv)
     int width = 0;
     int height = 0;
     colorData *colors = importImageFromFile(".\\resources\\colors.png", &width, &height);
-    colorChip colorChip;
-    colorChip_Init(&colorChip, colors, width * height);
+    
+    colorChip_Init(&pvColorChip, colors, width * height);
     free(colors);
-    gameConsole_InsertChip(console, (Chip)&colorChip);
+    gameConsole_InsertChip(console, (Chip)&pvColorChip);
 
     // Create SpriteChip.
     
-    TextureData spriteSheet = importSpriteSheetFromFile(".\\resources\\sprites.png", &colorChip);
-    SpriteChip spriteChip = spriteChip_Create(SPRITE_WIDTH, SPRITE_HEIGHT, spriteSheet);
+    TextureData spriteSheet = importSpriteSheetFromFile(".\\resources\\sprites.png", &pvColorChip);
+    
+    spriteChip_Init(&pvSpriteChip, SPRITE_WIDTH, SPRITE_HEIGHT, spriteSheet);
     textureData_Destroy(spriteSheet);
     spriteSheet = NULL;
-    gameConsole_InsertChip(console, (Chip)spriteChip);
+    gameConsole_InsertChip(console, (Chip)&pvSpriteChip);
 
     // Create FontChip
 
@@ -50,14 +54,14 @@ int main(int argc, char **argv)
 
     spriteId mapBuffer[96] = { 0 };
 
-    spriteSheet = importSpriteSheetFromFile(".\\resources\\large-font.png", &colorChip);
-    spriteChip_AddSpritesFromTexture(spriteChip, spriteSheet, mapBuffer);
+    spriteSheet = importSpriteSheetFromFile(".\\resources\\large-font.png", &pvColorChip);
+    spriteChip_AddSpritesFromTexture(&pvSpriteChip, spriteSheet, mapBuffer);
     textureData_Destroy(spriteSheet);
     spriteSheet = NULL;
     fontChip_AddFont(fontChip, "large-font", 96, mapBuffer);
 
-    spriteSheet = importSpriteSheetFromFile(".\\resources\\small-font.png", &colorChip);
-    spriteChip_AddSpritesFromTexture(spriteChip, spriteSheet, mapBuffer);
+    spriteSheet = importSpriteSheetFromFile(".\\resources\\small-font.png", &pvColorChip);
+    spriteChip_AddSpritesFromTexture(&pvSpriteChip, spriteSheet, mapBuffer);
     textureData_Destroy(spriteSheet);
     spriteSheet = NULL;
     fontChip_AddFont(fontChip, "small-font", 96, mapBuffer);
