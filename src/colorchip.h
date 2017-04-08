@@ -12,15 +12,15 @@ typedef struct colorChip *ColorChip;
 
 ColorChip colorChip_Create(colorData colors[], int len);
 
-colorData colorChip_GetColorAt(ColorChip self, int idx);
+colorData colorChip_GetColor(ColorChip self, colorId id);
 
-void colorChip_SetColorAt(ColorChip self, int idx, colorData value);
+void colorChip_SetColor(ColorChip self, colorId, colorData value);
 
-int colorChip_FindColorRef(ColorChip self, colorData color);
+colorId colorChip_FindColorId(ColorChip self, colorData color);
 
-void colorChip_SetBackgroundColor(ColorChip self, int id);
+void colorChip_SetBackgroundColorId(ColorChip self, colorId id);
 
-int colorChip_GetBackgroundColor(ColorChip self);
+colorId colorChip_GetBackgroundColorId(ColorChip self);
 
 TextureData colorChip_MapPixelDataToTexture(ColorChip self,
     int width, int height, colorData pixels[], TextureData textureData);

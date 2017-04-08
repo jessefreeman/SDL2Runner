@@ -88,7 +88,7 @@ int displayChip_GetPixelCount(DisplayChip self)
     return textureData_GetPixelCount(self->texture);
 }
 
-int displayChip_GetPixelAt(DisplayChip self, int idx)
+colorId displayChip_GetPixel(DisplayChip self, int idx)
 {
     assert(self);
     return textureData_GetPixel(self->texture, idx);
@@ -99,7 +99,7 @@ void displayChip_Clear(DisplayChip self)
     assert(self);
 
     int backgroundColor = self->colorChip != NULL
-        ? colorChip_GetBackgroundColor(self->colorChip)
+        ? colorChip_GetBackgroundColorId(self->colorChip)
         : -1;
 
     textureData_Clear(self->texture, backgroundColor);
@@ -116,7 +116,7 @@ void displayChip_DrawTilemap(DisplayChip self)
     assert(self);    
     if (tilemapChip_IsInvalidated(self->tilemapChip))
     {
-        textureData_Clear(self->tilemapBuffer, colorChip_GetBackgroundColor(self->colorChip));
+        textureData_Clear(self->tilemapBuffer, colorChip_GetBackgroundColorId(self->colorChip));
         for (int r = 0; r < self->tilemapRows; r++)
         {
             for (int c = 0; c < self->tilemapCols; c++)

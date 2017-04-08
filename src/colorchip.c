@@ -5,6 +5,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "pvconf.h"
 #include "util.h"
 #include "chip.h"
 #include "types.h"
@@ -18,7 +19,6 @@ typedef struct colorChip {
 } colorChip;
 
 static void colorChip_Destroy(ColorChip self);
-static void colorChip_Init(ColorChip self, GetChip getChip);
 static void colorChip_Dispose(ColorChip self);
 
 ColorChip colorChip_Create(colorData colors[], int len)
@@ -31,7 +31,6 @@ ColorChip colorChip_Create(colorData colors[], int len)
 
     strncpy(self->base.name, nameof(ColorChip), sizeof(self->base.name) - 1);
     self->base.destroy = colorChip_Destroy;
-    self->base.init = colorChip_Init;
 
     self->colors = (colorData *)calloc(len, sizeof(colorData));
     if (self->colors == NULL)
@@ -53,12 +52,6 @@ static void colorChip_Destroy(ColorChip self)
     free(self);
 }
 
-static void colorChip_Init(ColorChip self, GetChip getChip)
-{
-    assert(self);
-    assert(getChip);
-}
-
 static void colorChip_Dispose(ColorChip self)
 {
     assert(self);
@@ -69,30 +62,30 @@ static void colorChip_Dispose(ColorChip self)
     self->colors = NULL;
 }
 
-colorData colorChip_GetColorAt(ColorChip self, int idx)
+colorData colorChip_GetColor(ColorChip self, colorId id)
 {
     assert(self);
-    return idx > 0 && idx < self->colorsLen && self->colors != NULL
-        ? self->colors[idx]
+    return id > 0 && id < self->colorsLen && self->colors != NULL
+        ? self->colors[id]
         : (colorData){ 255, 0, 255 };
 }
 
-void colorChip_SetColorAt(ColorChip self, int idx, colorData value)
+void colorChip_SetColor(ColorChip self, colorId id, colorData value)
 {
     assert(self);
-    if (idx < 0 || idx >= self->colorsLen || self->colors == NULL) return;
-    self->colors[idx] = value;
+    if (id >= self->colorsLen || self->colors == NULL) return;
+    self->colors[id] = value;
 }
 
-int colorChip_FindColorRef(ColorChip self, colorData color)
+colorId colorChip_FindColorId(ColorChip self, colorData color)
 {
     assert(self);
     if (self->colors == NULL)
         return -1;
 
-    int result = -1;
+    colorId result = 0;
     
-    for (int i = 0; i < self->colorsLen && result < 0; i++)
+    for (int i = 0; i < self->colorsLen && result == 0; i++)
         if (self->colors[i].r == color.r &&
             self->colors[i].g == color.g &&
             self->colors[i].b == color.b)
@@ -101,13 +94,13 @@ int colorChip_FindColorRef(ColorChip self, colorData color)
     return result;
 }
 
-void colorChip_SetBackgroundColor(ColorChip self, int id)
+void colorChip_SetBackgroundColorId(ColorChip self, colorId id)
 {
     assert(self);
     self->backgroundColor = id;
 }
 
-int colorChip_GetBackgroundColor(ColorChip self)
+colorId colorChip_GetBackgroundColorId(ColorChip self)
 {
     assert(self);
     return self->backgroundColor;
@@ -124,7 +117,7 @@ TextureData colorChip_MapPixelDataToTexture(ColorChip self,
         {
             int idx = coordsToIdx(x, y, width);
             colorData color = pixels[idx];
-            textureData_SetPixelAt(textureData, idx, colorChip_FindColorRef(self, color));
+            textureData_SetPixelAt(textureData, idx, colorChip_FindColorId(self, color));
         }
     return textureData;
 }

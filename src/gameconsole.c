@@ -115,8 +115,8 @@ static void gameConsole_RenderToDisplay(GameConsole self, bool init)
 
     for (int i = 0; i < pixelsLen; i++)
     {
-        int colorRef = displayChip_GetPixelAt(self->displayChip, i);
-        if (colorRef < 0)
+        colorId colorId = displayChip_GetPixel(self->displayChip, i);
+        if (colorId < 0)
         {
             pixels[i].r = 255;
             pixels[i].g = 0;
@@ -124,7 +124,7 @@ static void gameConsole_RenderToDisplay(GameConsole self, bool init)
         }
         else
         {
-            colorData color = colorChip_GetColorAt(self->colorChip, colorRef);
+            colorData color = colorChip_GetColor(self->colorChip, colorId);
             // magenta transparent for now
             if (color.r != 255 || color.g != 0 || color.b != 255)
             {
