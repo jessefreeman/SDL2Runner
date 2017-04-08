@@ -13,13 +13,12 @@
 
 typedef struct colorChip {
     chip base; // must be first
-    int colorsLen;
     int backgroundColor;
-    colorData *colors;
+    int colorsLen;
+    colorData colors[COLORID_MAX];
 } colorChip;
 
 static void colorChip_Destroy(ColorChip self);
-static void colorChip_Dispose(ColorChip self);
 
 ColorChip colorChip_Create(colorData colors[], int len)
 {
@@ -32,14 +31,8 @@ ColorChip colorChip_Create(colorData colors[], int len)
     strncpy(self->base.name, nameof(ColorChip), sizeof(self->base.name) - 1);
     self->base.destroy = colorChip_Destroy;
 
-    self->colors = (colorData *)calloc(len, sizeof(colorData));
-    if (self->colors == NULL)
-    {
-        free(self);
-        return NULL;
-    }
-    memcpy(self->colors, colors, len * sizeof(colorData));
     self->colorsLen = len;
+    memcpy(self->colors, colors, min(len * sizeof(colorData), COLORID_MAX * sizeof(colorData)));
 
     return self;
 }
@@ -47,49 +40,38 @@ ColorChip colorChip_Create(colorData colors[], int len)
 static void colorChip_Destroy(ColorChip self)
 {
     assert(self);
-    colorChip_Dispose(self);
     memset(self, 0, sizeof(colorChip));
     free(self);
-}
-
-static void colorChip_Dispose(ColorChip self)
-{
-    assert(self);
-    if (self->colors == NULL) return;
-    memset(self->colors, 0, self->colorsLen * sizeof(colorData));
-    free(self->colors);
-    self->colorsLen = 0;
-    self->colors = NULL;
 }
 
 colorData colorChip_GetColor(ColorChip self, colorId id)
 {
     assert(self);
-    return id > 0 && id < self->colorsLen && self->colors != NULL
-        ? self->colors[id]
-        : (colorData){ 255, 0, 255 };
+    return self->colors[clamp(id, 0, self->colorsLen - 1)];
 }
 
 void colorChip_SetColor(ColorChip self, colorId id, colorData value)
 {
     assert(self);
-    if (id >= self->colorsLen || self->colors == NULL) return;
-    self->colors[id] = value;
+    self->colors[clamp(id, 0, self->colorsLen - 1)] = value;
 }
 
 colorId colorChip_FindColorId(ColorChip self, colorData color)
 {
     assert(self);
-    if (self->colors == NULL)
-        return -1;
 
     colorId result = 0;
     
-    for (int i = 0; i < self->colorsLen && result == 0; i++)
+    for (colorId i = 0; i < self->colorsLen; i++)
+    {
         if (self->colors[i].r == color.r &&
             self->colors[i].g == color.g &&
             self->colors[i].b == color.b)
+        {
             result = i;
+            break;
+        }
+    }
 
     return result;
 }

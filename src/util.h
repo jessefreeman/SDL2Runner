@@ -22,6 +22,8 @@
 #define max(x,y) ((x) > (y) ? (x) : (y))
 #endif
 
+#define clamp(x, min, max) ((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
+
 // returns first Obj if not NULL, otherwise returns second
 Obj nvl(Obj, Obj);
 
