@@ -17,9 +17,15 @@
     <ClInclude Include="luagamechip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="luaapibridge.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="luagamechip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="luaapibridge.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

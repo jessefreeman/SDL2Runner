@@ -74,18 +74,18 @@ void fontChip_AddFont(FontChip self, const char *name, int mapLen, spriteId *map
     memcpy(slot->map, map, min(mapLen * sizeof(int), sizeof(slot->map)));
 }
 
-void fontChip_ConvertTextToSprites(FontChip self, const char *text, const char *fontName, int *spriteRefs)
+void fontChip_ConvertTextToSprites(FontChip self, const char *text, const char *fontName, spriteId *spriteIds)
 {
     assert(self);
     assert(text);
-    assert(spriteRefs);
+    assert(spriteIds);
 
     Font font = fontChip_FindFont(self, fontName);
     if (font == NULL)
         return;
 
     for (int i = 0; i < strlen(text); i++)
-        spriteRefs[i] = font->map[text[i] - ' '];
+        spriteIds[i] = font->map[text[i] - ' '];
 }
 
 TextureData fontChip_ConvertTextToTexture(FontChip self, const char *text, const char *fontName, int letterSpacing)

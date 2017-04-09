@@ -134,10 +134,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="luaapibridge.h" />
     <ClInclude Include="luagamechip.h" />
     <ClInclude Include="pv8sdk.lua.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="luaapibridge.c" />
     <ClCompile Include="luagamechip.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

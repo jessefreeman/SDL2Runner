@@ -15,5 +15,10 @@ typedef struct colorData {
     byte b;
 } colorData;
 
+typedef struct vector {
+    int x;
+    int y;
+} vector;
+
 #endif
 
