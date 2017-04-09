@@ -391,8 +391,14 @@ void apiBridge_DrawFont(ApiBridge self,
     int letterSpacingValue = letterSpacing == NULL ? 0 : *letterSpacing;
     int offsetValue = offset == NULL ? 0 : *offset;
     assert(self);
-    assert(false); 
-    // TODO: implement this
+    
+    apiBridge_DrawSpriteText(self,
+        text,
+        x,
+        y,
+        fontName,
+        offset,
+        letterSpacing);
 }
 
 void apiBridge_DrawTextBox(ApiBridge self,
@@ -704,6 +710,11 @@ void apiBridge_DrawFontToBuffer(ApiBridge self,
     int letterSpacingValue = letterSpacing == NULL ? 0 : *letterSpacing;
     int offsetValue = offset == NULL ? 0 : *offset;
     assert(self);
-    assert(false); 
-    // TODO: implement this
+
+    apiBridge_DrawTileText(self,
+        text,
+        column,
+        row,
+        fontName,
+        offset);
 }

@@ -16,6 +16,14 @@
 #define SPRITE_WIDTH    8
 #define SPRITE_HEIGHT   8
 
+#define FontDemo
+
+#ifdef DrawSpriteDemo
+#define DEMO "DrawSpriteDemo"
+#elif defined FontDemo
+#define DEMO "FontDemo"
+#endif
+
 static colorChip pvColorChip;
 static spriteChip pvSpriteChip;
 
@@ -73,7 +81,7 @@ int main(int argc, char **argv)
     // Create LuaGameChip
     
     int len = 0;
-    char *gameCode = importTextFromFile(".\\resources\\DrawSpriteDemo.lua", &len);
+    char *gameCode = importTextFromFile(".\\resources\\"DEMO".lua", &len);
     LuaGameChip gameChip = luaGameChip_Create(gameCode, len);
     free(gameCode);
     gameConsole_InsertChip(console, (Chip)gameChip);
