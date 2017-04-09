@@ -82,6 +82,18 @@ static void displayChip_Init(DisplayChip self, GetChip getChip)
     self->sizeY = self->height / self->tilemapRows;
 }
 
+int displayChip_GetDisplayWidth(DisplayChip self)
+{
+    assert(self);
+    return self->width;
+}
+
+int displayChip_GetDisplayHeight(DisplayChip self)
+{
+    assert(self);
+    return self->height;
+}
+
 int displayChip_GetPixelCount(DisplayChip self)
 {
     assert(self);

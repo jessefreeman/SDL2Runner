@@ -32,15 +32,15 @@ int apiBridge_GetSpriteWidth(ApiBridge self)
 int apiBridge_GetSpriteHeight(ApiBridge self)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
 int apiBridge_GetDisplayWidth(ApiBridge self)
 {
     assert(self);
-    assert(false); 
-    // TODO: implement this
+    
+    return displayChip_GetDisplayWidth(self->displayChip);
 }
 
 bool apiBridge_GetDisplayWrap(ApiBridge self)
@@ -61,8 +61,8 @@ void apiBridge_ToggleDisplayWrap(ApiBridge self,
 int apiBridge_GetDisplayHeight(ApiBridge self)
 {
     assert(self);
-    assert(false); 
-    // TODO: implement this
+    
+    return displayChip_GetDisplayHeight(self->displayChip);
 }
 
 int apiBridge_GetScrollX(ApiBridge self)
@@ -208,8 +208,8 @@ void apiBridge_UpdateTile(ApiBridge self,
 void apiBridge_Clear(ApiBridge self)
 {
     assert(self);
-    assert(false); 
-    // TODO: implement this
+
+    displayChip_Clear(self->displayChip);
 }
 
 void apiBridge_ClearArea(ApiBridge self,

@@ -74,6 +74,7 @@ static void luaGameChip_Init(LuaGameChip self, GetChip getChip)
     self->L = luaL_newstate();
     luaL_openlibs(self->L);
     luaGameChip_LoadApiBridge(self);
+
     luaL_loadstring(self->L, self->script);
     lua_pcall(self->L, 0, LUA_MULTRET, 0);
 

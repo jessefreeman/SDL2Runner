@@ -14,6 +14,7 @@
 #define ARRAY_BUFFER_LEN 1024
 
 static ApiBridge _api = NULL;
+static ApiBridge getApi(lua_State *L);
 
 static int getSpriteWidth(lua_State *L);
 static int getSpriteHeight(lua_State *L);
@@ -170,6 +171,19 @@ void loadApiBridge(lua_State *L)
 
     /* _G["Foo"] = newclass */
     lua_setglobal(L, "apiBridge");
+
+    ApiBridge api = getApi(L);
+
+    // temp until we drop properties from api, api has to be set already and other chips already initailized
+    lua_getglobal(L, "apiBridge");
+    lua_pushstring(L, "displayWidth");
+    lua_pushnumber(L, apiBridge_GetDisplayWidth(api));
+    lua_settable(L, -3);
+
+    lua_getglobal(L, "apiBridge");
+    lua_pushstring(L, "displayHeight");
+    lua_pushnumber(L, apiBridge_GetDisplayHeight(api));
+    lua_settable(L, -3);
 }
 
 void setApi(ApiBridge api)

@@ -16,13 +16,7 @@
 #define SPRITE_WIDTH    8
 #define SPRITE_HEIGHT   8
 
-#define FontDemo
-
-#ifdef DrawSpriteDemo
-#define DEMO "DrawSpriteDemo"
-#elif defined FontDemo
-#define DEMO "FontDemo"
-#endif
+#define DEMO "SpriteStressTestDemo"
 
 static colorChip pvColorChip;
 static spriteChip pvSpriteChip;

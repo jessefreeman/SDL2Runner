@@ -113,6 +113,9 @@ static void gameConsole_RenderToDisplay(GameConsole self, bool init)
         }
     }
 
+    colorData backgroundColor = 
+        colorChip_GetColor(self->colorChip, colorChip_GetBackgroundColorId(self->colorChip));
+
     for (int i = 0; i < pixelsLen; i++)
     {
         colorId colorId = displayChip_GetPixel(self->displayChip, i);
@@ -132,9 +135,8 @@ static void gameConsole_RenderToDisplay(GameConsole self, bool init)
             }
             else
             {
-                pixels[i].r = 0;
-                pixels[i].g = 0;
-                pixels[i].b = 0;
+                
+                pixels[i] = backgroundColor;
             }
         }
     }

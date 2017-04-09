@@ -13,6 +13,10 @@ typedef struct displayChip *DisplayChip;
 
 DisplayChip displayChip_Create(int width, int height);
 
+int displayChip_GetDisplayWidth(DisplayChip self);
+
+int displayChip_GetDisplayHeight(DisplayChip self);
+
 int displayChip_GetPixelCount(DisplayChip self);
 
 colorId displayChip_GetPixel(DisplayChip self, int idx);
