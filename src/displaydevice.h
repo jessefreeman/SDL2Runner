@@ -6,18 +6,14 @@
 #define _displaydevice_h_
 
 #include "types.h"
+#include "device.h"
 
 typedef struct displayDevice {
-    void(*destroy)(Obj);
-    void(*init)(Obj);
+    device base; // must be first
     void(*render)(Obj,int,colorData*);
 } displayDevice;
 
 typedef struct displayDevice *DisplayDevice;
-
-void displayDevice_Destroy(DisplayDevice self);
-
-void displayDevice_Init(DisplayDevice self);
 
 void displayDevice_Render(DisplayDevice self, int pixelsLen, colorData pixels[]);
 

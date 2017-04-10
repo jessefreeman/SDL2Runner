@@ -16,6 +16,7 @@ typedef struct apiBridge {
     SpriteChip spriteChip;
     FontChip fontChip;
     TilemapChip tilemapChip;
+    ControllerChip controllerChip;
 } apiBridge;
 
 typedef apiBridge *ApiBridge;

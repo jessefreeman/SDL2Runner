@@ -11,6 +11,7 @@
 #include "spritechip.h"
 #include "fontchip.h"
 #include "tilemapchip.h"
+#include "controllerchip.h"
 
 #endif 
 

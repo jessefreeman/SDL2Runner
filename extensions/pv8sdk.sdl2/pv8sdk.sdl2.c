@@ -9,39 +9,16 @@
 #include "pv8sdk.sdl2.h"
 #include "sdldisplaydevice.h"
 
-struct sdl {
-    char pass;
-};
+static void sdl_handleInput(SDL_Event *event, GameConsole console);
+static void sdl_handleKeyboardInput(SDL_KeyboardEvent *event, GameConsole console);
 
-static struct sdl sdlRef;
-
-static SDL sdl = NULL;
-
-SDL sdl_GetInstance()
+void sdl_runGame(GameConsole console)
 {
-    if (sdl == NULL)
-    {
-        if (SDL_Init(SDL_INIT_VIDEO) < 0)
-            exit(EXIT_FAILURE);
+    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+        exit(EXIT_FAILURE);
 
-        sdl = &sdlRef;
-    }
+    gameConsole_PowerOn(console);
 
-    return sdl;
-}
-
-extern SDLDisplayDevice sdlDisplay_Create(int winWidth, int winHeight, int dispWidth, int dispHeight);
-
-SDLDisplayDevice sdl_CreateDisplay(SDL self,
-    int windowWidth, int windowHeight,
-    int displayWidth, int displayheight)
-{
-    assert(self);
-    return sdlDisplay_Create(windowWidth, windowHeight, displayWidth, displayheight);
-}
-
-void sdl_RunGame(SDL self, GameConsole console)
-{
     const float fps = 1.0f;
     SDL_Event event;
     Uint64 oldTime = 0;
@@ -52,7 +29,7 @@ void sdl_RunGame(SDL self, GameConsole console)
     {
         while (SDL_PollEvent(&event))
         {
-            //handleInput(&event);
+            sdl_handleInput(&event, console);
             if (event.type == SDL_QUIT)
             {
                 end = true;
@@ -67,4 +44,26 @@ void sdl_RunGame(SDL self, GameConsole console)
 
         gameConsole_Render(console);
     }
+
+    gameConsole_PowerOff(console);
+
+    SDL_Quit();
+}
+
+static void sdl_handleInput(SDL_Event *event, GameConsole console)
+{
+    switch (event->type)
+    {
+    case SDL_KEYDOWN:
+    case SDL_KEYUP:
+        sdl_handleKeyboardInput(&event->key, console);
+        break;
+    default:
+        break;
+    }
+}
+
+static void sdl_handleKeyboardInput(SDL_KeyboardEvent *event, GameConsole console)
+{
+
 }

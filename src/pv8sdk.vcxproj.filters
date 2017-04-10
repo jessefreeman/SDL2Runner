@@ -50,6 +50,15 @@
     <ClCompile Include="apibridge.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="controllerchip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="controllerdevice.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="device.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine.h">
@@ -110,6 +119,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="controllerchip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="device.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -10,53 +10,36 @@
 #include "displaydevice.h"
 #include "sdldisplaydevice.h"
 
-typedef struct sdlDisplayDevice {
-    displayDevice base; // must be first
-    int winWidth;
-    int winHeight;
-    int dispWidth;
-    int dispHeight;
-    SDL_Window *window;
-    SDL_Renderer *renderer;
-} sdlDisplay;
-
 static void sdlDisplay_Destroy(SDLDisplayDevice self);
-static void sdlDisplay_Init(SDLDisplayDevice self);
-static void sdlDisplay_Dispose(SDLDisplayDevice self);
+static void sdlDisplay_PowerOn(SDLDisplayDevice self);
+static void sdlDisplay_PowerOff(SDLDisplayDevice self);
 static void sdlDisplay_Render(SDLDisplayDevice self, int pixelsLen, colorData pixels[]);
 
-SDLDisplayDevice sdlDisplay_Create(int winWidth, int winHeight, int dispWidth, int dispHeight)
+void sdlDisplayDevice_Init(SDLDisplayDevice self,
+    int winWidth, int winHeight, int dispWidth, int dispHeight)
 {
-    SDLDisplayDevice self = NULL;
-
-    self = (SDLDisplayDevice)calloc(1, sizeof(sdlDisplay));
-    if (self == NULL)
-        return NULL;
-
-    self->base.destroy = sdlDisplay_Destroy;
-    self->base.init = sdlDisplay_Init;
+    memset(self, 0, sizeof(sdlDisplayDevice));
+    self->base.base.destroy = sdlDisplay_Destroy;
+    self->base.base.powerOn = sdlDisplay_PowerOn;
+    self->base.base.powerOff = sdlDisplay_PowerOff;
     self->base.render = sdlDisplay_Render;
-
     self->winWidth = winWidth;
     self->winHeight = winHeight;
     self->dispWidth = dispWidth;
     self->dispHeight = dispHeight;
-
-    return self;
 }
 
 static void sdlDisplay_Destroy(SDLDisplayDevice self)
 {
-    assert(self);
-    sdlDisplay_Dispose(self);
-    memset(self, 0, sizeof(sdlDisplay));
-    free(self);
+    sdlDisplay_PowerOff(self);
+    memset(self, 0, sizeof(sdlDisplayDevice));
 }
 
-static void sdlDisplay_Init(SDLDisplayDevice self)
+static void sdlDisplay_PowerOn(SDLDisplayDevice self)
 {
     assert(self);
-    sdlDisplay_Dispose(self);
+    sdlDisplay_PowerOff(self);
+
     self->window = SDL_CreateWindow("PV8",
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         self->winWidth, self->winHeight,
@@ -70,7 +53,7 @@ static void sdlDisplay_Init(SDLDisplayDevice self)
     SDL_RenderSetLogicalSize(self->renderer, self->dispWidth, self->dispHeight);
 }
 
-static void sdlDisplay_Dispose(SDLDisplayDevice self)
+static void sdlDisplay_PowerOff(SDLDisplayDevice self)
 {
     assert(self);
     if (self->renderer != NULL)

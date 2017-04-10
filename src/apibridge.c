@@ -20,6 +20,7 @@ void apiBridge_Init(
     self->spriteChip = (SpriteChip)func_Invoke(getChip, nameof(SpriteChip));
     self->fontChip = (FontChip)func_Invoke(getChip, nameof(FontChip));
     self->tilemapChip = (TilemapChip)func_Invoke(getChip, nameof(TilemapChip));
+    self->controllerChip = (ControllerChip)func_Invoke(getChip, nameof(ControllerChip));
 }
 
 int apiBridge_GetSpriteWidth(ApiBridge self)
@@ -229,6 +230,7 @@ void apiBridge_ChangeBackgroundColor(ApiBridge self,
     int id)
 {
     assert(self);
+
     colorChip_SetBackgroundColorId(self->colorChip, id);
 }
 
@@ -248,8 +250,8 @@ bool apiBridge_ButtonDown(ApiBridge self,
 {
     int playerValue = player == NULL ? 0 : *player;
     assert(self);
-    assert(false); 
-    // TODO: implement this
+    
+    controllerChip_ButtonDown(self->controllerChip, button, playerValue);
 }
 
 bool apiBridge_ButtonReleased(ApiBridge self,
