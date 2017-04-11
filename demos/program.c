@@ -20,7 +20,7 @@
 #define D2 "FontDemo"
 #define D3 "SpriteStressTestDemo"
 #define D4 "ControllerDemo"
-#define DEMO D4
+#define DEMO D1
 
 static colorChip pvColorChip;
 static spriteChip pvSpriteChip;

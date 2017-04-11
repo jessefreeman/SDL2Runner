@@ -362,8 +362,8 @@ static int scrollTo(lua_State *L)
     }
 
     // required parameters
-    int x = luaL_checkinteger(L, 2);
-    int y = luaL_checkinteger(L, 3);
+    int x = (int)luaL_checkinteger(L, 2);
+    int y = (int)luaL_checkinteger(L, 3);
     
     // invoke api call
     ApiBridge api = getApi(L);
@@ -462,11 +462,9 @@ static int getInputString(lua_State *L)
         lua_error(L);
     }
     
-    int returnLen = 0;
     // invoke api call
     ApiBridge api = getApi(L);
-    char *returnValue = apiBridge_GetInputString(api,
-       &returnLen);
+    char *returnValue = apiBridge_GetInputString(api);
     
     lua_pushstring(L, returnValue);
 
@@ -523,9 +521,9 @@ static int drawSprite(lua_State *L)
     }
 
     // required parameters
-    int id = luaL_checkinteger(L, 2);
-    int x = luaL_checkinteger(L, 3);
-    int y = luaL_checkinteger(L, 4);
+    int id = (int)luaL_checkinteger(L, 2);
+    int x = (int)luaL_checkinteger(L, 3);
+    int y = (int)luaL_checkinteger(L, 4);
 
     // optional parameters
     bool *flipH = NULL;
@@ -556,7 +554,7 @@ static int drawSprite(lua_State *L)
     int colorOffsetValue;
     if (argc >= 8)
     {
-        colorOffsetValue = luaL_checkinteger(L, 8);
+        colorOffsetValue = (int)luaL_checkinteger(L, 8);
         colorOffset = &colorOffsetValue;
     }
 
@@ -593,13 +591,13 @@ static int drawSprites(lua_State *L)
     int idsIdx = 0;
     while (lua_next(L, 2) != 0)
     {
-        ids[idsIdx] = luaL_checkinteger(L, -1);
+        ids[idsIdx] = (int)luaL_checkinteger(L, -1);
         lua_pop(L, 1);
         idsIdx++;
     }
-    int x = luaL_checkinteger(L, 3);
-    int y = luaL_checkinteger(L, 4);
-    int width = luaL_checkinteger(L, 5);
+    int x = (int)luaL_checkinteger(L, 3);
+    int y = (int)luaL_checkinteger(L, 4);
+    int width = (int)luaL_checkinteger(L, 5);
 
     // optional parameters
     bool *flipH = NULL;
@@ -630,7 +628,7 @@ static int drawSprites(lua_State *L)
     int colorOffsetValue;
     if (argc >= 9)
     {
-        colorOffsetValue = luaL_checkinteger(L, 9);
+        colorOffsetValue = (int)luaL_checkinteger(L, 9);
         colorOffset = &colorOffsetValue;
     }
 
@@ -662,16 +660,16 @@ static int updateTile(lua_State *L)
     }
 
     // required parameters
-    int spriteID = luaL_checkinteger(L, 2);
-    int column = luaL_checkinteger(L, 3);
-    int row = luaL_checkinteger(L, 4);
+    int spriteID = (int)luaL_checkinteger(L, 2);
+    int column = (int)luaL_checkinteger(L, 3);
+    int row = (int)luaL_checkinteger(L, 4);
 
     // optional parameters
     int *flag = NULL;
     int flagValue;
     if (argc >= 5)
     {
-        flagValue = luaL_checkinteger(L, 5);
+        flagValue = (int)luaL_checkinteger(L, 5);
         flag = &flagValue;
     }
 
@@ -679,7 +677,7 @@ static int updateTile(lua_State *L)
     int colorOffsetValue;
     if (argc >= 6)
     {
-        colorOffsetValue = luaL_checkinteger(L, 6);
+        colorOffsetValue = (int)luaL_checkinteger(L, 6);
         colorOffset = &colorOffsetValue;
     }
 
@@ -724,17 +722,17 @@ static int clearArea(lua_State *L)
     }
 
     // required parameters
-    int x = luaL_checkinteger(L, 2);
-    int y = luaL_checkinteger(L, 3);
-    int width = luaL_checkinteger(L, 4);
-    int height = luaL_checkinteger(L, 5);
+    int x = (int)luaL_checkinteger(L, 2);
+    int y = (int)luaL_checkinteger(L, 3);
+    int width = (int)luaL_checkinteger(L, 4);
+    int height = (int)luaL_checkinteger(L, 5);
 
     // optional parameters
     int *color = NULL;
     int colorValue;
     if (argc >= 6)
     {
-        colorValue = luaL_checkinteger(L, 6);
+        colorValue = (int)luaL_checkinteger(L, 6);
         color = &colorValue;
     }
 
@@ -762,7 +760,7 @@ static int changeBackgroundColor(lua_State *L)
     }
 
     // required parameters
-    int id = luaL_checkinteger(L, 2);
+    int id = (int)luaL_checkinteger(L, 2);
     
     // invoke api call
     ApiBridge api = getApi(L);
@@ -783,14 +781,14 @@ static int playSound(lua_State *L)
     }
 
     // required parameters
-    int id = luaL_checkinteger(L, 2);
+    int id = (int)luaL_checkinteger(L, 2);
 
     // optional parameters
     int *channel = NULL;
     int channelValue;
     if (argc >= 3)
     {
-        channelValue = luaL_checkinteger(L, 3);
+        channelValue = (int)luaL_checkinteger(L, 3);
         channel = &channelValue;
     }
 
@@ -815,14 +813,14 @@ static int buttonDown(lua_State *L)
     }
 
     // required parameters
-    int button = luaL_checkinteger(L, 2);
+    int button = (int)luaL_checkinteger(L, 2);
 
     // optional parameters
     int *player = NULL;
     int playerValue;
     if (argc >= 3)
     {
-        playerValue = luaL_checkinteger(L, 3);
+        playerValue = (int)luaL_checkinteger(L, 3);
         player = &playerValue;
     }
 
@@ -849,14 +847,14 @@ static int buttonReleased(lua_State *L)
     }
 
     // required parameters
-    int button = luaL_checkinteger(L, 2);
+    int button = (int)luaL_checkinteger(L, 2);
 
     // optional parameters
     int *player = NULL;
     int playerValue;
     if (argc >= 3)
     {
-        playerValue = luaL_checkinteger(L, 3);
+        playerValue = (int)luaL_checkinteger(L, 3);
         player = &playerValue;
     }
 
@@ -887,7 +885,7 @@ static int getMouseButtonDown(lua_State *L)
     int idValue;
     if (argc >= 2)
     {
-        idValue = luaL_checkinteger(L, 2);
+        idValue = (int)luaL_checkinteger(L, 2);
         id = &idValue;
     }
 
@@ -917,7 +915,7 @@ static int getMouseButtonUp(lua_State *L)
     int idValue;
     if (argc >= 2)
     {
-        idValue = luaL_checkinteger(L, 2);
+        idValue = (int)luaL_checkinteger(L, 2);
         id = &idValue;
     }
 
@@ -947,7 +945,7 @@ static int getMouseButton(lua_State *L)
     int idValue;
     if (argc >= 2)
     {
-        idValue = luaL_checkinteger(L, 2);
+        idValue = (int)luaL_checkinteger(L, 2);
         id = &idValue;
     }
 
@@ -974,8 +972,8 @@ static int drawSpriteText(lua_State *L)
 
     // required parameters
     char *text = luaL_checkstring(L, 2);
-    int x = luaL_checkinteger(L, 3);
-    int y = luaL_checkinteger(L, 4);
+    int x = (int)luaL_checkinteger(L, 3);
+    int y = (int)luaL_checkinteger(L, 4);
 
     // optional parameters
     char **fontName = NULL;
@@ -990,7 +988,7 @@ static int drawSpriteText(lua_State *L)
     int colorOffsetValue;
     if (argc >= 6)
     {
-        colorOffsetValue = luaL_checkinteger(L, 6);
+        colorOffsetValue = (int)luaL_checkinteger(L, 6);
         colorOffset = &colorOffsetValue;
     }
 
@@ -998,7 +996,7 @@ static int drawSpriteText(lua_State *L)
     int spacingValue;
     if (argc >= 7)
     {
-        spacingValue = luaL_checkinteger(L, 7);
+        spacingValue = (int)luaL_checkinteger(L, 7);
         spacing = &spacingValue;
     }
 
@@ -1028,8 +1026,8 @@ static int drawTileText(lua_State *L)
 
     // required parameters
     char *text = luaL_checkstring(L, 2);
-    int column = luaL_checkinteger(L, 3);
-    int row = luaL_checkinteger(L, 4);
+    int column = (int)luaL_checkinteger(L, 3);
+    int row = (int)luaL_checkinteger(L, 4);
 
     // optional parameters
     char **fontName = NULL;
@@ -1044,7 +1042,7 @@ static int drawTileText(lua_State *L)
     int colorOffsetValue;
     if (argc >= 6)
     {
-        colorOffsetValue = luaL_checkinteger(L, 6);
+        colorOffsetValue = (int)luaL_checkinteger(L, 6);
         colorOffset = &colorOffsetValue;
     }
 
@@ -1073,9 +1071,9 @@ static int drawTileTextBox(lua_State *L)
 
     // required parameters
     char *text = luaL_checkstring(L, 2);
-    int column = luaL_checkinteger(L, 3);
-    int row = luaL_checkinteger(L, 4);
-    int characterWidth = luaL_checkinteger(L, 5);
+    int column = (int)luaL_checkinteger(L, 3);
+    int row = (int)luaL_checkinteger(L, 4);
+    int characterWidth = (int)luaL_checkinteger(L, 5);
 
     // optional parameters
     char **fontName = NULL;
@@ -1090,7 +1088,7 @@ static int drawTileTextBox(lua_State *L)
     int colorOffsetValue;
     if (argc >= 7)
     {
-        colorOffsetValue = luaL_checkinteger(L, 7);
+        colorOffsetValue = (int)luaL_checkinteger(L, 7);
         colorOffset = &colorOffsetValue;
     }
 
@@ -1120,7 +1118,7 @@ static int calculateTextBoxHeight(lua_State *L)
 
     // required parameters
     char *text = luaL_checkstring(L, 2);
-    int characterWidth = luaL_checkinteger(L, 3);
+    int characterWidth = (int)luaL_checkinteger(L, 3);
     
     // invoke api call
     ApiBridge api = getApi(L);
@@ -1144,16 +1142,16 @@ static int drawTile(lua_State *L)
     }
 
     // required parameters
-    int tileID = luaL_checkinteger(L, 2);
-    int column = luaL_checkinteger(L, 3);
-    int row = luaL_checkinteger(L, 4);
+    int tileID = (int)luaL_checkinteger(L, 2);
+    int column = (int)luaL_checkinteger(L, 3);
+    int row = (int)luaL_checkinteger(L, 4);
 
     // optional parameters
     int *colorOffset = NULL;
     int colorOffsetValue;
     if (argc >= 5)
     {
-        colorOffsetValue = luaL_checkinteger(L, 5);
+        colorOffsetValue = (int)luaL_checkinteger(L, 5);
         colorOffset = &colorOffsetValue;
     }
 
@@ -1187,20 +1185,20 @@ static int drawTiles(lua_State *L)
     int idsIdx = 0;
     while (lua_next(L, 2) != 0)
     {
-        ids[idsIdx] = luaL_checkinteger(L, -1);
+        ids[idsIdx] = (int)luaL_checkinteger(L, -1);
         lua_pop(L, 1);
         idsIdx++;
     }
-    int column = luaL_checkinteger(L, 3);
-    int row = luaL_checkinteger(L, 4);
-    int columns = luaL_checkinteger(L, 5);
+    int column = (int)luaL_checkinteger(L, 3);
+    int row = (int)luaL_checkinteger(L, 4);
+    int columns = (int)luaL_checkinteger(L, 5);
 
     // optional parameters
     int *colorOffset = NULL;
     int colorOffsetValue;
     if (argc >= 6)
     {
-        colorOffsetValue = luaL_checkinteger(L, 6);
+        colorOffsetValue = (int)luaL_checkinteger(L, 6);
         colorOffset = &colorOffsetValue;
     }
 
@@ -1230,8 +1228,8 @@ static int drawFont(lua_State *L)
 
     // required parameters
     char *text = luaL_checkstring(L, 2);
-    int x = luaL_checkinteger(L, 3);
-    int y = luaL_checkinteger(L, 4);
+    int x = (int)luaL_checkinteger(L, 3);
+    int y = (int)luaL_checkinteger(L, 4);
 
     // optional parameters
     char **fontName = NULL;
@@ -1246,7 +1244,7 @@ static int drawFont(lua_State *L)
     int letterSpacingValue;
     if (argc >= 6)
     {
-        letterSpacingValue = luaL_checkinteger(L, 6);
+        letterSpacingValue = (int)luaL_checkinteger(L, 6);
         letterSpacing = &letterSpacingValue;
     }
 
@@ -1254,7 +1252,7 @@ static int drawFont(lua_State *L)
     int offsetValue;
     if (argc >= 7)
     {
-        offsetValue = luaL_checkinteger(L, 7);
+        offsetValue = (int)luaL_checkinteger(L, 7);
         offset = &offsetValue;
     }
 
@@ -1284,9 +1282,9 @@ static int drawTextBox(lua_State *L)
 
     // required parameters
     char *text = luaL_checkstring(L, 2);
-    int witdh = luaL_checkinteger(L, 3);
-    int x = luaL_checkinteger(L, 4);
-    int y = luaL_checkinteger(L, 5);
+    int witdh = (int)luaL_checkinteger(L, 3);
+    int x = (int)luaL_checkinteger(L, 4);
+    int y = (int)luaL_checkinteger(L, 5);
 
     // optional parameters
     char **fontName = NULL;
@@ -1301,7 +1299,7 @@ static int drawTextBox(lua_State *L)
     int letterSpacingValue;
     if (argc >= 7)
     {
-        letterSpacingValue = luaL_checkinteger(L, 7);
+        letterSpacingValue = (int)luaL_checkinteger(L, 7);
         letterSpacing = &letterSpacingValue;
     }
 
@@ -1340,7 +1338,7 @@ static int formatWordWrap(lua_State *L)
 
     // required parameters
     char *text = luaL_checkstring(L, 2);
-    int witdh = luaL_checkinteger(L, 3);
+    int witdh = (int)luaL_checkinteger(L, 3);
 
     // optional parameters
     bool *wholeWords = NULL;
@@ -1351,15 +1349,12 @@ static int formatWordWrap(lua_State *L)
         wholeWords = &wholeWordsValue;
     }
 
-    
-    int returnLen = 0;
     // invoke api call
     ApiBridge api = getApi(L);
     char *returnValue = apiBridge_FormatWordWrap(api,
        text,
        witdh,
-       wholeWords,
-       &returnLen);
+       wholeWords);
     
     lua_pushstring(L, returnValue);
 
@@ -1384,14 +1379,14 @@ static int drawPixelData(lua_State *L)
     int pixelDataIdx = 0;
     while (lua_next(L, 2) != 0)
     {
-        pixelData[pixelDataIdx] = luaL_checkinteger(L, -1);
+        pixelData[pixelDataIdx] = (int)luaL_checkinteger(L, -1);
         lua_pop(L, 1);
         pixelDataIdx++;
     }
-    int x = luaL_checkinteger(L, 3);
-    int y = luaL_checkinteger(L, 4);
-    int width = luaL_checkinteger(L, 5);
-    int height = luaL_checkinteger(L, 6);
+    int x = (int)luaL_checkinteger(L, 3);
+    int y = (int)luaL_checkinteger(L, 4);
+    int width = (int)luaL_checkinteger(L, 5);
+    int height = (int)luaL_checkinteger(L, 6);
     bool flipH = lua_toboolean(L, 7);
     bool flipV = lua_toboolean(L, 8);
     bool flipY = lua_toboolean(L, 9);
@@ -1401,7 +1396,7 @@ static int drawPixelData(lua_State *L)
     int layerOrderValue;
     if (argc >= 10)
     {
-        layerOrderValue = luaL_checkinteger(L, 10);
+        layerOrderValue = (int)luaL_checkinteger(L, 10);
         layerOrder = &layerOrderValue;
     }
 
@@ -1417,7 +1412,7 @@ static int drawPixelData(lua_State *L)
     int colorOffsetValue;
     if (argc >= 12)
     {
-        colorOffsetValue = luaL_checkinteger(L, 12);
+        colorOffsetValue = (int)luaL_checkinteger(L, 12);
         colorOffset = &colorOffsetValue;
     }
 
@@ -1452,8 +1447,8 @@ static int readFlagAt(lua_State *L)
     }
 
     // required parameters
-    int column = luaL_checkinteger(L, 2);
-    int row = luaL_checkinteger(L, 3);
+    int column = (int)luaL_checkinteger(L, 2);
+    int row = (int)luaL_checkinteger(L, 3);
     
     // invoke api call
     ApiBridge api = getApi(L);
@@ -1477,7 +1472,7 @@ static int getKey(lua_State *L)
     }
 
     // required parameters
-    int key = luaL_checkinteger(L, 2);
+    int key = (int)luaL_checkinteger(L, 2);
     
     // invoke api call
     ApiBridge api = getApi(L);
@@ -1500,7 +1495,7 @@ static int getKeyDown(lua_State *L)
     }
 
     // required parameters
-    int key = luaL_checkinteger(L, 2);
+    int key = (int)luaL_checkinteger(L, 2);
     
     // invoke api call
     ApiBridge api = getApi(L);
@@ -1523,7 +1518,7 @@ static int getKeyUp(lua_State *L)
     }
 
     // required parameters
-    int key = luaL_checkinteger(L, 2);
+    int key = (int)luaL_checkinteger(L, 2);
     
     // invoke api call
     ApiBridge api = getApi(L);
@@ -1553,11 +1548,11 @@ static int spritesToRawData(lua_State *L)
     int idsIdx = 0;
     while (lua_next(L, 2) != 0)
     {
-        ids[idsIdx] = luaL_checkinteger(L, -1);
+        ids[idsIdx] = (int)luaL_checkinteger(L, -1);
         lua_pop(L, 1);
         idsIdx++;
     }
-    int width = luaL_checkinteger(L, 3);
+    int width = (int)luaL_checkinteger(L, 3);
     
     int returnLen = 0;
     // invoke api call
@@ -1624,14 +1619,11 @@ static int readData(lua_State *L)
         defaultValue = &defaultValueValue;
     }
 
-    
-    int returnLen = 0;
     // invoke api call
     ApiBridge api = getApi(L);
     char *returnValue = apiBridge_ReadData(api,
        key,
-       defaultValue,
-       &returnLen);
+       defaultValue);
     
     lua_pushstring(L, returnValue);
 
@@ -1649,7 +1641,7 @@ static int loadSong(lua_State *L)
     }
 
     // required parameters
-    int id = luaL_checkinteger(L, 2);
+    int id = (int)luaL_checkinteger(L, 2);
     
     // invoke api call
     ApiBridge api = getApi(L);
@@ -1767,12 +1759,12 @@ static int replaceColorID(lua_State *L)
     int pixelDataIdx = 0;
     while (lua_next(L, 2) != 0)
     {
-        pixelData[pixelDataIdx] = luaL_checkinteger(L, -1);
+        pixelData[pixelDataIdx] = (int)luaL_checkinteger(L, -1);
         lua_pop(L, 1);
         pixelDataIdx++;
     }
-    int oldID = luaL_checkinteger(L, 3);
-    int newID = luaL_checkinteger(L, 4);
+    int oldID = (int)luaL_checkinteger(L, 3);
+    int newID = (int)luaL_checkinteger(L, 4);
     
     int returnLen = 0;
     // invoke api call
@@ -1813,7 +1805,7 @@ static int replaceColorIDs(lua_State *L)
     int pixelDataIdx = 0;
     while (lua_next(L, 2) != 0)
     {
-        pixelData[pixelDataIdx] = luaL_checkinteger(L, -1);
+        pixelData[pixelDataIdx] = (int)luaL_checkinteger(L, -1);
         lua_pop(L, 1);
         pixelDataIdx++;
     }
@@ -1824,7 +1816,7 @@ static int replaceColorIDs(lua_State *L)
     int oldIDsIdx = 0;
     while (lua_next(L, 3) != 0)
     {
-        oldIDs[oldIDsIdx] = luaL_checkinteger(L, -1);
+        oldIDs[oldIDsIdx] = (int)luaL_checkinteger(L, -1);
         lua_pop(L, 1);
         oldIDsIdx++;
     }
@@ -1835,7 +1827,7 @@ static int replaceColorIDs(lua_State *L)
     int newIDsIdx = 0;
     while (lua_next(L, 4) != 0)
     {
-        newIDs[newIDsIdx] = luaL_checkinteger(L, -1);
+        newIDs[newIDsIdx] = (int)luaL_checkinteger(L, -1);
         lua_pop(L, 1);
         newIDsIdx++;
     }
@@ -1878,7 +1870,7 @@ static int drawScreenBuffer(lua_State *L)
     int xValue;
     if (argc >= 2)
     {
-        xValue = luaL_checkinteger(L, 2);
+        xValue = (int)luaL_checkinteger(L, 2);
         x = &xValue;
     }
 
@@ -1886,7 +1878,7 @@ static int drawScreenBuffer(lua_State *L)
     int yValue;
     if (argc >= 3)
     {
-        yValue = luaL_checkinteger(L, 3);
+        yValue = (int)luaL_checkinteger(L, 3);
         y = &yValue;
     }
 
@@ -1894,7 +1886,7 @@ static int drawScreenBuffer(lua_State *L)
     int widthValue;
     if (argc >= 4)
     {
-        widthValue = luaL_checkinteger(L, 4);
+        widthValue = (int)luaL_checkinteger(L, 4);
         width = &widthValue;
     }
 
@@ -1902,7 +1894,7 @@ static int drawScreenBuffer(lua_State *L)
     int heightValue;
     if (argc >= 5)
     {
-        heightValue = luaL_checkinteger(L, 5);
+        heightValue = (int)luaL_checkinteger(L, 5);
         height = &heightValue;
     }
 
@@ -1910,7 +1902,7 @@ static int drawScreenBuffer(lua_State *L)
     int offsetXValue;
     if (argc >= 6)
     {
-        offsetXValue = luaL_checkinteger(L, 6);
+        offsetXValue = (int)luaL_checkinteger(L, 6);
         offsetX = &offsetXValue;
     }
 
@@ -1918,7 +1910,7 @@ static int drawScreenBuffer(lua_State *L)
     int offsetYValue;
     if (argc >= 7)
     {
-        offsetYValue = luaL_checkinteger(L, 7);
+        offsetYValue = (int)luaL_checkinteger(L, 7);
         offsetY = &offsetYValue;
     }
 
@@ -1951,7 +1943,7 @@ static int drawTilemap(lua_State *L)
     int startColValue;
     if (argc >= 2)
     {
-        startColValue = luaL_checkinteger(L, 2);
+        startColValue = (int)luaL_checkinteger(L, 2);
         startCol = &startColValue;
     }
 
@@ -1959,7 +1951,7 @@ static int drawTilemap(lua_State *L)
     int startRowValue;
     if (argc >= 3)
     {
-        startRowValue = luaL_checkinteger(L, 3);
+        startRowValue = (int)luaL_checkinteger(L, 3);
         startRow = &startRowValue;
     }
 
@@ -1967,7 +1959,7 @@ static int drawTilemap(lua_State *L)
     int columnsValue;
     if (argc >= 4)
     {
-        columnsValue = luaL_checkinteger(L, 4);
+        columnsValue = (int)luaL_checkinteger(L, 4);
         columns = &columnsValue;
     }
 
@@ -1975,7 +1967,7 @@ static int drawTilemap(lua_State *L)
     int rowsValue;
     if (argc >= 5)
     {
-        rowsValue = luaL_checkinteger(L, 5);
+        rowsValue = (int)luaL_checkinteger(L, 5);
         rows = &rowsValue;
     }
 
@@ -1983,7 +1975,7 @@ static int drawTilemap(lua_State *L)
     int offsetXValue;
     if (argc >= 6)
     {
-        offsetXValue = luaL_checkinteger(L, 6);
+        offsetXValue = (int)luaL_checkinteger(L, 6);
         offsetX = &offsetXValue;
     }
 
@@ -1991,7 +1983,7 @@ static int drawTilemap(lua_State *L)
     int offsetYValue;
     if (argc >= 7)
     {
-        offsetYValue = luaL_checkinteger(L, 7);
+        offsetYValue = (int)luaL_checkinteger(L, 7);
         offsetY = &offsetYValue;
     }
 
@@ -2021,8 +2013,8 @@ static int drawFontTiles(lua_State *L)
 
     // required parameters
     char *text = luaL_checkstring(L, 2);
-    int column = luaL_checkinteger(L, 3);
-    int row = luaL_checkinteger(L, 4);
+    int column = (int)luaL_checkinteger(L, 3);
+    int row = (int)luaL_checkinteger(L, 4);
 
     // optional parameters
     char **fontName = NULL;
@@ -2037,7 +2029,7 @@ static int drawFontTiles(lua_State *L)
     int offsetValue;
     if (argc >= 6)
     {
-        offsetValue = luaL_checkinteger(L, 6);
+        offsetValue = (int)luaL_checkinteger(L, 6);
         offset = &offsetValue;
     }
 
@@ -2082,16 +2074,16 @@ static int drawTileToBuffer(lua_State *L)
     }
 
     // required parameters
-    int spriteID = luaL_checkinteger(L, 2);
-    int column = luaL_checkinteger(L, 3);
-    int row = luaL_checkinteger(L, 4);
+    int spriteID = (int)luaL_checkinteger(L, 2);
+    int column = (int)luaL_checkinteger(L, 3);
+    int row = (int)luaL_checkinteger(L, 4);
 
     // optional parameters
     int *colorOffset = NULL;
     int colorOffsetValue;
     if (argc >= 5)
     {
-        colorOffsetValue = luaL_checkinteger(L, 5);
+        colorOffsetValue = (int)luaL_checkinteger(L, 5);
         colorOffset = &colorOffsetValue;
     }
 
@@ -2125,20 +2117,20 @@ static int drawTilesToBuffer(lua_State *L)
     int idsIdx = 0;
     while (lua_next(L, 2) != 0)
     {
-        ids[idsIdx] = luaL_checkinteger(L, -1);
+        ids[idsIdx] = (int)luaL_checkinteger(L, -1);
         lua_pop(L, 1);
         idsIdx++;
     }
-    int column = luaL_checkinteger(L, 3);
-    int row = luaL_checkinteger(L, 4);
-    int columns = luaL_checkinteger(L, 5);
+    int column = (int)luaL_checkinteger(L, 3);
+    int row = (int)luaL_checkinteger(L, 4);
+    int columns = (int)luaL_checkinteger(L, 5);
 
     // optional parameters
     int *colorOffset = NULL;
     int colorOffsetValue;
     if (argc >= 6)
     {
-        colorOffsetValue = luaL_checkinteger(L, 6);
+        colorOffsetValue = (int)luaL_checkinteger(L, 6);
         colorOffset = &colorOffsetValue;
     }
 
@@ -2168,9 +2160,9 @@ static int drawTextBoxToBuffer(lua_State *L)
 
     // required parameters
     char *text = luaL_checkstring(L, 2);
-    int witdh = luaL_checkinteger(L, 3);
-    int column = luaL_checkinteger(L, 4);
-    int row = luaL_checkinteger(L, 5);
+    int witdh = (int)luaL_checkinteger(L, 3);
+    int column = (int)luaL_checkinteger(L, 4);
+    int row = (int)luaL_checkinteger(L, 5);
 
     // optional parameters
     char **fontName = NULL;
@@ -2185,7 +2177,7 @@ static int drawTextBoxToBuffer(lua_State *L)
     int letterSpacingValue;
     if (argc >= 7)
     {
-        letterSpacingValue = luaL_checkinteger(L, 7);
+        letterSpacingValue = (int)luaL_checkinteger(L, 7);
         letterSpacing = &letterSpacingValue;
     }
 
@@ -2230,14 +2222,14 @@ static int drawBufferData(lua_State *L)
     int pixelDataIdx = 0;
     while (lua_next(L, 2) != 0)
     {
-        pixelData[pixelDataIdx] = luaL_checkinteger(L, -1);
+        pixelData[pixelDataIdx] = (int)luaL_checkinteger(L, -1);
         lua_pop(L, 1);
         pixelDataIdx++;
     }
-    int x = luaL_checkinteger(L, 3);
-    int y = luaL_checkinteger(L, 4);
-    int width = luaL_checkinteger(L, 5);
-    int height = luaL_checkinteger(L, 6);
+    int x = (int)luaL_checkinteger(L, 3);
+    int y = (int)luaL_checkinteger(L, 4);
+    int width = (int)luaL_checkinteger(L, 5);
+    int height = (int)luaL_checkinteger(L, 6);
     
     // invoke api call
     ApiBridge api = getApi(L);
@@ -2264,8 +2256,8 @@ static int drawFontToBuffer(lua_State *L)
 
     // required parameters
     char *text = luaL_checkstring(L, 2);
-    int column = luaL_checkinteger(L, 3);
-    int row = luaL_checkinteger(L, 4);
+    int column = (int)luaL_checkinteger(L, 3);
+    int row = (int)luaL_checkinteger(L, 4);
 
     // optional parameters
     char **fontName = NULL;
@@ -2280,7 +2272,7 @@ static int drawFontToBuffer(lua_State *L)
     int letterSpacingValue;
     if (argc >= 6)
     {
-        letterSpacingValue = luaL_checkinteger(L, 6);
+        letterSpacingValue = (int)luaL_checkinteger(L, 6);
         letterSpacing = &letterSpacingValue;
     }
 
@@ -2288,7 +2280,7 @@ static int drawFontToBuffer(lua_State *L)
     int offsetValue;
     if (argc >= 7)
     {
-        offsetValue = luaL_checkinteger(L, 7);
+        offsetValue = (int)luaL_checkinteger(L, 7);
         offset = &offsetValue;
     }
 

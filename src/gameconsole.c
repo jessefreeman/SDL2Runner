@@ -41,7 +41,7 @@ GameConsole gameConsole_Create()
 void gameConsole_Destroy(GameConsole self)
 {
     assert(self);
-    if (self->display != NULL) device_Destroy(self->display);
+    if (self->display != NULL) device_Destroy((Device)self->display);
     pixelVisionEngine_Destroy(self->engine);
     memset(self, 0, sizeof(gameConsole));
     free(self);
@@ -62,14 +62,14 @@ void gameConsole_InsertController(GameConsole self, int slotIdx, ControllerDevic
 void gameConsole_InsertDisplayDevice(GameConsole self, DisplayDevice display)
 {
     assert(self);
-    if (self->display != NULL) device_Destroy(self->display);
+    if (self->display != NULL) device_Destroy((Device)self->display);
     self->display = display;
 }
 
 void gameConsole_PowerOn(GameConsole self)
 {
     assert(self);
-    device_PowerOn(self->display);
+    device_PowerOn((Device)self->display);
     pixelVisionEngine_Init(self->engine);
     self->displayChip = (DisplayChip)pixelVisionEngine_GetChip(self->engine, nameof(DisplayChip));
     self->colorChip = (ColorChip)pixelVisionEngine_GetChip(self->engine, nameof(ColorChip));
@@ -92,7 +92,7 @@ void gameConsole_Render(GameConsole self)
 void gameConsole_PowerOff(GameConsole self)
 {
     gameConsole_RenderToDisplay(self, true);
-    device_PowerOff(self->display);
+    device_PowerOff((Device)self->display);
 }
 
 static void gameConsole_RenderToDisplay(GameConsole self, bool init)

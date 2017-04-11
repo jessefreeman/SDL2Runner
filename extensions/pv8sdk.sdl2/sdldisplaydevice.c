@@ -44,11 +44,11 @@ static void sdlDisplay_PowerOn(SDLDisplayDevice self)
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         self->winWidth, self->winHeight,
         SDL_WINDOW_SHOWN|SDL_WINDOW_RESIZABLE);
-    
+
     //SDL_SetWindowFullscreen(self->window, SDL_WINDOW_FULLSCREEN);
 
     self->renderer = SDL_CreateRenderer(self->window, 
-        -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
+        -1, SDL_RENDERER_ACCELERATED);// | SDL_RENDERER_PRESENTVSYNC);
 
     SDL_RenderSetLogicalSize(self->renderer, self->dispWidth, self->dispHeight);
 }

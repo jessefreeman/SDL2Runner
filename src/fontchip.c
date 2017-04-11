@@ -99,7 +99,7 @@ TextureData fontChip_ConvertTextToTexture(FontChip self, const char *text, const
 
     int lines = 0;
     int longestLine =  0;
-    const char *line = strtok(text, "\n");
+    char *line = strtok(text, "\n");
     while (line != NULL)
     {
         lines++;
@@ -123,7 +123,7 @@ TextureData fontChip_ConvertTextToTexture(FontChip self, const char *text, const
     line = strtok(text, "\n");
     while (line != NULL)
     {
-        for (int x = 0; x < strlen(line); x++)
+        for (int x = 0; x < (int)strlen(line); x++)
         {
             int spriteIdx = font->map[clamp(line[x] - ' ', 0, 96)];
             Sprite sprite = spriteChip_GetSprite(self->spriteChip, spriteIdx);
