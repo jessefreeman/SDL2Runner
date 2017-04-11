@@ -11,7 +11,7 @@
 #include "apibridge.h"
 
 void apiBridge_Init(
-    ApiBridge self, 
+    ApiBridge self,
     GetChip getChip)
 {
     assert(self);
@@ -20,13 +20,15 @@ void apiBridge_Init(
     self->spriteChip = (SpriteChip)func_Invoke(getChip, nameof(SpriteChip));
     self->fontChip = (FontChip)func_Invoke(getChip, nameof(FontChip));
     self->tilemapChip = (TilemapChip)func_Invoke(getChip, nameof(TilemapChip));
+    self->controllerChip = (ControllerChip)func_Invoke(getChip, nameof(ControllerChip));
 }
 
 int apiBridge_GetSpriteWidth(ApiBridge self)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return 0;
 }
 
 int apiBridge_GetSpriteHeight(ApiBridge self)
@@ -34,49 +36,53 @@ int apiBridge_GetSpriteHeight(ApiBridge self)
     assert(self);
     assert(false);
     // TODO: implement this
+    return 0;
 }
 
 int apiBridge_GetDisplayWidth(ApiBridge self)
 {
     assert(self);
-    
+
     return displayChip_GetDisplayWidth(self->displayChip);
 }
 
 bool apiBridge_GetDisplayWrap(ApiBridge self)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return false;
 }
 
 void apiBridge_ToggleDisplayWrap(ApiBridge self,
     bool value)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
 int apiBridge_GetDisplayHeight(ApiBridge self)
 {
     assert(self);
-    
+
     return displayChip_GetDisplayHeight(self->displayChip);
 }
 
 int apiBridge_GetScrollX(ApiBridge self)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return 0;
 }
 
 int apiBridge_GetScrollY(ApiBridge self)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return 0;
 }
 
 void apiBridge_ScrollTo(ApiBridge self,
@@ -84,58 +90,65 @@ void apiBridge_ScrollTo(ApiBridge self,
     int y)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
 bool apiBridge_GetPaused(ApiBridge self)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return false;
 }
 
 void apiBridge_TogglePause(ApiBridge self,
     bool value)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
 int apiBridge_GetMouseX(ApiBridge self)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return 0;
 }
 
 int apiBridge_GetMouseY(ApiBridge self)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return 0;
 }
 
 char *apiBridge_GetInputString(ApiBridge self)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return NULL;
 }
 
 vector apiBridge_GetMousePosition(ApiBridge self)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    vector result = { 0 };
+    return result;
 }
 
 int apiBridge_GetBackgroundColor(ApiBridge self)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return 0;
 }
 
 void apiBridge_DrawSprite(ApiBridge self,
@@ -201,7 +214,7 @@ void apiBridge_UpdateTile(ApiBridge self,
     int flagValue = flag == NULL ? -1 : *flag;
     int colorOffsetValue = colorOffset == NULL ? 0 : *colorOffset;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
@@ -221,7 +234,7 @@ void apiBridge_ClearArea(ApiBridge self,
 {
     int colorValue = color == NULL ? -1 : *color;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
@@ -229,6 +242,7 @@ void apiBridge_ChangeBackgroundColor(ApiBridge self,
     int id)
 {
     assert(self);
+
     colorChip_SetBackgroundColorId(self->colorChip, id);
 }
 
@@ -238,7 +252,7 @@ void apiBridge_PlaySound(ApiBridge self,
 {
     int channelValue = channel == NULL ? 0 : *channel;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
@@ -248,8 +262,8 @@ bool apiBridge_ButtonDown(ApiBridge self,
 {
     int playerValue = player == NULL ? 0 : *player;
     assert(self);
-    assert(false); 
-    // TODO: implement this
+
+    return controllerChip_ButtonDown(self->controllerChip, button, playerValue);
 }
 
 bool apiBridge_ButtonReleased(ApiBridge self,
@@ -258,8 +272,9 @@ bool apiBridge_ButtonReleased(ApiBridge self,
 {
     int playerValue = player == NULL ? 0 : *player;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return false;
 }
 
 bool apiBridge_GetMouseButtonDown(ApiBridge self,
@@ -267,8 +282,9 @@ bool apiBridge_GetMouseButtonDown(ApiBridge self,
 {
     int idValue = id == NULL ? 0 : *id;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return false;
 }
 
 bool apiBridge_GetMouseButtonUp(ApiBridge self,
@@ -276,8 +292,9 @@ bool apiBridge_GetMouseButtonUp(ApiBridge self,
 {
     int idValue = id == NULL ? 0 : *id;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return false;
 }
 
 bool apiBridge_GetMouseButton(ApiBridge self,
@@ -285,8 +302,9 @@ bool apiBridge_GetMouseButton(ApiBridge self,
 {
     int idValue = id == NULL ? 0 : *id;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return false;
 }
 
 void apiBridge_DrawSpriteText(ApiBridge self,
@@ -322,10 +340,10 @@ void apiBridge_DrawTileText(ApiBridge self,
     assert(self);
 
     int total = strlen(text);
-    spriteId spriteIds[2048] = { 0 };    
+    spriteId spriteIds[2048] = { 0 };
     fontChip_ConvertTextToSprites(self->fontChip, text, fontNameValue, spriteIds);
     for (int i = 0; i < total; i++)
-        apiBridge_DrawTile(self, spriteIds[i], column + i, row, colorOffsetValue);
+        apiBridge_DrawTile(self, spriteIds[i], column + i, row, colorOffset);
 }
 
 void apiBridge_DrawTileTextBox(ApiBridge self,
@@ -339,7 +357,7 @@ void apiBridge_DrawTileTextBox(ApiBridge self,
     char *fontNameValue = fontName == NULL ? "Default" : *fontName;
     int colorOffsetValue = colorOffset == NULL ? 0 : *colorOffset;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
@@ -348,8 +366,9 @@ int apiBridge_CalculateTextBoxHeight(ApiBridge self,
     int characterWidth)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return 0;
 }
 
 void apiBridge_DrawTile(ApiBridge self,
@@ -375,7 +394,7 @@ void apiBridge_DrawTiles(ApiBridge self,
 {
     int colorOffsetValue = colorOffset == NULL ? 0 : *colorOffset;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
@@ -391,7 +410,7 @@ void apiBridge_DrawFont(ApiBridge self,
     int letterSpacingValue = letterSpacing == NULL ? 0 : *letterSpacing;
     int offsetValue = offset == NULL ? 0 : *offset;
     assert(self);
-    
+
     apiBridge_DrawSpriteText(self,
         text,
         x,
@@ -414,7 +433,7 @@ void apiBridge_DrawTextBox(ApiBridge self,
     int letterSpacingValue = letterSpacing == NULL ? 0 : *letterSpacing;
     bool wholeWordsValue = wholeWords == NULL ? false : *wholeWords;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
@@ -425,8 +444,9 @@ char *apiBridge_FormatWordWrap(ApiBridge self,
 {
     bool wholeWordsValue = wholeWords == NULL ? false : *wholeWords;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return NULL;
 }
 
 void apiBridge_DrawPixelData(ApiBridge self,
@@ -447,7 +467,7 @@ void apiBridge_DrawPixelData(ApiBridge self,
     bool maskedValue = masked == NULL ? false : *masked;
     int colorOffsetValue = colorOffset == NULL ? 0 : *colorOffset;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
@@ -456,32 +476,36 @@ int apiBridge_ReadFlagAt(ApiBridge self,
     int row)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return 0;
 }
 
 bool apiBridge_GetKey(ApiBridge self,
     int key)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return false;
 }
 
 bool apiBridge_GetKeyDown(ApiBridge self,
     int key)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return false;
 }
 
 bool apiBridge_GetKeyUp(ApiBridge self,
     int key)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return false;
 }
 
 int *apiBridge_SpritesToRawData(ApiBridge self,
@@ -491,8 +515,9 @@ int *apiBridge_SpritesToRawData(ApiBridge self,
     int *returnLen)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return 0;
 }
 
 void apiBridge_SaveData(ApiBridge self,
@@ -500,7 +525,7 @@ void apiBridge_SaveData(ApiBridge self,
     char *value)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
@@ -510,15 +535,16 @@ char *apiBridge_ReadData(ApiBridge self,
 {
     char *defaultValueValue = defaultValue == NULL ? "undefined" : *defaultValue;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return NULL;
 }
 
 void apiBridge_LoadSong(ApiBridge self,
     int id)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
@@ -527,14 +553,14 @@ void apiBridge_PlaySong(ApiBridge self,
 {
     bool loopValue = loop == NULL ? false : *loop;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
 void apiBridge_PauseSong(ApiBridge self)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
@@ -543,14 +569,14 @@ void apiBridge_StopSong(ApiBridge self,
 {
     bool autoRewindValue = autoRewind == NULL ? true : *autoRewind;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
 void apiBridge_RewindSong(ApiBridge self)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
@@ -562,8 +588,9 @@ int *apiBridge_ReplaceColorID(ApiBridge self,
     int *returnLen)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return NULL;
 }
 
 int *apiBridge_ReplaceColorIDs(ApiBridge self,
@@ -576,8 +603,9 @@ int *apiBridge_ReplaceColorIDs(ApiBridge self,
     int *returnLen)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
+    return NULL;
 }
 
 void apiBridge_DrawScreenBuffer(ApiBridge self,
@@ -617,7 +645,7 @@ void apiBridge_DrawTilemap(ApiBridge self,
     int offsetXValue = offsetX == NULL ? 0 : *offsetX;
     int offsetYValue = offsetY == NULL ? 0 : *offsetY;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
@@ -631,7 +659,7 @@ void apiBridge_DrawFontTiles(ApiBridge self,
     char *fontNameValue = fontName == NULL ? "Default" : *fontName;
     int offsetValue = offset == NULL ? 0 : *offset;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
@@ -650,7 +678,7 @@ void apiBridge_DrawTileToBuffer(ApiBridge self,
 {
     int colorOffsetValue = colorOffset == NULL ? 0 : *colorOffset;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
@@ -664,7 +692,7 @@ void apiBridge_DrawTilesToBuffer(ApiBridge self,
 {
     int colorOffsetValue = colorOffset == NULL ? 0 : *colorOffset;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
@@ -681,7 +709,7 @@ void apiBridge_DrawTextBoxToBuffer(ApiBridge self,
     int letterSpacingValue = letterSpacing == NULL ? 0 : *letterSpacing;
     bool wholeWordsValue = wholeWords == NULL ? false : *wholeWords;
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 
@@ -694,7 +722,7 @@ void apiBridge_DrawBufferData(ApiBridge self,
     int height)
 {
     assert(self);
-    assert(false); 
+    assert(false);
     // TODO: implement this
 }
 

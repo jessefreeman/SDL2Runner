@@ -4,11 +4,11 @@
 
 #include <assert.h>
 #include <stdlib.h>
-#include "displaydevice.h"
+#include "controllerdevice.h"
 
-void displayDevice_Render(DisplayDevice self, int pixelsLen, colorData pixels[])
+buttonState controllerDevice_GetButtonState(ControllerDevice self, button button)
 {
     assert(self);
-    if (self->render == NULL) return;
-    self->render(self, pixelsLen, pixels);
+    if (self->getButtonState == NULL) return RELEASED;
+    return self->getButtonState(self, button);
 }

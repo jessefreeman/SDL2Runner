@@ -130,11 +130,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="sdlcontrollerdevice.c" />
     <ClCompile Include="sdldisplaydevice.c" />
     <ClCompile Include="pv8sdk.sdl2.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pv8sdk.sdl2.h" />
+    <ClInclude Include="sdlcontrollerdevice.h" />
     <ClInclude Include="sdldisplaydevice.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

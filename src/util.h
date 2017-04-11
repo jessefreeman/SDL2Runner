@@ -24,6 +24,8 @@
 
 #define clamp(x, min, max) ((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
 
+#define arraylen(x) (sizeof(x)/sizeof((x)[0]))
+
 // returns first Obj if not NULL, otherwise returns second
 Obj nvl(Obj, Obj);
 

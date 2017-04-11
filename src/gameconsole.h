@@ -17,7 +17,7 @@ void gameConsole_Destroy(GameConsole self);
 
 void gameConsole_InsertChip(GameConsole self, Chip chip);
 
-void gameConsole_InsertController(GameConsole self, ControllerDevice controller);
+void gameConsole_InsertController(GameConsole self, int slotIdx, ControllerDevice controller);
 
 void gameConsole_InsertDisplayDevice(GameConsole self, DisplayDevice display);
 

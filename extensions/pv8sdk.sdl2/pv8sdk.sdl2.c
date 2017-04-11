@@ -9,39 +9,24 @@
 #include "pv8sdk.sdl2.h"
 #include "sdldisplaydevice.h"
 
-struct sdl {
-    char pass;
-};
 
-static struct sdl sdlRef;
+static void sdl_handleInput(SDL_Event *event,
+    SDLControllerDevice controller1,
+    SDLControllerDevice controller2);
 
-static SDL sdl = NULL;
+static void sdl_handleKeyboardInput(SDL_KeyboardEvent *event,
+    SDLControllerDevice controller1,
+    SDLControllerDevice controller2);
 
-SDL sdl_GetInstance()
+void sdl_runGame(GameConsole console,
+    SDLControllerDevice controller1,
+    SDLControllerDevice controller2)
 {
-    if (sdl == NULL)
-    {
-        if (SDL_Init(SDL_INIT_VIDEO) < 0)
-            exit(EXIT_FAILURE);
+    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+        exit(EXIT_FAILURE);
 
-        sdl = &sdlRef;
-    }
+    gameConsole_PowerOn(console);
 
-    return sdl;
-}
-
-extern SDLDisplayDevice sdlDisplay_Create(int winWidth, int winHeight, int dispWidth, int dispHeight);
-
-SDLDisplayDevice sdl_CreateDisplay(SDL self,
-    int windowWidth, int windowHeight,
-    int displayWidth, int displayheight)
-{
-    assert(self);
-    return sdlDisplay_Create(windowWidth, windowHeight, displayWidth, displayheight);
-}
-
-void sdl_RunGame(SDL self, GameConsole console)
-{
     const float fps = 1.0f;
     SDL_Event event;
     Uint64 oldTime = 0;
@@ -52,7 +37,7 @@ void sdl_RunGame(SDL self, GameConsole console)
     {
         while (SDL_PollEvent(&event))
         {
-            //handleInput(&event);
+            sdl_handleInput(&event, controller1, controller2);
             if (event.type == SDL_QUIT)
             {
                 end = true;
@@ -67,4 +52,38 @@ void sdl_RunGame(SDL self, GameConsole console)
 
         gameConsole_Render(console);
     }
+
+    gameConsole_PowerOff(console);
+
+    SDL_Quit();
+}
+
+static void sdl_handleInput(SDL_Event *event,
+    SDLControllerDevice controller1,
+    SDLControllerDevice controller2)
+{
+    switch (event->type)
+    {
+    case SDL_KEYDOWN:
+    case SDL_KEYUP:
+        sdl_handleKeyboardInput(&event->key,
+            controller1,
+            controller2);
+        break;
+    default:
+        break;
+    }
+}
+
+static void sdl_handleKeyboardInput(SDL_KeyboardEvent *event,
+    SDLControllerDevice controller1,
+    SDLControllerDevice controller2)
+{
+    if (controller1 != NULL)
+        sdlController_KeyStateChanged(controller1, event->keysym.sym,
+            event->type == SDL_KEYDOWN ? PRESSED : RELEASED);
+
+    if (controller2 != NULL)
+        sdlController_KeyStateChanged(controller2, event->keysym.sym,
+            event->type == SDL_KEYDOWN ? PRESSED : RELEASED);
 }

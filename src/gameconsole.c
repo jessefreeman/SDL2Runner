@@ -14,8 +14,10 @@
 typedef struct gameConsole {
     PixelVisionEngine engine;
     DisplayDevice display;
+    ControllerDevice controllers[MAX_CONTROLLERS];
     DisplayChip displayChip;
     ColorChip colorChip;
+    ControllerChip controllerChip;
 } gameConsole;
 
 static void gameConsole_RenderToDisplay(GameConsole self, bool init);
@@ -41,7 +43,7 @@ GameConsole gameConsole_Create()
 void gameConsole_Destroy(GameConsole self)
 {
     assert(self);
-    if (self->display != NULL) displayDevice_Destroy(self->display);
+    if (self->display != NULL) device_Destroy((Device)self->display);
     pixelVisionEngine_Destroy(self->engine);
     memset(self, 0, sizeof(gameConsole));
     free(self);
@@ -54,25 +56,35 @@ void gameConsole_InsertChip(GameConsole self, Chip chip)
     pixelVisionEngine_InsertChip(self->engine, chip);
 }
 
-void gameConsole_InsertController(GameConsole self, ControllerDevice controller)
+void gameConsole_InsertController(GameConsole self, int slotIdx, ControllerDevice controller)
 {
-
+    assert(self);
+    self->controllers[clamp(slotIdx, 0, MAX_CONTROLLERS - 1)] = controller;
 }
 
 void gameConsole_InsertDisplayDevice(GameConsole self, DisplayDevice display)
 {
     assert(self);
-    if (self->display != NULL) displayDevice_Destroy(self->display);
+    if (self->display != NULL) device_Destroy((Device)self->display);
     self->display = display;
 }
 
 void gameConsole_PowerOn(GameConsole self)
 {
     assert(self);
-    displayDevice_Init(self->display);
+    device_PowerOn((Device)self->display);
     pixelVisionEngine_Init(self->engine);
     self->displayChip = (DisplayChip)pixelVisionEngine_GetChip(self->engine, nameof(DisplayChip));
     self->colorChip = (ColorChip)pixelVisionEngine_GetChip(self->engine, nameof(ColorChip));
+    self->controllerChip = (ControllerChip)pixelVisionEngine_GetChip(self->engine, nameof(ControllerChip));
+    if (self->controllerChip != NULL)
+    {
+        for (int i = 0; i < arraylen(self->controllers); i++)
+        {
+            if (self->controllers[i] == NULL) continue;
+            controllerChip_InsertController(self->controllerChip, i, self->controllers[i]);
+        }
+    }
     gameConsole_RenderToDisplay(self, true);
 }
 
@@ -92,6 +104,8 @@ void gameConsole_Render(GameConsole self)
 void gameConsole_PowerOff(GameConsole self)
 {
     gameConsole_RenderToDisplay(self, true);
+    device_PowerOff((Device)self->display);
+    // TODO: clear controllers
 }
 
 static void gameConsole_RenderToDisplay(GameConsole self, bool init)

@@ -17,12 +17,18 @@
     <ClCompile Include="sdldisplaydevice.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sdlcontrollerdevice.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pv8sdk.sdl2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sdldisplaydevice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sdlcontrollerdevice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

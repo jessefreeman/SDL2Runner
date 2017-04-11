@@ -5,6 +5,22 @@
 #ifndef _sdldisplaydevice_h_
 #define _sdldisplaydevice_h_
 
+#include <SDL.h>
+#include "displaydevice.h"
+
+typedef struct sdlDisplayDevice {
+    displayDevice base; // must be first
+    int winWidth;
+    int winHeight;
+    int dispWidth;
+    int dispHeight;
+    SDL_Window *window;
+    SDL_Renderer *renderer;
+} sdlDisplayDevice;
+
 typedef struct sdlDisplayDevice *SDLDisplayDevice;
+
+void sdlDisplayDevice_Init(SDLDisplayDevice self,
+    int winWidth, int winHeight, int dispWidth, int dispHeight);
 
 #endif

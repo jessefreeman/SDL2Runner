@@ -133,6 +133,9 @@
     <ClCompile Include="apibridge.c" />
     <ClCompile Include="chip.c" />
     <ClCompile Include="colorchip.c" />
+    <ClCompile Include="controllerchip.c" />
+    <ClCompile Include="controllerdevice.c" />
+    <ClCompile Include="device.c" />
     <ClCompile Include="displaydevice.c" />
     <ClCompile Include="displaychip.c" />
     <ClCompile Include="engine.c" />
@@ -149,7 +152,9 @@
     <ClInclude Include="chip.h" />
     <ClInclude Include="chips.h" />
     <ClInclude Include="colorchip.h" />
+    <ClInclude Include="controllerchip.h" />
     <ClInclude Include="controllerdevice.h" />
+    <ClInclude Include="device.h" />
     <ClInclude Include="displaydevice.h" />
     <ClInclude Include="displaychip.h" />
     <ClInclude Include="engine.h" />

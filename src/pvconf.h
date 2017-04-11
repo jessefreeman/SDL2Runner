@@ -7,6 +7,7 @@
 
 #include <limits.h>
 
+// TODO: move this to types...
 typedef unsigned char colorId;
 #define COLORID_MAX UCHAR_MAX
 
@@ -18,7 +19,10 @@ typedef unsigned char colorId;
 #define MAX_SPRITES_PER_PAGE    UCHAR_MAX
 #define MAX_SPRITES             (MAX_SPRITE_PAGES * MAX_SPRITES_PER_PAGE)
 
+// TODO: move this to types...
 typedef unsigned short spriteId;
+
+#define MAX_CONTROLLERS 2
 
 #endif
 

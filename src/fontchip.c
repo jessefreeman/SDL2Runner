@@ -85,7 +85,7 @@ void fontChip_ConvertTextToSprites(FontChip self, const char *text, const char *
         return;
 
     for (int i = 0; i < strlen(text); i++)
-        spriteIds[i] = font->map[text[i] - ' '];
+        spriteIds[i] = font->map[clamp(text[i] - ' ', 0, 96)];
 }
 
 TextureData fontChip_ConvertTextToTexture(FontChip self, const char *text, const char *fontName, int letterSpacing)
@@ -97,23 +97,41 @@ TextureData fontChip_ConvertTextToTexture(FontChip self, const char *text, const
     if (font == NULL)
         return NULL;
 
-    // TODO: assuming good, single line text for now, don't.
+    int lines = 0;
+    int longestLine =  0;
+    char *line = strtok(text, "\n");
+    while (line != NULL)
+    {
+        lines++;
+        int len = strlen(line);
+        if (len > longestLine)
+            longestLine = len;
+
+        line = strtok(NULL, "\n");
+    }
 
     int cWidth = spriteChip_GetSpriteWidth(self->spriteChip);
-    int textureWidth = (cWidth + letterSpacing) * strlen(text); // should be len of longest line
+    int textureWidth = (cWidth + letterSpacing) * longestLine; // should be len of longest line
 
     int cHeight = spriteChip_GetSpriteHeight(self->spriteChip);
-    int textureHeight = cHeight; // * totalLines;
+    int textureHeight = cHeight * lines;
 
     // TODO: this can fail
     TextureData outputTexture = textureData_Create(textureWidth, textureHeight);
 
-    // TODO: should handle multiple lines
-    for (int x = 0; x < strlen(text); x++)
+    int y = 0;
+    line = strtok(text, "\n");
+    while (line != NULL)
     {
-        int spriteIdx = font->map[text[x] - ' '];
-        Sprite sprite = spriteChip_GetSprite(self->spriteChip, spriteIdx);
-        sprite_CopyToTextureAtPos(sprite, outputTexture, x * (cWidth + letterSpacing), 0);
+        for (int x = 0; x < (int)strlen(line); x++)
+        {
+            int spriteIdx = font->map[clamp(line[x] - ' ', 0, 96)];
+            Sprite sprite = spriteChip_GetSprite(self->spriteChip, spriteIdx);
+            sprite_CopyToTextureAtPos(sprite, outputTexture, x * (cWidth + letterSpacing), y);
+        }
+
+        y += textureHeight;
+        line = strtok(NULL, "\n");
     }
 
     return outputTexture;
