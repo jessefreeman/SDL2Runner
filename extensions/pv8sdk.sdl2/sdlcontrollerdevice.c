@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <SDL.h>
+#include "util.h"
 #include "controllerdevice.h"
 #include "sdlcontrollerdevice.h"
 
@@ -24,14 +25,11 @@ void sdlButtonMap_MapButton(SDLButtonMap self, button button, SDL_Keycode keycod
     self->map[(int)button] = keycode;
 }
 
-void sdlController_Init(SDLControllerDevice self, sdlButtonMap buttonMap)
-{
-    self->base.getButtonState = sdlControllerDevice_GetButtonState;
-}
-
 void sdlControllerDevice_Init(SDLControllerDevice self, sdlButtonMap buttonMap)
 {
     assert(self);
+    memset(self, 0, sizeof(sdlControllerDevice));
+    self->base.getButtonState = sdlControllerDevice_GetButtonState;
     self->buttonMap = buttonMap;
 }
 
@@ -39,4 +37,16 @@ static buttonState sdlControllerDevice_GetButtonState(SDLControllerDevice self, 
 {
     assert(self);
     return self->buttonStates.map[button];
+}
+
+void sdlController_KeyStateChanged(SDLControllerDevice self,
+    SDL_Keycode keycode, buttonState state)
+{
+    assert(self);
+    for (int i = 0; i < arraylen(self->buttonMap.map); i++)
+    {
+        if (self->buttonMap.map[i] != keycode) continue;
+
+        self->buttonStates.map[i] = state;
+    }
 }

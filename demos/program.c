@@ -20,7 +20,7 @@
 #define D2 "FontDemo"
 #define D3 "SpriteStressTestDemo"
 #define D4 "ControllerDemo"
-#define DEMO D1
+#define DEMO D4
 
 static colorChip pvColorChip;
 static spriteChip pvSpriteChip;
@@ -131,7 +131,9 @@ int main(int argc, char **argv)
 
     // Run the game.
 
-    sdl_runGame(console);
+    sdl_runGame(console,
+        &p1Controller,
+        &p2Controller);
 
     // Note, any resource inserted into the console delegates the responsibility
     // of resource cleanup to the console. i.e. no need to Destroy a chips or devices

@@ -49,4 +49,7 @@ typedef sdlControllerDevice *SDLControllerDevice;
 
 void sdlControllerDevice_Init(SDLControllerDevice self, sdlButtonMap);
 
+void sdlController_KeyStateChanged(SDLControllerDevice self,
+    SDL_Keycode keycode, buttonState state);
+
 #endif

@@ -10,7 +10,9 @@
 #include "sdlcontrollerdevice.h"
 #include "gameconsole.h"
 
-void sdl_runGame(GameConsole console);
+// TODO: this isn't at all elegeant, need to rethink how SDL interacts with PV8
+void sdl_runGame(GameConsole console,
+    SDLControllerDevice controller1,
+    SDLControllerDevice controller2);
 
 #endif
-

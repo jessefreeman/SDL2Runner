@@ -9,10 +9,18 @@
 #include "pv8sdk.sdl2.h"
 #include "sdldisplaydevice.h"
 
-static void sdl_handleInput(SDL_Event *event, GameConsole console);
-static void sdl_handleKeyboardInput(SDL_KeyboardEvent *event, GameConsole console);
 
-void sdl_runGame(GameConsole console)
+static void sdl_handleInput(SDL_Event *event,
+    SDLControllerDevice controller1,
+    SDLControllerDevice controller2);
+
+static void sdl_handleKeyboardInput(SDL_KeyboardEvent *event,
+    SDLControllerDevice controller1,
+    SDLControllerDevice controller2);
+
+void sdl_runGame(GameConsole console,
+    SDLControllerDevice controller1,
+    SDLControllerDevice controller2)
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
         exit(EXIT_FAILURE);
@@ -29,7 +37,7 @@ void sdl_runGame(GameConsole console)
     {
         while (SDL_PollEvent(&event))
         {
-            sdl_handleInput(&event, console);
+            sdl_handleInput(&event, controller1, controller2);
             if (event.type == SDL_QUIT)
             {
                 end = true;
@@ -50,20 +58,32 @@ void sdl_runGame(GameConsole console)
     SDL_Quit();
 }
 
-static void sdl_handleInput(SDL_Event *event, GameConsole console)
+static void sdl_handleInput(SDL_Event *event,
+    SDLControllerDevice controller1,
+    SDLControllerDevice controller2)
 {
     switch (event->type)
     {
     case SDL_KEYDOWN:
     case SDL_KEYUP:
-        sdl_handleKeyboardInput(&event->key, console);
+        sdl_handleKeyboardInput(&event->key,
+            controller1,
+            controller2);
         break;
     default:
         break;
     }
 }
 
-static void sdl_handleKeyboardInput(SDL_KeyboardEvent *event, GameConsole console)
+static void sdl_handleKeyboardInput(SDL_KeyboardEvent *event,
+    SDLControllerDevice controller1,
+    SDLControllerDevice controller2)
 {
+    if (controller1 != NULL)
+        sdlController_KeyStateChanged(controller1, event->keysym.sym,
+            event->type == SDL_KEYDOWN ? PRESSED : RELEASED);
 
+    if (controller2 != NULL)
+        sdlController_KeyStateChanged(controller2, event->keysym.sym,
+            event->type == SDL_KEYDOWN ? PRESSED : RELEASED);
 }
