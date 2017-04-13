@@ -96,7 +96,8 @@
       <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /E /Y "$(ProjectDir)resources" "$(OutDir)resources"
+      <Command>mkdir "$(OutDir)resources\"
+xcopy /E /Y "$(ProjectDir)resources" "$(OutDir)resources"
 xcopy /Y "$(SolutionDir)libs\sdl2\lib\$(PlatformTarget)\SDL2.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -115,7 +116,8 @@ xcopy /Y "$(SolutionDir)libs\sdl2\lib\$(PlatformTarget)\SDL2.dll" "$(OutDir)"</C
       <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /E /Y "$(ProjectDir)resources" "$(OutDir)resources"
+      <Command>mkdir "$(OutDir)resources\"
+xcopy /E /Y "$(ProjectDir)resources" "$(OutDir)resources"
 xcopy /Y "$(SolutionDir)libs\sdl2\lib\$(PlatformTarget)\SDL2.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -138,7 +140,8 @@ xcopy /Y "$(SolutionDir)libs\sdl2\lib\$(PlatformTarget)\SDL2.dll" "$(OutDir)"</C
       <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /E /Y "$(ProjectDir)resources" "$(OutDir)resources"
+      <Command>mkdir "$(OutDir)resources\"
+xcopy /E /Y "$(ProjectDir)resources" "$(OutDir)resources"
 xcopy /Y "$(SolutionDir)libs\sdl2\lib\$(PlatformTarget)\SDL2.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -161,7 +164,8 @@ xcopy /Y "$(SolutionDir)libs\sdl2\lib\$(PlatformTarget)\SDL2.dll" "$(OutDir)"</C
       <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /E /Y "$(ProjectDir)resources" "$(OutDir)resources"
+      <Command>mkdir "$(OutDir)resources\"
+xcopy /E /Y "$(ProjectDir)resources" "$(OutDir)resources"
 xcopy /Y "$(SolutionDir)libs\sdl2\lib\$(PlatformTarget)\SDL2.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

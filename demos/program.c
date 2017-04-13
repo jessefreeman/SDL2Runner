@@ -20,7 +20,7 @@
 #define D2 "FontDemo"
 #define D3 "SpriteStressTestDemo"
 #define D4 "ControllerDemo"
-#define DEMO D4
+#define DEMO D1
 
 static colorChip pvColorChip;
 static spriteChip pvSpriteChip;
@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 
     int width = 0;
     int height = 0;
-    colorData *colors = importImageFromFile(".\\resources\\colors.png", &width, &height);
+    colorData *colors = importImageFromFile("./resources/colors.png", &width, &height);
     
     colorChip_Init(&pvColorChip, colors, width * height);
     free(colors);
@@ -48,7 +48,7 @@ int main(int argc, char **argv)
 
     // Create SpriteChip
 
-    TextureData spriteSheet = importSpriteSheetFromFile(".\\resources\\sprites.png", &pvColorChip);    
+    TextureData spriteSheet = importSpriteSheetFromFile("./resources/sprites.png", &pvColorChip);    
     spriteChip_Init(&pvSpriteChip, SPRITE_WIDTH, SPRITE_HEIGHT, spriteSheet);
     textureData_Destroy(spriteSheet);
     spriteSheet = NULL;
@@ -60,13 +60,13 @@ int main(int argc, char **argv)
     gameConsole_InsertChip(console, (Chip)fontChip);
     spriteId mapBuffer[96] = { 0 };
 
-    spriteSheet = importSpriteSheetFromFile(".\\resources\\large-font.png", &pvColorChip);
+    spriteSheet = importSpriteSheetFromFile("./resources/large-font.png", &pvColorChip);
     spriteChip_AddSpritesFromTexture(&pvSpriteChip, spriteSheet, mapBuffer);
     textureData_Destroy(spriteSheet);
     spriteSheet = NULL;
     fontChip_AddFont(fontChip, "large-font", 96, mapBuffer);
 
-    spriteSheet = importSpriteSheetFromFile(".\\resources\\small-font.png", &pvColorChip);
+    spriteSheet = importSpriteSheetFromFile("./resources/small-font.png", &pvColorChip);
     spriteChip_AddSpritesFromTexture(&pvSpriteChip, spriteSheet, mapBuffer);
     textureData_Destroy(spriteSheet);
     spriteSheet = NULL;
@@ -85,7 +85,7 @@ int main(int argc, char **argv)
     // Create LuaGameChip
 
     int len = 0;
-    char *gameCode = importTextFromFile(".\\resources\\"DEMO".lua", &len);
+    char *gameCode = importTextFromFile("./resources/"DEMO".lua", &len);
     LuaGameChip gameChip = luaGameChip_Create(gameCode, len);
     free(gameCode);
     gameConsole_InsertChip(console, (Chip)gameChip);
