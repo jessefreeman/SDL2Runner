@@ -85,7 +85,6 @@ void gameConsole_PowerOn(GameConsole self)
             controllerChip_InsertController(self->controllerChip, i, self->controllers[i]);
         }
     }
-    gameConsole_RenderToDisplay(self, true);
 }
 
 void gameConsole_Tick(GameConsole self, float timeDelta)
@@ -98,62 +97,11 @@ void gameConsole_Render(GameConsole self)
 {
     assert(self);
     pixelVisionEngine_Draw(self->engine);
-    gameConsole_RenderToDisplay(self, false);
+    displayDevice_Refresh(self->display, self->displayChip);
 }
 
 void gameConsole_PowerOff(GameConsole self)
 {
-    gameConsole_RenderToDisplay(self, true);
     device_PowerOff((Device)self->display);
     // TODO: clear controllers
-}
-
-static void gameConsole_RenderToDisplay(GameConsole self, bool init)
-{
-    // should this be moved to display?
-    static int pixelsLen = 0; 
-    static colorData *pixels = NULL; 
-    if (init)
-    {
-        if (pixels == NULL)
-        {
-            pixelsLen = displayChip_GetPixelCount(self->displayChip);
-            pixels = (colorData *)calloc(pixelsLen, sizeof(colorData));
-        }
-        else
-        {
-            free(pixels);
-            pixelsLen = 0;
-        }
-    }
-
-    colorData backgroundColor = 
-        colorChip_GetColor(self->colorChip, colorChip_GetBackgroundColorId(self->colorChip));
-
-    for (int i = 0; i < pixelsLen; i++)
-    {
-        colorId colorId = displayChip_GetPixel(self->displayChip, i);
-        if (colorId < 0)
-        {
-            pixels[i].r = 255;
-            pixels[i].g = 0;
-            pixels[i].b = 255;
-        }
-        else
-        {
-            colorData color = colorChip_GetColor(self->colorChip, colorId);
-            // magenta transparent for now
-            if (color.r != 255 || color.g != 0 || color.b != 255)
-            {
-                pixels[i] = color;
-            }
-            else
-            {
-                
-                pixels[i] = backgroundColor;
-            }
-        }
-    }
-
-    displayDevice_Render(self->display, pixelsLen, pixels);
 }

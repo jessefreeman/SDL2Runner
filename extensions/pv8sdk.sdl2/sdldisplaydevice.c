@@ -7,13 +7,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <SDL.h>
+#include "util.h"
+#include "displaychip.h"
 #include "displaydevice.h"
 #include "sdldisplaydevice.h"
 
 static void sdlDisplay_Destroy(SDLDisplayDevice self);
 static void sdlDisplay_PowerOn(SDLDisplayDevice self);
 static void sdlDisplay_PowerOff(SDLDisplayDevice self);
-static void sdlDisplay_Render(SDLDisplayDevice self, int pixelsLen, colorData pixels[]);
+static void sdlDisplayDevice_Refresh(SDLDisplayDevice self, DisplayChip displayChip);
 
 void sdlDisplayDevice_Init(SDLDisplayDevice self,
     int winWidth, int winHeight, int dispWidth, int dispHeight)
@@ -22,7 +24,7 @@ void sdlDisplayDevice_Init(SDLDisplayDevice self,
     self->base.base.destroy = sdlDisplay_Destroy;
     self->base.base.powerOn = sdlDisplay_PowerOn;
     self->base.base.powerOff = sdlDisplay_PowerOff;
-    self->base.render = sdlDisplay_Render;
+    self->base.refresh = sdlDisplayDevice_Refresh;
     self->winWidth = winWidth;
     self->winHeight = winHeight;
     self->dispWidth = dispWidth;
@@ -68,18 +70,26 @@ static void sdlDisplay_PowerOff(SDLDisplayDevice self)
     }
 }
 
-static void sdlDisplay_Render(SDLDisplayDevice self, int pixelsLen, colorData pixels[])
+static void sdlDisplayDevice_Refresh(SDLDisplayDevice self, DisplayChip displayChip)
 {
     int x = 0;
     int y = 0;
-    //SDL_RenderClear(self->renderer);
-    for (int i = 0; i < pixelsLen; i++)
+    int displayIdx = 0;
+    colorData pixelBuffer[256] = { 0 };
+    displayChip_BeginRead(displayChip);
+    int pixelsRead = displayChip_Read(displayChip, pixelBuffer, arraylen(pixelBuffer));
+    while (pixelsRead > 0)
     {
-        colorData current = pixels[i];
-        SDL_SetRenderDrawColor(self->renderer, current.r, current.g, current.b, 255);
-        x = i % self->dispWidth;
-        y = i / self->dispWidth;
-        SDL_RenderDrawPoint(self->renderer, x, y);
+        for (int i = 0; i < pixelsRead; i++)
+        {
+            colorData current = pixelBuffer[i];
+            SDL_SetRenderDrawColor(self->renderer, current.r, current.g, current.b, 255);
+            x = displayIdx % self->dispWidth;
+            y = displayIdx / self->dispWidth;
+            SDL_RenderDrawPoint(self->renderer, x, y);
+            displayIdx++;
+        }
+        pixelsRead = displayChip_Read(displayChip, pixelBuffer, arraylen(pixelBuffer));
     }
     SDL_RenderPresent(self->renderer);
 }

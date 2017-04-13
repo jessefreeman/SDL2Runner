@@ -22,6 +22,7 @@
 #define D4 "ControllerDemo"
 #define DEMO D1
 
+// TODO: add allocing Create's for these again (keep inits anyways)
 static colorChip pvColorChip;
 static spriteChip pvSpriteChip;
 static controllerChip pvControllerChip;

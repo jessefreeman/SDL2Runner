@@ -21,10 +21,13 @@ typedef struct displayChip {
     TextureData tilemapBuffer;
     int width;
     int height;
+    int totalPixels;
     int tilemapRows;
     int tilemapCols;
     int sizeX;
     int sizeY;
+    int readIdx;
+    colorData bCol;
 } displayChip;
 
 static void displayChip_Destroy(DisplayChip self);
@@ -49,6 +52,7 @@ DisplayChip displayChip_Create(int width, int height)
     }
     self->width = width;
     self->height = height;
+    self->totalPixels = width * height;
 
     self->tilemapBuffer = textureData_Create(width, height);
     if (self->tilemapBuffer == NULL)
@@ -150,4 +154,38 @@ void displayChip_DrawTilemap(DisplayChip self)
         tilemapChip_ResetInvalidated(self->tilemapChip);
     }
     textureData_CopyTo(self->tilemapBuffer, self->texture);
+}
+
+void displayChip_BeginRead(DisplayChip self)
+{
+    assert(self);
+    self->readIdx = 0;
+    self->bCol =
+        colorChip_GetColor(self->colorChip, colorChip_GetBackgroundColorId(self->colorChip));
+}
+
+int displayChip_Read(DisplayChip self, colorData *buffer, int bufferLen)
+{
+    int i = 0;
+    for (i = 0; i < bufferLen && self->readIdx < self->totalPixels; i++, self->readIdx++)
+    {
+        colorId nextColorId = displayChip_GetPixel(self, self->readIdx);
+        colorData color = colorChip_GetColor(self->colorChip, nextColorId);
+        // magenta transparent for now
+        if (color.r != 255 || color.g != 0 || color.b != 255)
+        {
+            buffer[i] = color;
+        }
+        else
+        {
+            buffer[i] = self->bCol;
+        }
+    }
+    return i;
+}
+
+void displayChip_EndRead(DisplayChip self)
+{
+    assert(self);
+    self->readIdx = 0;
 }

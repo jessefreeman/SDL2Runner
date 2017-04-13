@@ -7,14 +7,15 @@
 
 #include "types.h"
 #include "device.h"
+#include "displaychip.h"
 
 typedef struct displayDevice {
     device base; // must be first
-    void(*render)(Obj,int,colorData*);
+    void(*refresh)(Obj,DisplayChip);
 } displayDevice;
 
 typedef struct displayDevice *DisplayDevice;
 
-void displayDevice_Render(DisplayDevice self, int pixelsLen, colorData pixels[]);
+void displayDevice_Refresh(DisplayDevice self, DisplayChip displayChip);
 
 #endif

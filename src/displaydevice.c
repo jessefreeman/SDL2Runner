@@ -6,9 +6,9 @@
 #include <stdlib.h>
 #include "displaydevice.h"
 
-void displayDevice_Render(DisplayDevice self, int pixelsLen, colorData pixels[])
+void displayDevice_Refresh(DisplayDevice self, DisplayChip displayChip)
 {
     assert(self);
-    if (self->render == NULL) return;
-    self->render(self, pixelsLen, pixels);
+    if (self->refresh == NULL) return;
+    self->refresh(self, displayChip);
 }

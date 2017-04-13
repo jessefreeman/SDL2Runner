@@ -29,4 +29,10 @@ void displayChip_DrawTexture(DisplayChip self, TextureData texture, int x, int y
 
 void displayChip_DrawTilemap(DisplayChip self);
 
+void displayChip_BeginRead(DisplayChip self);
+
+int displayChip_Read(DisplayChip self, colorData *buffer, int bufferLen);
+
+void displayChip_EndRead(DisplayChip self);
+
 #endif

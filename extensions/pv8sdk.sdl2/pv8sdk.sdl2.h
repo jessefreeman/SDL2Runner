@@ -5,6 +5,8 @@
 #ifndef _pv8sdk_sdl2_h_
 #define _pv8sdk_sdl2_h_
 
+#define FRAMES_PER_SECOND 1
+
 #include <SDL.h>
 #include "sdldisplaydevice.h"
 #include "sdlcontrollerdevice.h"
