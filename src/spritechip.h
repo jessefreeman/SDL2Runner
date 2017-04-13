@@ -26,6 +26,10 @@ typedef struct spriteChip {
 
 typedef spriteChip *SpriteChip;
 
+SpriteChip spriteChip_Create(int spriteWidth, int spriteHeight, TextureData spriteSheet);
+
+void spriteChip_Destroy(SpriteChip self);
+
 void spriteChip_Init(SpriteChip self, int spriteWidth, int spriteHeight, TextureData spriteSheet);
 
 Sprite spriteChip_GetSprite(SpriteChip self, spriteId id);

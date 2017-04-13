@@ -18,6 +18,10 @@ typedef struct colorChip {
 
 typedef colorChip *ColorChip;
 
+ColorChip colorChip_Create(colorData colors[], int len);
+
+void colorChip_Destroy(ColorChip self);
+
 void colorChip_Init(ColorChip self, colorData colors[], int len);
 
 colorData colorChip_GetColor(ColorChip self, colorId id);

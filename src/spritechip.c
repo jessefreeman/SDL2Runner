@@ -10,15 +10,34 @@
 #include "colorchip.h"
 #include "spritechip.h"
 
+SpriteChip spriteChip_Create(int spriteWidth, int spriteHeight, TextureData spriteSheet)
+{
+    SpriteChip self = NULL;
+
+    self = (SpriteChip)calloc(1, sizeof(spriteChip));
+    if (self == NULL)
+        return NULL;
+
+    spriteChip_Init(self, spriteWidth, spriteHeight, spriteSheet);
+    self->base.destroy = spriteChip_Destroy;
+
+    return self;
+}
+
+void spriteChip_Destroy(SpriteChip self)
+{
+    assert(self);
+    memset(self, 0, sizeof(spriteChip));
+    free(self);
+}
+
 void spriteChip_Init(SpriteChip self, int spriteWidth, int spriteHeight, TextureData spriteSheet)
 {
     assert(self);
     assert(spriteWidth > 0); 
     assert(spriteHeight > 0);
 
-    memset(self, 0, sizeof(spriteChip));
     strncpy(self->base.name, nameof(SpriteChip), sizeof(self->base.name) - 1);
-    
     self->spriteWidth = clamp(spriteWidth, 1, MAX_SPRITE_WIDTH);
     self->spriteHeight = clamp(spriteHeight, 1, MAX_SPRITE_HEIGHT);
     self->numSpritePages = MAX_SPRITE_PAGES;

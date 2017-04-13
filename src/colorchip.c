@@ -11,12 +11,32 @@
 #include "types.h"
 #include "colorchip.h"
 
-void colorChip_Init(ColorChip self, colorData colors[], int len)
+ColorChip colorChip_Create(colorData colors[], int len)
+{
+    ColorChip self = NULL;
+
+    self = (ColorChip)calloc(1, sizeof(colorChip));
+    if (self == NULL)
+        return NULL;
+
+    colorChip_Init(self, colors, len);
+    self->base.destroy = colorChip_Destroy;
+}
+
+void colorChip_Destroy(ColorChip self)
 {
     assert(self);
     memset(self, 0, sizeof(colorChip));
+    free(self);
+}
+
+void colorChip_Init(ColorChip self, colorData colors[], int len)
+{
+    assert(self);
     strncpy(self->base.name, nameof(ColorChip), sizeof(self->base.name) - 1);
+    self->backgroundColor = 0; 
     self->colorsLen = len;
+    memset(self->colors, 0, sizeof(self->colors));
     memcpy(self->colors, colors, min(len * sizeof(colorData), COLORID_MAX * sizeof(colorData)));
 }
 
