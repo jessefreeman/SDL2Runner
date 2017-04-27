@@ -8,6 +8,27 @@
 #include "controllerdevice.h"
 #include "controllerchip.h"
 
+ControllerChip controllerChip_Create()
+{
+    ControllerChip self = NULL;
+    
+    self = (ControllerChip)calloc(1, sizeof(controllerChip));
+    if (self == NULL)
+        return NULL;
+    
+    controllerChip_Init(self);
+    self->base.destroy = controllerChip_Destroy;
+
+    return self;
+}
+
+void controllerChip_Destroy(ControllerChip self)
+{
+    assert(self);
+    memset(self, 0, sizeof(controllerChip));
+    free(self);
+}
+
 void controllerChip_Init(ControllerChip self)
 {
     assert(self);
@@ -28,4 +49,10 @@ bool controllerChip_ButtonDown(ControllerChip self, int button, int slot)
     if (self->controllers[slot] == NULL) return false;
     buttonState buttonState = controllerDevice_GetButtonState(self->controllers[slot], button);
     return buttonState == PRESSED;
+}
+
+vector controllerChip_GetMousePosition(ControllerChip self)
+{
+    assert(self);
+
 }

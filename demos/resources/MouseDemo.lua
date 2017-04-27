@@ -53,8 +53,11 @@ function Update()
 
 	-- The APIBridge exposes a property for the mouse's x and y position. We'll store this in a field and
 	-- retrieve it during Draw() execution of the GameChip's life cycle.
-	mousePos.x = apiBridge.mouseX
-	mousePos.y = apiBridge.mouseY
+--	mousePos.x = apiBridge.mouseX
+--	mousePos.y = apiBridge.mouseY
+	mousePos.x = apiBridge:GetMouseX()
+	mousePos.y = apiBridge:GetMouseY()
+
 
 	-- While this step may appear to be wasteful, it's important to separate any calculation logic from 
     -- render logic. This optimization technique will ensure the best performance for Pixel Vision 8 games 

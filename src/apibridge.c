@@ -58,7 +58,6 @@ void apiBridge_ToggleDisplayWrap(ApiBridge self,
     bool value)
 {
     assert(self);
-    assert(false);
     // TODO: implement this
 }
 
@@ -113,17 +112,14 @@ void apiBridge_TogglePause(ApiBridge self,
 int apiBridge_GetMouseX(ApiBridge self)
 {
     assert(self);
-    assert(false);
-    // TODO: implement this
-    return 0;
+    return controllerChip_GetMousePosition(self).x;
 }
 
 int apiBridge_GetMouseY(ApiBridge self)
 {
     assert(self);
-    assert(false);
-    // TODO: implement this
-    return 0;
+    assert(self);
+    return controllerChip_GetMousePosition(self).y;
 }
 
 char *apiBridge_GetInputString(ApiBridge self)
