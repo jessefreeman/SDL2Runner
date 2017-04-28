@@ -6,6 +6,7 @@
 #define _controllerdevice_h_
 
 #include "types.h"
+#include "types.h"
 #include "device.h"
 
 typedef enum buttonState {
@@ -27,10 +28,13 @@ typedef enum button {
 typedef struct controllerDevice {
     device base; // must be first
     buttonState (*getButtonState)(Obj, button);
+    vector (*getMousePosition)(Obj);
 } controllerDevice;
 
 typedef struct controllerDevice *ControllerDevice;
 
 buttonState controllerDevice_GetButtonState(ControllerDevice self, button button);
+
+vector controllerDevice_GetMousePosition(ControllerDevice self);
 
 #endif

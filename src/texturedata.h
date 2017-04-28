@@ -5,6 +5,7 @@
 #ifndef _texturedata_h_
 #define _texturedata_h_
 
+#include <stdbool.h>
 #include "pvconf.h"
 
 typedef struct textureData *TextureData;
@@ -13,11 +14,17 @@ TextureData textureData_Create(int width, int height);
 
 void textureData_Destroy(TextureData self);
 
+void textureData_SetWrapMode(TextureData self, bool value);
+
+bool textureData_GetWrapMode(TextureData self);
+
 void textureData_Clear(TextureData self, colorId id);
 
 colorId textureData_GetPixel(TextureData self, int idx);
 
 void textureData_SetPixelAt(TextureData self, int idx, colorId id);
+
+void textureData_SetPixelAtPos(TextureData self, int x, int y, colorId id);
 
 int textureData_GetPixelCount(TextureData self);
 

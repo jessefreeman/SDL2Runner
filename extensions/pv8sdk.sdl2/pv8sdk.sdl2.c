@@ -18,12 +18,17 @@ static void sdl_handleKeyboardInput(SDL_KeyboardEvent *event,
     SDLControllerDevice controller1,
     SDLControllerDevice controller2);
 
+static void sdl_HandleMouseMotionInput(SDL_MouseMotionEvent *event,
+    SDLControllerDevice controller1);
+
 void sdl_runGame(GameConsole console,
     SDLControllerDevice controller1,
     SDLControllerDevice controller2)
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
         exit(EXIT_FAILURE);
+
+    SDL_ShowCursor(SDL_DISABLE);
 
     gameConsole_PowerOn(console);
 
@@ -70,6 +75,11 @@ static void sdl_handleInput(SDL_Event *event,
             controller1,
             controller2);
         break;
+       
+    case SDL_MOUSEMOTION:
+        sdl_HandleMouseMotionInput(event, controller1);
+        break;
+
     default:
         break;
     }
@@ -86,4 +96,11 @@ static void sdl_handleKeyboardInput(SDL_KeyboardEvent *event,
     if (controller2 != NULL)
         sdlController_KeyStateChanged(controller2, event->keysym.sym,
             event->type == SDL_KEYDOWN ? PRESSED : RELEASED);
+}
+
+static void sdl_HandleMouseMotionInput(SDL_MouseMotionEvent *event,
+    SDLControllerDevice controller1)
+{
+    if (controller1 == NULL) return;
+    sdlController_SetMousePosition(controller1, event->x, event->y);
 }

@@ -37,10 +37,9 @@ void sprite_CopyToTextureAtPos(Sprite self, TextureData target, int x, int y)
         {
             int sIdx = coordsToIdx(sx, sy, self->width);
             colorId colorId = self->pixels[sIdx];
-            int ty = (y + sy) % textureHeight;
+            int ty = y + sy;
             int tx = x + sx;
-            int tIdx = coordsToIdx(tx, ty, textureWidth);
-            textureData_SetPixelAt(target, tIdx, colorId);
+            textureData_SetPixelAtPos(target, tx, ty, colorId);
         }
     }
 }

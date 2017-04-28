@@ -43,6 +43,7 @@ typedef struct sdlControllerDevice {
         } buttons;
         buttonState map[8];
     } buttonStates;
+    vector mousePos;
 } sdlControllerDevice;
 
 typedef sdlControllerDevice *SDLControllerDevice;
@@ -51,5 +52,8 @@ void sdlControllerDevice_Init(SDLControllerDevice self, sdlButtonMap);
 
 void sdlController_KeyStateChanged(SDLControllerDevice self,
     SDL_Keycode keycode, buttonState state);
+
+void sdlController_SetMousePosition(SDLControllerDevice self,
+    int x, int y);
 
 #endif

@@ -12,6 +12,7 @@
 #include "sdlcontrollerdevice.h"
 
 static buttonState sdlControllerDevice_GetButtonState(SDLControllerDevice self, button button);
+static vector sdlControllerDevice_GetMousePosition(SDLControllerDevice self);
 
 void sdlButtonMap_Init(SDLButtonMap self)
 {
@@ -30,13 +31,10 @@ void sdlControllerDevice_Init(SDLControllerDevice self, sdlButtonMap buttonMap)
     assert(self);
     memset(self, 0, sizeof(sdlControllerDevice));
     self->base.getButtonState = sdlControllerDevice_GetButtonState;
+    self->base.getMousePosition = sdlControllerDevice_GetMousePosition;
     self->buttonMap = buttonMap;
-}
-
-static buttonState sdlControllerDevice_GetButtonState(SDLControllerDevice self, button button)
-{
-    assert(self);
-    return self->buttonStates.map[button];
+    self->mousePos.x = -1;
+    self->mousePos.y = -1;
 }
 
 void sdlController_KeyStateChanged(SDLControllerDevice self,
@@ -49,4 +47,24 @@ void sdlController_KeyStateChanged(SDLControllerDevice self,
 
         self->buttonStates.map[i] = state;
     }
+}
+
+void sdlController_SetMousePosition(SDLControllerDevice self,
+    int x, int y)
+{
+    assert(self);
+    self->mousePos.x = x;
+    self->mousePos.y = y;
+}
+
+static buttonState sdlControllerDevice_GetButtonState(SDLControllerDevice self, button button)
+{
+    assert(self);
+    return self->buttonStates.map[button];
+}
+
+static vector sdlControllerDevice_GetMousePosition(SDLControllerDevice self)
+{
+    assert(self);
+    return self->mousePos;
 }

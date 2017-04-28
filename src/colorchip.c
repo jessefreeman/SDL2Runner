@@ -21,6 +21,7 @@ ColorChip colorChip_Create(colorData colors[], int len)
 
     colorChip_Init(self, colors, len);
     self->base.destroy = colorChip_Destroy;
+    return self;
 }
 
 void colorChip_Destroy(ColorChip self)

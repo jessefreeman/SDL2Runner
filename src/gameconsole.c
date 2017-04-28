@@ -20,8 +20,6 @@ typedef struct gameConsole {
     ControllerChip controllerChip;
 } gameConsole;
 
-static void gameConsole_RenderToDisplay(GameConsole self, bool init);
-
 GameConsole gameConsole_Create()
 {
     GameConsole self = NULL;

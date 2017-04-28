@@ -28,9 +28,6 @@ typedef enum
 
 static const Demos demo = Mouse;
 
-// TODO: add allocing Create's for these again (keep inits anyways)
-static controllerChip pvControllerChip;
-
 int main(int argc, char **argv)
 {
     // Build the game console.
@@ -84,8 +81,8 @@ int main(int argc, char **argv)
 
     // Create ControllerChip
 
-    controllerChip_Init(&pvControllerChip);
-    gameConsole_InsertChip(console, (Chip)&pvControllerChip);
+    ControllerChip controllerChip = controllerChip_Create();
+    gameConsole_InsertChip(console, (Chip)controllerChip);
 
     // Create LuaGameChip
 

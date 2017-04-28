@@ -54,5 +54,5 @@ bool controllerChip_ButtonDown(ControllerChip self, int button, int slot)
 vector controllerChip_GetMousePosition(ControllerChip self)
 {
     assert(self);
-
+    controllerDevice_GetMousePosition(self->controllers[0]);
 }
