@@ -5,6 +5,7 @@
 #ifndef _displaychip_h_
 #define _displaychip_h_
 
+#include <stdbool.h>
 #include "pvconf.h"
 #include "sprite.h"
 #include "texturedata.h"
@@ -20,6 +21,8 @@ int displayChip_GetDisplayHeight(DisplayChip self);
 int displayChip_GetPixelCount(DisplayChip self);
 
 colorId displayChip_GetPixel(DisplayChip self, int idx);
+
+void displayChip_SetWrapMode(DisplayChip self, bool value);
 
 void displayChip_Clear(DisplayChip self);
 

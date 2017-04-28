@@ -16,14 +16,17 @@
 #define SPRITE_WIDTH    8
 #define SPRITE_HEIGHT   8
 
-#define D1 "DrawSpriteDemo"
-#define D2 "FontDemo"
-#define D3 "SpriteStressTestDemo"
-#define D4 "ControllerDemo"
-#define DEMO D1
+typedef enum
+{
+    DrawSprite,
+    Font,
+    Controller,
+    Mouse,
+    SpriteStressTest,
+    Tilemap
+} Demos;
 
-// TODO: add allocing Create's for these again (keep inits anyways)
-static controllerChip pvControllerChip;
+static const Demos demo = Mouse;
 
 int main(int argc, char **argv)
 {
@@ -78,13 +81,43 @@ int main(int argc, char **argv)
 
     // Create ControllerChip
 
-    controllerChip_Init(&pvControllerChip);
-    gameConsole_InsertChip(console, (Chip)&pvControllerChip);
+    ControllerChip controllerChip = controllerChip_Create();
+    gameConsole_InsertChip(console, (Chip)controllerChip);
 
     // Create LuaGameChip
 
     int len = 0;
-    char *gameCode = importTextFromFile("./resources/"DEMO".lua", &len);
+    char *gameCode = NULL;
+    switch (demo)
+    {
+    case DrawSprite:
+        gameCode = importTextFromFile("./resources/DrawSpriteDemo.lua", &len);
+        break;
+
+    case Font:
+        gameCode = importTextFromFile("./resources/FontDemo.lua", &len);
+        break;
+
+    case Controller:
+        gameCode = importTextFromFile("./resources/ControllerDemo.lua", &len);
+        break;
+
+    case Mouse:
+        gameCode = importTextFromFile("./resources/MouseDemo.lua", &len);
+        break;
+
+    case SpriteStressTest:
+        gameCode = importTextFromFile("./resources/SpriteStressTest.lua", &len);
+        break;
+
+    case Tilemap:
+        gameCode = importTextFromFile("./resources/TilemapDemo/TilemapDemo.lua", &len);
+        break;
+
+    default:
+        break;
+    }
+     
     LuaGameChip gameChip = luaGameChip_Create(gameCode, len);
     free(gameCode);
     gameConsole_InsertChip(console, (Chip)gameChip);

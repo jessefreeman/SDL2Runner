@@ -28,6 +28,7 @@ typedef struct displayChip {
     int sizeY;
     int readIdx;
     colorData bCol;
+    bool wrapMode;
 } displayChip;
 
 static void displayChip_Destroy(DisplayChip self);
@@ -61,7 +62,7 @@ DisplayChip displayChip_Create(int width, int height)
         free(self);
         return NULL;
     }
-
+  
     return self;
 }
 
@@ -108,6 +109,13 @@ colorId displayChip_GetPixel(DisplayChip self, int idx)
 {
     assert(self);
     return textureData_GetPixel(self->texture, idx);
+}
+
+void displayChip_SetWrapMode(DisplayChip self, bool value)
+{
+    assert(self);
+    textureData_SetWrapMode(self->texture, value);
+    textureData_SetWrapMode(self->tilemapBuffer, value);
 }
 
 void displayChip_Clear(DisplayChip self)

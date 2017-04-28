@@ -17,11 +17,19 @@ typedef struct controllerChip {
 
 typedef controllerChip *ControllerChip;
 
+ControllerChip controllerChip_Create();
+
+void controllerChip_Destroy(ControllerChip self);
+
 void controllerChip_Init(ControllerChip self);
 
 void controllerChip_InsertController(ControllerChip self, int slot, ControllerDevice controller);
 
 bool controllerChip_ButtonDown(ControllerChip self, int button, int slot);
+
+bool controllerChip_MouseButtonDown(ControllerChip self, int button);
+
+vector controllerChip_GetMousePosition(ControllerChip self);
 
 #endif
 

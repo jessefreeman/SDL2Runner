@@ -58,8 +58,7 @@ void apiBridge_ToggleDisplayWrap(ApiBridge self,
     bool value)
 {
     assert(self);
-    assert(false);
-    // TODO: implement this
+    displayChip_SetWrapMode(self->displayChip, value);
 }
 
 int apiBridge_GetDisplayHeight(ApiBridge self)
@@ -113,17 +112,14 @@ void apiBridge_TogglePause(ApiBridge self,
 int apiBridge_GetMouseX(ApiBridge self)
 {
     assert(self);
-    assert(false);
-    // TODO: implement this
-    return 0;
+    return controllerChip_GetMousePosition(self->controllerChip).x;
 }
 
 int apiBridge_GetMouseY(ApiBridge self)
 {
     assert(self);
-    assert(false);
-    // TODO: implement this
-    return 0;
+    assert(self);
+    return controllerChip_GetMousePosition(self->controllerChip).y;
 }
 
 char *apiBridge_GetInputString(ApiBridge self)
@@ -280,21 +276,13 @@ bool apiBridge_ButtonReleased(ApiBridge self,
 bool apiBridge_GetMouseButtonDown(ApiBridge self,
     int *id /* = 0 */)
 {
-    int idValue = id == NULL ? 0 : *id;
-    assert(self);
-    assert(false);
-    // TODO: implement this
-    return false;
+    return apiBridge_GetMouseButtonDown(self, id) == true;
 }
 
 bool apiBridge_GetMouseButtonUp(ApiBridge self,
     int *id /* = 0 */)
 {
-    int idValue = id == NULL ? 0 : *id;
-    assert(self);
-    assert(false);
-    // TODO: implement this
-    return false;
+    return apiBridge_GetMouseButtonDown(self, id) == false;
 }
 
 bool apiBridge_GetMouseButton(ApiBridge self,
@@ -302,9 +290,7 @@ bool apiBridge_GetMouseButton(ApiBridge self,
 {
     int idValue = id == NULL ? 0 : *id;
     assert(self);
-    assert(false);
-    // TODO: implement this
-    return false;
+    return controllerChip_MouseButtonDown(self->controllerChip, idValue);
 }
 
 void apiBridge_DrawSpriteText(ApiBridge self,

@@ -3,6 +3,7 @@
 // file 'LICENSE', which is part of this source code package.
 
 #include <assert.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include "util.h"
 #include "texturedata.h"
@@ -13,6 +14,7 @@ typedef struct textureData {
     int pixelsLength;
     size_t pixelsSize;
     colorId *pixels;
+    bool wrapMode;
 } textureData;
 
 TextureData textureData_Create(int width, int height)
@@ -34,6 +36,8 @@ TextureData textureData_Create(int width, int height)
         return NULL;
     }
 
+    self->wrapMode = true;
+
     textureData_Clear(self, -1);
     return self;
 }
@@ -48,6 +52,18 @@ void textureData_Destroy(TextureData self)
     }
     memset(self, 0, sizeof(textureData));
     free(self);
+}
+
+void textureData_SetWrapMode(TextureData self, bool value)
+{
+    assert(self);
+    self->wrapMode = value;
+}
+
+bool textureData_GetWrapMode(TextureData self)
+{
+    assert(self);
+    return self->wrapMode;
 }
 
 void textureData_Clear(TextureData self, colorId id)
@@ -73,6 +89,13 @@ void textureData_SetPixelAt(TextureData self, int idx, colorId id)
     self->pixels[idx] = id;
 }
 
+void textureData_SetPixelAtPos(TextureData self, int x, int y, colorId id)
+{
+    assert(self);
+    if (!self->wrapMode && (x >= self->width || y >= self->height)) return;
+    textureData_SetPixelAt(self, coordsToIdx(x, y, self->width), id);
+}
+
 int textureData_GetPixelCount(TextureData self)
 {
     assert(self);
@@ -96,10 +119,9 @@ void textureData_CopyToAtPos(TextureData self, TextureData target, int x, int y)
         {
             int sIdx = coordsToIdx(sx, sy, self->width);
             colorId colorId = textureData_GetPixel(self, sIdx);
-            int ty = (y + sy) % target->height;
+            int ty = y + sy;
             int tx = x + sx;
-            int tIdx = coordsToIdx(tx, ty, target->width);
-            textureData_SetPixelAt(target, tIdx, colorId);
+            textureData_SetPixelAtPos(target, tx, ty, colorId);
         }
     }
 }
