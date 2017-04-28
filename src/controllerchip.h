@@ -27,6 +27,8 @@ void controllerChip_InsertController(ControllerChip self, int slot, ControllerDe
 
 bool controllerChip_ButtonDown(ControllerChip self, int button, int slot);
 
+bool controllerChip_MouseButtonDown(ControllerChip self, int button);
+
 vector controllerChip_GetMousePosition(ControllerChip self);
 
 #endif

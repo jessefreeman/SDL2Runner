@@ -51,6 +51,13 @@ bool controllerChip_ButtonDown(ControllerChip self, int button, int slot)
     return buttonState == PRESSED;
 }
 
+bool controllerChip_MouseButtonDown(ControllerChip self, int button)
+{
+    assert(self);
+    buttonState buttonState = controllerDevice_GetMouseButtonState(self->controllers[0], button);
+    return buttonState == PRESSED;
+}
+
 vector controllerChip_GetMousePosition(ControllerChip self)
 {
     assert(self);

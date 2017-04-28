@@ -13,6 +13,13 @@ buttonState controllerDevice_GetButtonState(ControllerDevice self, button button
     return self->getButtonState(self, button);
 }
 
+buttonState controllerDevice_GetMouseButtonState(ControllerDevice self, mouseButton button)
+{
+    assert(self);
+    if (self->getMouseButtonState == NULL) return RELEASED;
+    return self->getMouseButtonState(self, button);
+}
+
 vector controllerDevice_GetMousePosition(ControllerDevice self)
 {
     assert(self);

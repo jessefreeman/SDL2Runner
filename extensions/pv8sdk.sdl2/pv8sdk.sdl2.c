@@ -75,7 +75,7 @@ static void sdl_handleInput(SDL_Event *event,
             controller1,
             controller2);
         break;
-       
+
     case SDL_MOUSEMOTION:
         sdl_HandleMouseMotionInput(event, controller1);
         break;
