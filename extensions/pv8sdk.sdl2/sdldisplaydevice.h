@@ -16,6 +16,8 @@ typedef struct sdlDisplayDevice {
     int dispHeight;
     SDL_Window *window;
     SDL_Renderer *renderer;
+    SDL_Texture *texture;
+    byte *pixels;
 } sdlDisplayDevice;
 
 typedef struct sdlDisplayDevice *SDLDisplayDevice;

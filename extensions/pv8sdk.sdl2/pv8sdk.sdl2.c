@@ -3,6 +3,7 @@
 // file 'LICENSE', which is part of this source code package.
 
 #include <assert.h>
+#include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <sdl.h>
@@ -34,8 +35,10 @@ void sdl_runGame(GameConsole console,
 
     const float fps = 1.0f;
     SDL_Event event;
+    int numFrames = 0;
     Uint64 oldTime = 0;
     Uint64 newTime = SDL_GetTicks();
+    Uint64 startTime = SDL_GetTicks();
     float deltaTime = 0.0f;
     int end = false;
     while (!end)
@@ -51,11 +54,15 @@ void sdl_runGame(GameConsole console,
         }
 
         newTime = SDL_GetTicks();
-        deltaTime = (float)(newTime - oldTime)/1000.0f;
+        deltaTime = (float)(newTime - oldTime) / 1000.0f;
         oldTime = newTime;
         gameConsole_Tick(console, deltaTime);
 
+        float fps = (numFrames / (float)(newTime - startTime)) * 1000;
+        printf("%f\n", fps);
+
         gameConsole_Render(console);
+        numFrames++;
     }
 
     gameConsole_PowerOff(console);

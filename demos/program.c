@@ -26,7 +26,7 @@ typedef enum
     Tilemap
 } Demos;
 
-static const Demos demo = Mouse;
+static const Demos demo = DrawSprite;
 
 int main(int argc, char **argv)
 {
@@ -107,7 +107,7 @@ int main(int argc, char **argv)
         break;
 
     case SpriteStressTest:
-        gameCode = importTextFromFile("./resources/SpriteStressTest.lua", &len);
+        gameCode = importTextFromFile("./resources/SpriteStressTestDemo.lua", &len);
         break;
 
     case Tilemap:

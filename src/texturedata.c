@@ -84,8 +84,7 @@ colorId textureData_GetPixel(TextureData self, int idx)
 void textureData_SetPixelAt(TextureData self, int idx, colorId id)
 {
     assert(self);
-    if (idx < 0 || idx >= self->pixelsLength || self->pixels == NULL)
-        return;
+    if (idx < 0 || idx >= self->pixelsLength || self->pixels == NULL) return;
     self->pixels[idx] = id;
 }
 
@@ -93,7 +92,7 @@ void textureData_SetPixelAtPos(TextureData self, int x, int y, colorId id)
 {
     assert(self);
     if (!self->wrapMode && (x >= self->width || y >= self->height)) return;
-    textureData_SetPixelAt(self, coordsToIdx(x, y, self->width), id);
+    textureData_SetPixelAt(self, coordsToIdx(x % self->width, y % self->height, self->width), id);
 }
 
 int textureData_GetPixelCount(TextureData self)

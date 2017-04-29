@@ -58,8 +58,8 @@ function Update(timeDelta)
 	-- We are going to move the sprite positions by calculating the speed by 
 	-- the timeDelata. We can then add this to the x or y position of our sprite
 	-- vector.
-	shellAPos.x = math.ceil(shellAPos.x + (speed * timeDelta))
-	shellBPos.y = math.ceil(shellBPos.y + (speed * timeDelta))
+	shellAPos.x = shellAPos.x + (speed * timeDelta)
+	shellBPos.y = shellBPos.y + (speed * timeDelta)
 
 
 	-- We are going to keep track of the time by adding timeDelta to our time 
@@ -111,12 +111,16 @@ function Draw()
 	-- Here we are drawing a turtle shell along the x and y axis. We'll take advantage of the Display's wrap
 	-- setting so that the turtle will appear on the opposite side of the screen even when the x or y
 	-- position is out of bounds.
-	apiBridge:DrawSprites(shellSprites[frame], shellAPos.x, shellAPos.y, 2, false, false, true, 0)
-	apiBridge:DrawSpriteText("("..shellAPos.x..","..shellAPos.y..")", shellAPos.x, shellAPos.y + 20, "large-font", 0)
+	local x = math.ceil(shellAPos.x)
+	local y = math.ceil(shellAPos.y)
+	apiBridge:DrawSprites(shellSprites[frame], x, y, 2, false, false, true, 0)
+	apiBridge:DrawSpriteText("("..x..","..y..")", x, y + 20, "large-font", 0)
 	
 	-- The last thing we are going to do is draw text below each of our moving turtles so we can see the
 	-- x and y position as they wrap around the display.
-	apiBridge:DrawSprites(shellSprites[frame], shellBPos.x, shellBPos.y, 2, false, false, true, 0)
-	apiBridge:DrawSpriteText("("..shellBPos.x..","..shellBPos.y..")", shellBPos.x, shellBPos.y + 20, "large-font", 0)
+	x = math.ceil(shellBPos.x)
+	y = math.ceil(shellBPos.y)
+	apiBridge:DrawSprites(shellSprites[frame], x, y, 2, false, false, true, 0)
+	apiBridge:DrawSpriteText("("..x..","..y..")", x, y + 20, "large-font", 0)
 
 end

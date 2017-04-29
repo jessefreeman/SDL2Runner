@@ -53,11 +53,26 @@ static void sdlDisplay_PowerOn(SDLDisplayDevice self)
         -1, SDL_RENDERER_ACCELERATED);// | SDL_RENDERER_PRESENTVSYNC);
 
     SDL_RenderSetLogicalSize(self->renderer, self->dispWidth, self->dispHeight);
+
+    self->texture = SDL_CreateTexture(self->renderer,
+        SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, self->dispWidth, self->dispHeight);
+
+    self->pixels = (byte*)calloc(self->dispWidth * self->dispHeight, sizeof(byte) * 4);
 }
 
 static void sdlDisplay_PowerOff(SDLDisplayDevice self)
 {
     assert(self);
+    if (self->pixels != NULL)
+    {
+        free(self->pixels);
+        self->pixels = NULL;
+    }
+    if (self->texture != NULL)
+    {
+        SDL_DestroyTexture(self->texture);
+        self->texture = NULL;
+    }
     if (self->renderer != NULL)
     {
         SDL_DestroyRenderer(self->renderer);
@@ -72,6 +87,9 @@ static void sdlDisplay_PowerOff(SDLDisplayDevice self)
 
 static void sdlDisplayDevice_Refresh(SDLDisplayDevice self, DisplayChip displayChip)
 {
+    SDL_SetRenderDrawColor(self->renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_RenderClear(self->renderer);
+
     int x = 0;
     int y = 0;
     int displayIdx = 0;
@@ -83,13 +101,19 @@ static void sdlDisplayDevice_Refresh(SDLDisplayDevice self, DisplayChip displayC
         for (int i = 0; i < pixelsRead; i++)
         {
             colorData current = pixelBuffer[i];
-            SDL_SetRenderDrawColor(self->renderer, current.r, current.g, current.b, 255);
+            int offset = displayIdx * 4;
+            self->pixels[offset + 0] = current.b;
+            self->pixels[offset + 1] = current.g;
+            self->pixels[offset + 2] = current.r;
+            self->pixels[offset + 3] = SDL_ALPHA_OPAQUE;
             x = displayIdx % self->dispWidth;
             y = displayIdx / self->dispWidth;
-            SDL_RenderDrawPoint(self->renderer, x, y);
             displayIdx++;
         }
         pixelsRead = displayChip_Read(displayChip, pixelBuffer, arraylen(pixelBuffer));
     }
+
+    SDL_UpdateTexture(self->texture, NULL, self->pixels, self->dispWidth * 4);
+    SDL_RenderCopy(self->renderer, self->texture, NULL, NULL);
     SDL_RenderPresent(self->renderer);
 }

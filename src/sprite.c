@@ -29,8 +29,6 @@ void sprite_CopyToTextureAtPos(Sprite self, TextureData target, int x, int y)
 {
     assert(self);
     assert(target);
-    int textureHeight = textureData_GetHeight(target);
-    int textureWidth = textureData_GetWidth(target);
     for (int sy = 0; sy < self->height; sy++)
     {
         for (int sx = 0; sx < self->width; sx++)
