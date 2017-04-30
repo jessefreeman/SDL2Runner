@@ -102,9 +102,9 @@ static void sdlDisplayDevice_Refresh(SDLDisplayDevice self, DisplayChip displayC
         {
             colorData current = pixelBuffer[i];
             int offset = displayIdx * 4;
-            self->pixels[offset + 0] = current.b;
+            self->pixels[offset + 0] = current.r;
             self->pixels[offset + 1] = current.g;
-            self->pixels[offset + 2] = current.r;
+            self->pixels[offset + 2] = current.b;
             self->pixels[offset + 3] = SDL_ALPHA_OPAQUE;
             x = displayIdx % self->dispWidth;
             y = displayIdx / self->dispWidth;
