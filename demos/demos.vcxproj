@@ -137,7 +137,7 @@ xcopy /Y "$(SolutionDir)libs\sdl2\lib\$(PlatformTarget)\SDL2.dll" "$(OutDir)"</C
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)libs\lua\lib\$(PlatformTarget)\;$(SolutionDir)libs\sdl2\lib\$(PlatformTarget)\;$(SolutionDir)obj\$(PlatformTarget)\pv8sdk.sdl2\$(Configuration);$(SolutionDir)obj\$(PlatformTarget)\pv8sdk.lua\$(Configuration);$(SolutionDir)obj\$(PlatformTarget)\pv8sdk\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>pv8sdk.lib;pv8sdk.lua.lib;pv8sdk.sdl2.lib;lua53.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
       <Command>mkdir "$(OutDir)resources\"
@@ -161,7 +161,7 @@ xcopy /Y "$(SolutionDir)libs\sdl2\lib\$(PlatformTarget)\SDL2.dll" "$(OutDir)"</C
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)libs\lua\lib\$(PlatformTarget)\;$(SolutionDir)libs\sdl2\lib\$(PlatformTarget)\;$(SolutionDir)obj\$(PlatformTarget)\pv8sdk.sdl2\$(Configuration);$(SolutionDir)obj\$(PlatformTarget)\pv8sdk.lua\$(Configuration);$(SolutionDir)obj\$(PlatformTarget)\pv8sdk\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>pv8sdk.lib;pv8sdk.lua.lib;pv8sdk.sdl2.lib;lua53.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
       <Command>mkdir "$(OutDir)resources\"
