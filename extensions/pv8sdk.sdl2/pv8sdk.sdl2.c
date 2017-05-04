@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include <sdl.h>
+#include <SDL.h>
 #include "pv8sdk.sdl2.h"
 #include "sdldisplaydevice.h"
 
