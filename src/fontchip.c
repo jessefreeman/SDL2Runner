@@ -10,7 +10,7 @@
 #include "chip.h"
 #include "sprite.h"
 #include "spritechip.h"
-#include "textureData.h"
+#include "texturedata.h"
 #include "fontchip.h"
 
 #define MAX_FONTS 4
